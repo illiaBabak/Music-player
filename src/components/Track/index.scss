@@ -1,0 +1,17 @@
+.track {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 95%;
+
+  .track-body {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .track-img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+  }
+}
