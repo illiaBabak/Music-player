@@ -1,25 +1,24 @@
-import React from "react";
 import { Container } from "react-bootstrap";
+
+const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
+const REDIRECT_URL = "http://localhost:3000/callback";
+const API_URL = "https://accounts.spotify.com/authorize";
+const SCOPES = [
+  "user-read-email",
+  "user-read-private",
+  "user-modify-playback-state",
+  "user-read-playback-state",
+  "user-read-currently-playing",
+  "user-read-recently-played",
+  "user-read-playback-position",
+  "user-top-read",
+  "playlist-read-private",
+  "streaming",
+];
 
 export const Login = (): JSX.Element => {
   const handleClick = () => {
-    const clientId = import.meta.env.VITE_CLIENT_ID;
-    const redirectUrl = "http://localhost:3000/callback";
-    const apiUrl = "https://accounts.spotify.com/authorize";
-    const scopes = [
-      "user-read-email",
-      "user-read-private",
-      "user-modify-playback-state",
-      "user-read-playback-state",
-      "user-read-currently-playing",
-      "user-read-recently-played",
-      "user-read-playback-position",
-      "user-top-read",
-      "playlist-read-private",
-      "streaming",
-    ];
-
-    const authUrl = `${apiUrl}?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUrl)}&scope=${encodeURIComponent(scopes.join(" "))}&response_type=token&show_dialog=true`;
+    const authUrl = `${API_URL}?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URL)}&scope=${encodeURIComponent(SCOPES.join(" "))}&response_type=token&show_dialog=true`;
 
     window.location.href = authUrl;
   };

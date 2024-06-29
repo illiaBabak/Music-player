@@ -7,13 +7,14 @@ export const Callback = (): JSX.Element => {
   useEffect(() => {
     const { hash } = window.location;
 
-    if (hash) {
-      const token = new URLSearchParams(hash.substring(1)).get("access_token");
-      if (token) {
-        localStorage.setItem("spotify_token", token);
-        navigate("/home");
-      }
-    }
+    if (!hash) return;
+
+    const token = new URLSearchParams(hash.substring(1)).get("access_token");
+
+    if (!token) return;
+
+    localStorage.setItem("spotify_token", token);
+    navigate("/home");
   }, [navigate]);
 
   return <div>Loading...</div>;
