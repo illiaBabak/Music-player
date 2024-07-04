@@ -6,14 +6,8 @@ export const Header = (): JSX.Element => {
   const searchedText = searchParams.get("query") ?? "";
 
   return (
-    <Navbar
-      className="bg-body-tertiary justify-content-between p-4"
-      bg="dark"
-      data-bs-theme="dark"
-    >
-      <Navbar.Brand>Music player</Navbar.Brand>
-
-      <Form>
+    <Navbar className="p-4 header" data-bs-theme="dark">
+      <Form className="header-form">
         <Form.Control
           type="search"
           placeholder="Search"
@@ -29,6 +23,7 @@ export const Header = (): JSX.Element => {
             if (key === "Enter") currentTarget.blur();
           }}
           defaultValue={searchedText}
+          className="search-input"
         />
       </Form>
     </Navbar>

@@ -4,17 +4,17 @@ html,
 body {
   margin: 0;
   padding: 0;
+  background-color: #010916;
 }
 
 body::-webkit-scrollbar {
-  width: 12px;
+  width: 10px;
 }
 
 body::-webkit-scrollbar-track {
-  background: #47474778;
+  background: #1d1f23;
 }
 
 body::-webkit-scrollbar-thumb {
-  background-color: #474747;
-  border: 2px solid #4b4b4b;
+  background-color: #081325;
 }

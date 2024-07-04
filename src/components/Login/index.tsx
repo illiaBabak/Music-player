@@ -24,13 +24,13 @@ export const Login = (): JSX.Element => {
   };
 
   return (
-    <Container className="text-center mt-5">
+    <Container className="text-center mt-5 d-flex flex-column align-items-center login-container">
       <img
         src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_CMYK_White.png"
         alt="spotify logo"
         style={{ maxWidth: "300px" }}
       />
-      <button className="btn btn-success mt-3" onClick={handleClick}>
+      <button className="btn mt-4 p-2 login-btn" onClick={handleClick}>
         Login with Spotify
       </button>
     </Container>
