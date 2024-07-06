@@ -5,12 +5,10 @@
   text-align: center;
   width: 98%;
   height: 80px;
-  background-color: #030c1d;
 
   &:hover {
     transition: 0.25s;
     transform: scale(1.01);
-    background-color: #040e21;
   }
 
   .track-body {
@@ -20,19 +18,12 @@
     align-items: center;
     color: #efedec;
 
-    .btn {
-      width: 45px;
-      height: 45px;
-      border: none;
+    .btn-img {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
       border-radius: 50%;
-      align-items: center;
-
-      .btn-img {
-        width: 65px;
-        height: 65px;
-        object-fit: contain;
-        opacity: 0.75;
-      }
+      cursor: pointer;
     }
   }
 
@@ -40,5 +31,21 @@
     width: 60px;
     height: 60px;
     object-fit: contain;
+  }
+}
+
+.track.dark {
+  background-color: #030c1d;
+
+  &:hover {
+    background-color: #040e21;
+  }
+}
+
+.track.light {
+  background-color: #56585d;
+
+  &:hover {
+    background-color: #3b3d3f;
   }
 }

@@ -14,10 +14,18 @@
   width: 8px;
 }
 
-.track-list::-webkit-scrollbar-track {
+.track-list.dark::-webkit-scrollbar-track {
   background: #1d1f23;
 }
 
-.track-list::-webkit-scrollbar-thumb {
+.track-list.dark::-webkit-scrollbar-thumb {
   background-color: #081325;
+}
+
+.track-list.light::-webkit-scrollbar-track {
+  background: #878a90;
+}
+
+.track-list.light::-webkit-scrollbar-thumb {
+  background-color: #4e5258;
 }

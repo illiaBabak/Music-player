@@ -4,17 +4,14 @@ html,
 body {
   margin: 0;
   padding: 0;
+
+  overflow-y: hidden;
+}
+
+body.dark {
   background-color: #010916;
 }
 
-body::-webkit-scrollbar {
-  width: 10px;
-}
-
-body::-webkit-scrollbar-track {
-  background: #1d1f23;
-}
-
-body::-webkit-scrollbar-thumb {
-  background-color: #081325;
+body.light {
+  background-color: #dbdbdb;
 }

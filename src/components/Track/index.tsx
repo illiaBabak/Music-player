@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Button, Card, Image } from "react-bootstrap";
+import { Card, Image } from "react-bootstrap";
 import { GlobalContext } from "src/root";
 import { TrackType } from "src/types/types";
 
@@ -8,24 +8,23 @@ type Props = {
 };
 
 export const Track = ({ track }: Props): JSX.Element => {
-  const { setCurrentTrack } = useContext(GlobalContext);
+  const { setCurrentTrack, isLightTheme } = useContext(GlobalContext);
 
   return (
-    <Card className="track p-2 m-2">
+    <Card className={`track p-2 m-2 ${isLightTheme ? "light" : "dark"}`}>
       <Card.Img src={track.album.images[0].url} className="track-img" />
       <Card.Body className="track-body">
         <span className="fs-6">{track.name}</span>
-        <Button
-          className="m-2 btn d-flex justify-content-center"
-          variant="dark"
-          disabled={!track.uri}
+
+        <Image
+          className="btn-img"
+          src={
+            isLightTheme
+              ? "https://static.vecteezy.com/system/resources/previews/027/508/190/non_2x/transparent-background-play-button-free-png.png"
+              : "https://www.svgrepo.com/show/526106/play.svg"
+          }
           onClick={() => setCurrentTrack(track)}
-        >
-          <Image
-            className="btn-img"
-            src="https://static.vecteezy.com/system/resources/previews/027/508/190/non_2x/transparent-background-play-button-free-png.png"
-          />
-        </Button>
+        />
       </Card.Body>
     </Card>
   );

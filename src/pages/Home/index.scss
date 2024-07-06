@@ -6,7 +6,11 @@
     height: 100vh;
   }
 
-  .nav-player {
+  .nav-player.dark {
     background-color: #040b1b;
+  }
+
+  .nav-player.light {
+    background-color: #3b3d3f;
   }
 }

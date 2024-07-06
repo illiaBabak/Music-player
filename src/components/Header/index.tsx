@@ -1,13 +1,20 @@
 import { Form, Navbar } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
+import { ThemeBtn } from "../ThemeBtn";
+import { useContext } from "react";
+import { GlobalContext } from "src/root";
 
 export const Header = (): JSX.Element => {
+  const { isLightTheme } = useContext(GlobalContext);
   const [searchParams, setSearchParams] = useSearchParams();
   const searchedText = searchParams.get("query") ?? "";
 
   return (
-    <Navbar className="p-4 header" data-bs-theme="dark">
-      <Form className="header-form">
+    <Navbar
+      className={`p-4 header ${isLightTheme ? "light" : "dark"}`}
+      data-bs-theme="dark"
+    >
+      <Form className="header-form d-flex flex-row justify-content-between">
         <Form.Control
           type="search"
           placeholder="Search"
@@ -25,6 +32,7 @@ export const Header = (): JSX.Element => {
           defaultValue={searchedText}
           className="search-input"
         />
+        <ThemeBtn />
       </Form>
     </Navbar>
   );

@@ -7,7 +7,7 @@ import { GlobalContext } from "src/root";
 import SpotifyPlayer from "react-spotify-web-playback";
 
 export const HomePage = (): JSX.Element => {
-  const { currentTrack } = useContext(GlobalContext);
+  const { currentTrack, isLightTheme } = useContext(GlobalContext);
 
   const token = localStorage.getItem("spotify_token");
 
@@ -22,7 +22,7 @@ export const HomePage = (): JSX.Element => {
 
         {!!currentTrack && (
           <Navbar
-            className="justify-content-center nav-player"
+            className={`justify-content-center ${isLightTheme ? "light" : "dark"} nav-player`}
             data-bs-theme="dark"
             fixed="bottom"
           >
@@ -31,16 +31,15 @@ export const HomePage = (): JSX.Element => {
               uris={[currentTrack.uri]}
               styles={{
                 activeColor: "#fff",
-                bgColor: "#040b1b",
-                color: "#192a56",
+                bgColor: `${isLightTheme ? "#3b3d3f" : "#040b1b"}`,
+                color: `${isLightTheme ? "#56585d" : "#192a56"}`,
                 loaderColor: "#fff",
-                sliderColor: "#273c75",
+                sliderColor: `${isLightTheme ? "#aaaaaa" : "#273c75"}`,
                 trackArtistColor: "#ccc",
                 trackNameColor: "#fff",
               }}
               autoPlay={true}
             />
-            ;
           </Navbar>
         )}
       </Row>
