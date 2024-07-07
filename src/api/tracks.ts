@@ -15,7 +15,7 @@ const getTracks = async (searchedText: string): Promise<TrackType[]> => {
     }
   );
 
-  if (!response.ok) throw new Error("Failed to fetch data from Spotify API");
+  if (!response.ok) throw new Error("Failed to fetch tracks from Spotify API");
 
   const responseJson: unknown = await response.json();
 

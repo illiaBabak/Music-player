@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import { Track } from "../Track";
 
-import { useSearchTracksQuery } from "src/api/searchData";
+import { useSearchTracksQuery } from "src/api/tracks";
 import { useContext } from "react";
 import { GlobalContext } from "src/root";
 
