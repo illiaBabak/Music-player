@@ -11,7 +11,7 @@ export const Header = (): JSX.Element => {
 
   return (
     <Navbar
-      className={`p-4 header ${isLightTheme ? "light" : "dark"}`}
+      className={`p-3 header ${isLightTheme ? "light" : "dark"}`}
       data-bs-theme="dark"
     >
       <Form className="header-form d-flex flex-row justify-content-between">

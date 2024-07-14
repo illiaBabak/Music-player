@@ -5,19 +5,56 @@ import { SideBarMenu } from "src/components/SideBarMenu";
 import { TracksList } from "src/components/TracksList";
 import { GlobalContext } from "src/root";
 import SpotifyPlayer from "react-spotify-web-playback";
+import { Chips } from "src/components/Chips";
+import { ArtistsList } from "src/components/ArtistsList";
+import { AlbumsList } from "src/components/AlbumsList";
 
 export const HomePage = (): JSX.Element => {
-  const { currentTrack, isLightTheme } = useContext(GlobalContext);
+  const { currentTrack, isLightTheme, selectedChip } =
+    useContext(GlobalContext);
 
   const token = localStorage.getItem("spotify_token");
 
   return (
     <Container className="d-flex home-container p-0 m-0">
-      <Row>
+      <Row className="row-home">
         <SideBarMenu />
         <Col className="col-content m-0 p-0">
           <Header />
-          <TracksList />
+          <Chips />
+          {selectedChip === "All" && (
+            <>
+              <div>
+                <h4
+                  className={`m-2 p-3 title-${isLightTheme ? "light" : "dark"}`}
+                >
+                  Tracks
+                </h4>
+                <TracksList />
+              </div>
+
+              <div>
+                <h4
+                  className={`m-2 p-3 title-${isLightTheme ? "light" : "dark"}`}
+                >
+                  Artists
+                </h4>
+                <ArtistsList />
+              </div>
+
+              <div>
+                <h4
+                  className={`m-2 p-3 title-${isLightTheme ? "light" : "dark"}`}
+                >
+                  Albums
+                </h4>
+                <AlbumsList />
+              </div>
+            </>
+          )}
+          {selectedChip === "Tracks" && <TracksList />}
+          {selectedChip === "Artists" && <ArtistsList />}
+          {selectedChip === "Albums" && <AlbumsList />}
         </Col>
 
         {!!currentTrack && (

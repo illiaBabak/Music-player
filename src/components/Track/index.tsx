@@ -8,10 +8,13 @@ type Props = {
 };
 
 export const Track = ({ track }: Props): JSX.Element => {
-  const { setCurrentTrack, isLightTheme } = useContext(GlobalContext);
+  const { setCurrentTrack, isLightTheme, selectedChip } =
+    useContext(GlobalContext);
 
   return (
-    <Card className={`track p-2 m-2 ${isLightTheme ? "light" : "dark"}`}>
+    <Card
+      className={`track p-2 m-2 ${isLightTheme ? "light" : "dark"}  ${selectedChip === "All" ? "line" : ""}`}
+    >
       <Card.Img src={track.album.images[0].url} className="track-img" />
       <Card.Body className="track-body">
         <span className="fs-6">{track.name}</span>

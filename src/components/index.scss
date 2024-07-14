@@ -1,6 +1,71 @@
-@import "./TracksList";
 @import "./Track";
 @import "./SideBarMenu";
 @import "./Login";
 @import "./Header";
 @import "./ThemeBtn";
+@import "./Chips";
+@import "./Artist";
+@import "./Album";
+
+.track-list,
+.artist-list,
+.albums-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: 80%;
+  overflow: hidden scroll;
+  position: relative;
+  top: 0;
+}
+
+.artist-list,
+.albums-list {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.track-list.line,
+.artist-list.line,
+.albums-list.line {
+  flex-direction: row;
+  width: calc(100% - 32px);
+  height: 120px;
+  overflow: scroll hidden;
+  margin: 0 12px 12px 12px;
+  flex-wrap: nowrap;
+}
+
+.track-list::-webkit-scrollbar,
+.artist-list::-webkit-scrollbar,
+.albums-list::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.track-list.dark::-webkit-scrollbar-track,
+.artist-list.dark::-webkit-scrollbar,
+.albums-list.dark::-webkit-scrollbar {
+  background: #1d1f23;
+}
+
+.track-list.dark::-webkit-scrollbar-thumb,
+.artist-list.dark::-webkit-scrollbar-thumb,
+.albums-list.dark::-webkit-scrollbar-thumb {
+  background-color: #081325;
+}
+
+.track-list.light::-webkit-scrollbar-track,
+.artist-list.light::-webkit-scrollbar-track,
+.albums-list.light::-webkit-scrollbar-track {
+  background: #878a90;
+}
+
+.track-list.light::-webkit-scrollbar-thumb,
+.artist-list.light::-webkit-scrollbar-thumb,
+.albums-list.light::-webkit-scrollbar-thumb {
+  background-color: #4e5258;
+}

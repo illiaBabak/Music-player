@@ -10,6 +10,8 @@ type GlobalContextType = {
   setCurrentTrack: React.Dispatch<React.SetStateAction<TrackType | null>>;
   isLightTheme: boolean;
   setIsLightTheme: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedChip: string;
+  setSelectedChip: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export const GlobalContext = createContext<GlobalContextType>({
@@ -21,11 +23,16 @@ export const GlobalContext = createContext<GlobalContextType>({
   setIsLightTheme: () => {
     throw new Error("Global context is not initialized");
   },
+  selectedChip: "",
+  setSelectedChip: () => {
+    throw new Error("Global context is not initialized");
+  },
 });
 
 export const App = (): JSX.Element => {
   const [currentTrack, setCurrentTrack] = useState<TrackType | null>(null);
   const [isLightTheme, setIsLightTheme] = useState(false);
+  const [selectedChip, setSelectedChip] = useState("All");
 
   useEffect(() => {
     const { body } = document;
@@ -37,7 +44,14 @@ export const App = (): JSX.Element => {
 
   return (
     <GlobalContext.Provider
-      value={{ currentTrack, setCurrentTrack, isLightTheme, setIsLightTheme }}
+      value={{
+        currentTrack,
+        setCurrentTrack,
+        isLightTheme,
+        setIsLightTheme,
+        selectedChip,
+        setSelectedChip,
+      }}
     >
       <BrowserRouter>
         <Routes>

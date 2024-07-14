@@ -1,0 +1,56 @@
+.artist {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  text-align: center;
+  width: 290px;
+  height: 290px;
+
+  .title {
+    font-size: 18px;
+  }
+
+  .artist-icon {
+    width: 140px;
+    height: 140px;
+    object-fit: contain;
+  }
+
+  .artist-body {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.artist.line {
+  flex-direction: row;
+  height: 80px;
+  min-width: 300px;
+  max-width: 300px;
+
+  .title {
+    font-size: 16px;
+  }
+
+  .artist-icon {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+.artist.dark {
+  background-color: #030c1d;
+
+  &:hover {
+    background-color: #040e21;
+  }
+}
+
+.artist.light {
+  background-color: #56585d;
+
+  &:hover {
+    background-color: #3b3d3f;
+  }
+}
