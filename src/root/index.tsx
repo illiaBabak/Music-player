@@ -4,6 +4,7 @@ import { Callback } from "src/components/Callback";
 import { HomePage } from "src/pages/Home";
 import { TrackType } from "src/types/types";
 import { createContext, useEffect, useState } from "react";
+import { PlaylistsPage } from "src/pages/Playlists";
 
 type GlobalContextType = {
   currentTrack: TrackType | null;
@@ -59,6 +60,7 @@ export const App = (): JSX.Element => {
           <Route path="/login" element={<Login />} />
           <Route path="/callback" element={<Callback />} />
           <Route path="/home" element={<HomePage />} />
+          <Route path="/playlists" element={<PlaylistsPage />} />
         </Routes>
       </BrowserRouter>
     </GlobalContext.Provider>

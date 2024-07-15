@@ -47,3 +47,19 @@ export type AlbumResponse = {
     items: AlbumType[];
   };
 };
+
+export type PlaylistType = {
+  name: string;
+  id: string;
+  images: ImagesArrType | null;
+};
+
+export type PlaylistsResponse = {
+  items: PlaylistType[];
+};
+
+export type PlaylistItemsResponse = {
+  items: {
+    track: TrackType;
+  }[];
+};

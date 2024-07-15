@@ -1,9 +1,11 @@
 import { useContext } from "react";
 import { Navbar, Container, Nav } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import { GlobalContext } from "src/root";
 
 export const SideBarMenu = (): JSX.Element => {
   const { isLightTheme } = useContext(GlobalContext);
+  const navigate = useNavigate();
 
   return (
     <Navbar
@@ -20,7 +22,8 @@ export const SideBarMenu = (): JSX.Element => {
           />
         </Navbar.Text>
         <Nav className="flex-column mt-2 nav-column">
-          <Nav.Link>Home</Nav.Link>
+          <Nav.Link onClick={() => navigate("/home")}>Home</Nav.Link>
+          <Nav.Link onClick={() => navigate("/playlists")}>Playlists</Nav.Link>
         </Nav>
       </Container>
     </Navbar>

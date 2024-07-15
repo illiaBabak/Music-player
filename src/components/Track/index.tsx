@@ -5,15 +5,15 @@ import { TrackType } from "src/types/types";
 
 type Props = {
   track: TrackType;
+  isLine: boolean;
 };
 
-export const Track = ({ track }: Props): JSX.Element => {
-  const { setCurrentTrack, isLightTheme, selectedChip } =
-    useContext(GlobalContext);
+export const Track = ({ track, isLine }: Props): JSX.Element => {
+  const { setCurrentTrack, isLightTheme } = useContext(GlobalContext);
 
   return (
     <Card
-      className={`track p-2 m-2 ${isLightTheme ? "light" : "dark"}  ${selectedChip === "All" ? "line" : ""}`}
+      className={`track p-2 m-2 ${isLightTheme ? "light" : "dark"}  ${isLine ? "line" : ""}`}
     >
       <Card.Img src={track.album.images[0].url} className="track-img" />
       <Card.Body className="track-body">

@@ -1,0 +1,22 @@
+.playlists-container {
+  min-width: 100vw;
+  flex-wrap: nowrap;
+
+  .row-playlists {
+    width: 100%;
+    flex-wrap: nowrap;
+
+    .col-content {
+      width: 70%;
+      height: 100vh;
+    }
+
+    .nav-player.dark {
+      background-color: #040b1b;
+    }
+
+    .nav-player.light {
+      background-color: #3b3d3f;
+    }
+  }
+}

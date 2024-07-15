@@ -4,8 +4,11 @@ import {
   ArtistResponse,
   ArtistType,
   ImagesArrType,
+  PlaylistsResponse,
   TrackResponse,
   TrackType,
+  PlaylistType,
+  PlaylistItemsResponse,
 } from "src/types/types";
 
 const isObj = (data: unknown): data is object =>
@@ -83,3 +86,27 @@ export const isAlbumResponse = (data: unknown): data is AlbumResponse =>
   "items" in data.albums &&
   Array.isArray(data.albums.items) &&
   data.albums.items.every((el) => isAlbum(el));
+
+export const isPlaylist = (data: unknown): data is PlaylistType =>
+  isObj(data) &&
+  "id" in data &&
+  "name" in data &&
+  "images" in data &&
+  isString(data.id) &&
+  isString(data.name) &&
+  (isImagesArr(data.images) ||
+    (typeof data.images === "object" && !data.images));
+
+export const isPlaylistsResponse = (data: unknown): data is PlaylistsResponse =>
+  isObj(data) &&
+  "items" in data &&
+  Array.isArray(data.items) &&
+  data.items.every((el) => isPlaylist(el));
+
+export const isPlaylistItemsResponse = (
+  data: unknown
+): data is PlaylistItemsResponse =>
+  isObj(data) &&
+  "items" in data &&
+  Array.isArray(data.items) &&
+  data.items.every((el) => isObj(el) && "track" in el && isTrack(el.track));

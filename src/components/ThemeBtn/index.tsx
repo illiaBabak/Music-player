@@ -5,7 +5,7 @@ export const ThemeBtn = (): JSX.Element => {
   const { isLightTheme, setIsLightTheme } = useContext(GlobalContext);
 
   return (
-    <div className="wrapper">
+    <div className="theme-btn-wrapper">
       <input
         type="checkbox"
         name="checkbox"
