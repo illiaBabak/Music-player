@@ -1,3 +1,5 @@
+import { CHIPS } from 'src/utils/constants';
+
 export type ImagesArrType = {
   url: string;
 }[];
@@ -63,3 +65,5 @@ export type PlaylistItemsResponse = {
     track: TrackType;
   }[];
 };
+
+export type ChipType = (typeof CHIPS)[number];

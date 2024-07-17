@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const Callback = (): JSX.Element => {
   const navigate = useNavigate();
@@ -9,12 +9,12 @@ export const Callback = (): JSX.Element => {
 
     if (!hash) return;
 
-    const token = new URLSearchParams(hash.substring(1)).get("access_token");
+    const token = new URLSearchParams(hash.substring(1)).get('access_token');
 
     if (!token) return;
 
-    localStorage.setItem("spotify_token", token);
-    navigate("/home");
+    localStorage.setItem('spotify_token', token);
+    navigate('/home');
   }, [navigate]);
 
   return <div>Loading...</div>;
