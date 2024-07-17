@@ -5,10 +5,12 @@
   text-align: center;
   width: 98%;
   height: 80px;
+  background-color: var(--card-bg-color);
 
   &:hover {
     transition: 0.25s;
     transform: scale(1.01);
+    background-color: var(--card-bg-hover);
   }
 
   .track-body {
@@ -37,20 +39,4 @@
 .track.line {
   min-width: 300px;
   max-width: 300px;
-}
-
-.track.dark {
-  background-color: #030c1d;
-
-  &:hover {
-    background-color: #040e21;
-  }
-}
-
-.track.light {
-  background-color: #56585d;
-
-  &:hover {
-    background-color: #3b3d3f;
-  }
 }

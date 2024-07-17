@@ -1,8 +1,10 @@
 .chips-container {
   .chip {
-    width: 80px;
+    width: 90px;
     height: 40px;
     border-radius: 4px;
+    border: 2px var(--sidebar-color) dashed;
+    color: var(--text);
     cursor: pointer;
 
     &:hover {
@@ -12,27 +14,7 @@
   }
 
   .chip.selected {
+    border: 2px var(--selected-chip-border) solid;
     transform: scale(1.03);
-  }
-}
-
-.chips-container.light {
-  .chip {
-    border: 2px #4d4d4d dashed;
-  }
-
-  .chip.selected {
-    border: 2px #5f5f5f solid;
-  }
-}
-
-.chips-container.dark {
-  .chip {
-    color: white;
-    border: 2px #081325 dashed;
-  }
-
-  .chip.selected {
-    border: 2px #0e1d36 solid;
   }
 }

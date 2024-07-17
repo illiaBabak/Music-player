@@ -15,21 +15,14 @@
       border-radius: 6px;
       width: 100px;
       height: 50px;
+      border: 4px solid var(--card-bg-color);
+      color: var(--text);
       cursor: pointer;
 
       &:hover {
         transform: scale(1.03);
         transition: 0.25s;
       }
-    }
-
-    .return-btn.light {
-      border: 4px solid #56585d;
-    }
-
-    .return-btn.dark {
-      border: 4px solid #030c1d;
-      color: white;
     }
   }
 
@@ -39,14 +32,11 @@
     justify-content: center;
     align-items: center;
     width: 400px;
+    color: var(--text);
 
     .playlist-icon {
       width: 140px;
       height: 140px;
     }
-  }
-
-  .playlist-info.dark {
-    color: white;
   }
 }

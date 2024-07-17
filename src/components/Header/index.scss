@@ -5,24 +5,8 @@
     .search-input {
       width: 400px;
       height: 50px;
-    }
-  }
-}
-
-.header.dark {
-  .header-form {
-    .search-input {
-      border: 4px solid #081325;
-      background-color: #081e41c4;
-    }
-  }
-}
-
-.header.light {
-  .header-form {
-    .search-input {
-      border: 4px solid #51565d;
-      background-color: #505256c4;
+      border: 4px solid var(--card-bg-color);
+      background-color: var(--sidebar-color);
     }
   }
 }

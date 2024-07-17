@@ -14,7 +14,7 @@ export const HomePage = (): JSX.Element => {
 
   const token = localStorage.getItem('spotify_token');
 
-  const sectionClassName = `m-2 p-3 title-${isLightTheme ? 'light' : 'dark'}`;
+  const sectionClassName = `m-2 p-3 title`;
 
   return (
     <Container className='d-flex home-container p-0 m-0'>
@@ -42,7 +42,7 @@ export const HomePage = (): JSX.Element => {
 
         {!!currentTrack && (
           <Navbar
-            className={`justify-content-center ${isLightTheme ? 'light' : 'dark'} nav-player`}
+            className={`justify-content-center nav-player`}
             data-bs-theme='dark'
             fixed='bottom'
           >

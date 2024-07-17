@@ -4,12 +4,12 @@ import { ChipType } from 'src/types/types';
 import { CHIPS } from 'src/utils/constants';
 
 export const Chips = (): JSX.Element => {
-  const { isLightTheme, selectedChip, setSelectedChip } = useContext(GlobalContext);
+  const { selectedChip, setSelectedChip } = useContext(GlobalContext);
 
   const handleChipClick = (chip: ChipType) => setSelectedChip(chip);
 
   return (
-    <div className={`d-flex p-2 chips-container ${isLightTheme ? 'light' : 'dark'}`}>
+    <div className={`d-flex p-2 chips-container`}>
       {CHIPS.map((chip) => (
         <div
           key={chip}

@@ -1,15 +1,9 @@
-@import "./root";
+@import './root';
 
 html,
 body {
+  width: 100vw;
+  height: 100vh;
   margin: 0;
   padding: 0;
-}
-
-body.dark {
-  background-color: #010916;
-}
-
-body.light {
-  background-color: #dbdbdb;
 }

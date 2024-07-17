@@ -6,6 +6,7 @@
   width: 220px;
   height: 240px;
   color: white;
+  background-color: var(--card-bg-color);
   cursor: pointer;
 
   .playlist-icon {
@@ -17,21 +18,6 @@
   &:hover {
     transition: 0.25s;
     transform: scale(1.01);
-  }
-}
-
-.playlist.dark {
-  background-color: #030c1d;
-
-  &:hover {
-    background-color: #040e21;
-  }
-}
-
-.playlist.light {
-  background-color: #56585d;
-
-  &:hover {
-    background-color: #3b3d3f;
+    background-color: var(--card-bg-hover);
   }
 }

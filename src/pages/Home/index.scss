@@ -10,21 +10,13 @@
       width: 70%;
       height: 100vh;
 
-      .title-light {
-        color: #3b3d3f;
-      }
-
-      .title-dark {
-        color: white;
+      .title {
+        color: var(--text);
       }
     }
 
-    .nav-player.dark {
-      background-color: #040b1b;
-    }
-
-    .nav-player.light {
-      background-color: #3b3d3f;
+    .nav-player {
+      background-color: var(--card-bg-hover);
     }
   }
 }

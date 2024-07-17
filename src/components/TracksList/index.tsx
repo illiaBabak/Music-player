@@ -1,33 +1,27 @@
-import { useSearchParams } from "react-router-dom";
-import { Track } from "../Track";
-import { useSearchTracksQuery } from "src/api/tracks";
-import { useContext } from "react";
-import { GlobalContext } from "src/root";
-import { TrackType } from "src/types/types";
+import { useSearchParams } from 'react-router-dom';
+import { Track } from '../Track';
+import { useSearchTracksQuery } from 'src/api/tracks';
+import { useContext } from 'react';
+import { GlobalContext } from 'src/root';
+import { TrackType } from 'src/types/types';
 
 type Props = {
   readyTracks?: TrackType[];
 };
 
 export const TracksList = ({ readyTracks }: Props): JSX.Element => {
-  const { isLightTheme, selectedChip } = useContext(GlobalContext);
+  const { selectedChip } = useContext(GlobalContext);
   const [searchParams] = useSearchParams();
-  const searchedText = searchParams.get("query") ?? "";
+  const searchedText = searchParams.get('query') ?? '';
 
   const { data: tracks } = useSearchTracksQuery(searchedText);
 
-  const isLine = !readyTracks && selectedChip === "All";
+  const isLine = !readyTracks && selectedChip === 'All';
 
   return (
-    <div
-      className={`track-list ${isLightTheme ? "light" : "dark"} ${isLine ? "line" : ""}`}
-    >
+    <div className={`content-container ${isLine ? 'line' : ''}`}>
       {(readyTracks ? readyTracks : tracks)?.map((track, index) => (
-        <Track
-          track={track}
-          key={`${track.name}-track-${index}`}
-          isLine={isLine}
-        />
+        <Track track={track} key={`${track.name}-track-${index}`} isLine={isLine} />
       ))}
     </div>
   );

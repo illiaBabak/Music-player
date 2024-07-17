@@ -6,6 +6,12 @@
   text-align: center;
   width: 290px;
   height: 300px;
+  background-color: var(--card-bg-color);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--card-bg-hover);
+  }
 
   .title {
     font-size: 18px;
@@ -36,21 +42,5 @@
   .artist-icon {
     width: 60px;
     height: 60px;
-  }
-}
-
-.artist.dark {
-  background-color: #030c1d;
-
-  &:hover {
-    background-color: #040e21;
-  }
-}
-
-.artist.light {
-  background-color: #56585d;
-
-  &:hover {
-    background-color: #3b3d3f;
   }
 }

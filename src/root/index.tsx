@@ -39,31 +39,38 @@ export const App = (): JSX.Element => {
   useEffect(() => {
     const { body } = document;
 
-    body.className = '';
-
-    body.classList.add(`${isLightTheme ? 'light' : 'dark'}`);
+    body.style.setProperty('--card-bg-color', isLightTheme ? '#56585d' : '#030c1d');
+    body.style.setProperty('--card-bg-hover', isLightTheme ? '#3b3d3f' : '#040e21');
+    body.style.setProperty('--container-scroll', isLightTheme ? '#4e5258' : '#081325');
+    body.style.setProperty('--container-scroll-bg', isLightTheme ? '#878a90' : '#1d1f23');
+    body.style.setProperty('--selected-chip-border', isLightTheme ? '#5f5f5f' : '#0e1d36');
+    body.style.setProperty('--text', isLightTheme ? '#030c1d' : '#ffffff');
+    body.style.setProperty('--sidebar-color', isLightTheme ? '#4d4d4d' : '#081325');
+    body.style.setProperty('--main-page-color', isLightTheme ? '#dbdbdb' : '#010916');
   }, [isLightTheme]);
 
   return (
-    <GlobalContext.Provider
-      value={{
-        currentTrack,
-        setCurrentTrack,
-        isLightTheme,
-        setIsLightTheme,
-        selectedChip: selectedSection,
-        setSelectedChip: setSelectedSection,
-      }}
-    >
-      <BrowserRouter>
-        <Routes>
-          <Route path='/' element={<Navigate to='/login' />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/callback' element={<Callback />} />
-          <Route path='/home' element={<HomePage />} />
-          <Route path='/playlists' element={<PlaylistsPage />} />
-        </Routes>
-      </BrowserRouter>
-    </GlobalContext.Provider>
+    <div className='main-page'>
+      <GlobalContext.Provider
+        value={{
+          currentTrack,
+          setCurrentTrack,
+          isLightTheme,
+          setIsLightTheme,
+          selectedChip: selectedSection,
+          setSelectedChip: setSelectedSection,
+        }}
+      >
+        <BrowserRouter>
+          <Routes>
+            <Route path='/' element={<Navigate to='/login' />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/callback' element={<Callback />} />
+            <Route path='/home' element={<HomePage />} />
+            <Route path='/playlists' element={<PlaylistsPage />} />
+          </Routes>
+        </BrowserRouter>
+      </GlobalContext.Provider>
+    </div>
   );
 };

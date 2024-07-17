@@ -6,6 +6,12 @@
   text-align: center;
   width: 300px;
   height: 350px;
+  background-color: var(--card-bg-color);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--card-bg-hover);
+  }
 
   .title {
     font-size: 18px;
@@ -54,21 +60,5 @@
   .album-icon {
     height: 60px;
     width: 60px;
-  }
-}
-
-.album.dark {
-  background-color: #030c1d;
-
-  &:hover {
-    background-color: #040e21;
-  }
-}
-
-.album.light {
-  background-color: #56585d;
-
-  &:hover {
-    background-color: #3b3d3f;
   }
 }

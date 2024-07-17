@@ -15,18 +15,10 @@
   height: 8px;
 }
 
-.playlists-list.dark::-webkit-scrollbar-track {
-  background: #1d1f23;
+.playlists-list::-webkit-scrollbar-track {
+  background: var(--container-scroll-bg);
 }
 
-.playlists-list.dark::-webkit-scrollbar-thumb {
-  background-color: #081325;
-}
-
-.playlists-list.light::-webkit-scrollbar-track {
-  background: #878a90;
-}
-
-.playlists-list.light::-webkit-scrollbar-thumb {
-  background-color: #4e5258;
+.playlists-list::-webkit-scrollbar-thumb {
+  background-color: var(--container-scroll);
 }
