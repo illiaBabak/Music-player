@@ -1,4 +1,4 @@
-import { usePlaylists } from 'src/api/playlists';
+import { usePlaylistsQuery } from 'src/api/playlists';
 import { PlayList } from '../PlayList';
 import { useSearchParams } from 'react-router-dom';
 import { PlaylistType } from 'src/types/types';
@@ -10,7 +10,7 @@ export const PlayListsList = (): JSX.Element => {
   const [searchParams] = useSearchParams();
   const searchedText = searchParams.get('query') ?? '';
 
-  const { data: playlists } = usePlaylists();
+  const { data: playlists } = usePlaylistsQuery();
 
   const filteredPlaylists = searchedText
     ? playlists?.filter((playlist) => isPlaylistContainsText(playlist, searchedText))

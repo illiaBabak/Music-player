@@ -1,17 +1,12 @@
 import { useQuery, UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
 import { PlaylistItemsResponse, PlaylistType } from 'src/types/types';
 import { isPlaylist, isPlaylistItemsResponse, isPlaylistsResponse } from 'src/utils/guards';
-import { PLAYLIST_ITEMS_QUERY, PLAYLIST_QUERY, PLAYLISTS_QUERY } from './constants';
-
-const BASE_URL = 'https://api.spotify.com/v1';
+import { BASE_URL, PLAYLIST_ITEMS_QUERY, PLAYLIST_QUERY, PLAYLISTS_QUERY } from './constants';
+import { getHeaders } from '.';
 
 const getPlaylist = async (playlistId: string): Promise<PlaylistType | null> => {
-  const token = localStorage.getItem('spotify_token');
-
   const response = await fetch(`${BASE_URL}/playlists/${playlistId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getHeaders(),
   });
 
   if (!response.ok) throw new Error('Failed to fetch playlist');
@@ -22,12 +17,8 @@ const getPlaylist = async (playlistId: string): Promise<PlaylistType | null> => 
 };
 
 const getPlaylists = async (): Promise<PlaylistType[]> => {
-  const token = localStorage.getItem('spotify_token');
-
   const response = await fetch(`${BASE_URL}/me/playlists`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getHeaders(),
   });
 
   if (!response.ok) throw new Error('Failed to fetch playlists');
@@ -38,12 +29,8 @@ const getPlaylists = async (): Promise<PlaylistType[]> => {
 };
 
 const getPlaylistItems = async (playlistId: string): Promise<PlaylistItemsResponse | null> => {
-  const token = localStorage.getItem('spotify_token');
-
   const response = await fetch(`${BASE_URL}/playlists/${playlistId}/tracks`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getHeaders(),
   });
 
   if (!response.ok) throw new Error('Failed to fetch playlist items');
@@ -53,7 +40,7 @@ const getPlaylistItems = async (playlistId: string): Promise<PlaylistItemsRespon
   return isPlaylistItemsResponse(responseJson) ? responseJson : null;
 };
 
-export const usePlaylists = (
+export const usePlaylistsQuery = (
   options?: Partial<UseQueryOptions<PlaylistType[]>>
 ): UseQueryResult<PlaylistType[], Error> =>
   useQuery({
@@ -62,7 +49,7 @@ export const usePlaylists = (
     ...options,
   });
 
-export const usePlaylistsItems = (playlistId: string): UseQueryResult<PlaylistItemsResponse, Error> =>
+export const usePlaylistsItemsQuery = (playlistId: string): UseQueryResult<PlaylistItemsResponse, Error> =>
   useQuery({
     queryKey: [PLAYLIST_ITEMS_QUERY, playlistId],
     queryFn: async () => {
@@ -70,7 +57,7 @@ export const usePlaylistsItems = (playlistId: string): UseQueryResult<PlaylistIt
     },
   });
 
-export const usePlaylist = (playlistId: string): UseQueryResult<PlaylistType, Error> =>
+export const usePlaylistQuery = (playlistId: string): UseQueryResult<PlaylistType, Error> =>
   useQuery({
     queryKey: [PLAYLIST_QUERY, playlistId],
     queryFn: async () => {

@@ -2,7 +2,7 @@ import { useSearchParams } from 'react-router-dom';
 import { ThemeBtn } from '../ThemeBtn';
 import { useContext } from 'react';
 import { GlobalContext } from 'src/root';
-import { usePlaylist, usePlaylistsItems } from 'src/api/playlists';
+import { usePlaylistQuery, usePlaylistsItemsQuery } from 'src/api/playlists';
 import { TracksList } from '../TracksList';
 
 type Props = {
@@ -13,8 +13,8 @@ export const PlayListTracks = ({ playlistId }: Props): JSX.Element => {
   const { setCurrentTrack } = useContext(GlobalContext);
   const [, setSearchParams] = useSearchParams();
 
-  const { data: playlistItems } = usePlaylistsItems(playlistId);
-  const { data: playlistData } = usePlaylist(playlistId);
+  const { data: playlistItems } = usePlaylistsItemsQuery(playlistId);
+  const { data: playlistData } = usePlaylistQuery(playlistId);
 
   const tracks = playlistItems?.items.map((item) => item.track);
 
