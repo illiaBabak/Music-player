@@ -1,11 +1,7 @@
 .home-container {
   min-width: 100vw;
-  flex-wrap: nowrap;
 
   .row-home {
-    width: 100%;
-    flex-wrap: nowrap;
-
     .col-content {
       width: 70%;
       height: 100vh;
@@ -13,10 +9,6 @@
       .title {
         color: var(--text);
       }
-    }
-
-    .nav-player {
-      background-color: var(--card-bg-hover);
     }
   }
 }

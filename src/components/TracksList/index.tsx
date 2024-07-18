@@ -12,6 +12,7 @@ type Props = {
 export const TracksList = ({ readyTracks }: Props): JSX.Element => {
   const { selectedChip } = useContext(GlobalContext);
   const [searchParams] = useSearchParams();
+
   const searchedText = searchParams.get('query') ?? '';
 
   const { data: tracks } = useSearchTracksQuery(searchedText);
@@ -19,7 +20,7 @@ export const TracksList = ({ readyTracks }: Props): JSX.Element => {
   const isLine = !readyTracks && selectedChip === 'All';
 
   return (
-    <div className={`content-container ${isLine ? 'line' : ''}`}>
+    <div className={`content-container scroll-container ${isLine ? 'line' : ''}`}>
       {(readyTracks ? readyTracks : tracks)?.map((track, index) => (
         <Track track={track} key={`${track.name}-track-${index}`} isLine={isLine} />
       ))}

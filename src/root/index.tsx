@@ -50,7 +50,7 @@ export const App = (): JSX.Element => {
   }, [isLightTheme]);
 
   return (
-    <div className='main-page'>
+    <div className='main-page m-0 p-0'>
       <GlobalContext.Provider
         value={{
           currentTrack,

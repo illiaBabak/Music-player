@@ -4,11 +4,12 @@ import { ThemeBtn } from '../ThemeBtn';
 
 export const Header = (): JSX.Element => {
   const [searchParams, setSearchParams] = useSearchParams();
+
   const searchedText = searchParams.get('query') ?? '';
 
   return (
-    <Navbar className={`p-3 header`} data-bs-theme='dark'>
-      <Form className='header-form d-flex flex-row justify-content-between'>
+    <Navbar className='p-3 header' data-bs-theme='dark'>
+      <Form className='header-form d-flex flex-row justify-content-between w-100'>
         <Form.Control
           type='search'
           placeholder='Search'

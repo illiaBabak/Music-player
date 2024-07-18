@@ -10,7 +10,10 @@ export const PlayList = ({ playlist }: Props): JSX.Element => {
   const [, setSearchParams] = useSearchParams();
 
   return (
-    <Card className={`playlist p-1 m-3`} onClick={() => setSearchParams({ 'playlist-id': playlist.id })}>
+    <Card
+      className='playlist p-1 m-3 d-flex align-items-center justify-content-between text-white'
+      onClick={() => setSearchParams({ 'playlist-id': playlist.id })}
+    >
       <Card.Img
         src={
           playlist.images

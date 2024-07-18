@@ -7,12 +7,13 @@ import { GlobalContext } from 'src/root';
 export const ArtistsList = (): JSX.Element => {
   const { selectedChip } = useContext(GlobalContext);
   const [searchParams] = useSearchParams();
+
   const searchedText = searchParams.get('query') ?? '';
 
   const { data: artists } = useSearchArtistQuery(searchedText);
 
   return (
-    <div className={`content-container artist-list  ${selectedChip === 'All' ? 'line' : ''}`}>
+    <div className={`content-container scroll-container artist-list ${selectedChip === 'All' ? 'line' : ''}`}>
       {artists?.map((artist, index) => <Artist artist={artist} key={`${artist.name}-${index}-artist`} />)}
     </div>
   );

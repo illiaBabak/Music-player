@@ -8,6 +8,7 @@ const isPlaylistContainsText = (playlist: PlaylistType, text: string) =>
 
 export const PlayListsList = (): JSX.Element => {
   const [searchParams] = useSearchParams();
+
   const searchedText = searchParams.get('query') ?? '';
 
   const { data: playlists } = usePlaylistsQuery();
@@ -17,7 +18,7 @@ export const PlayListsList = (): JSX.Element => {
     : playlists;
 
   return (
-    <div className={`playlists-list`}>
+    <div className='playlists-list scroll-container d-flex flex-row flex-wrap align-items-center justify-content-center w-100'>
       {filteredPlaylists?.map((playlist, index) => <PlayList key={`${playlist.id}-${index}`} playlist={playlist} />)}
     </div>
   );

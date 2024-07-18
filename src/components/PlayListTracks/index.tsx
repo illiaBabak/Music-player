@@ -19,10 +19,10 @@ export const PlayListTracks = ({ playlistId }: Props): JSX.Element => {
   const tracks = playlistItems?.items.map((item) => item.track);
 
   return (
-    <div className='playlist-tracks d-flex flex-column'>
-      <div className='header d-flex flex-row justify-content-between p-3'>
+    <div className='playlist-tracks d-flex flex-column w-100 h-100 justify-content-start'>
+      <div className='header d-flex flex-row justify-content-between p-3 w-100 align-items-center'>
         <div
-          className={`return-btn p-3 m-0`}
+          className='return-btn p-3 m-0 d-flex justify-content-center align-items-center'
           onClick={() => {
             setCurrentTrack(null);
 
@@ -37,7 +37,7 @@ export const PlayListTracks = ({ playlistId }: Props): JSX.Element => {
         <ThemeBtn />
       </div>
 
-      <div className={`playlist-info p-2`}>
+      <div className='playlist-info p-2 d-flex flex-row justify-content-center align-items-center'>
         <img
           src={
             playlistData?.images
@@ -48,6 +48,7 @@ export const PlayListTracks = ({ playlistId }: Props): JSX.Element => {
         />
         <span className='fs-4 m-2'>{playlistData?.name}</span>
       </div>
+
       <TracksList readyTracks={tracks} />
     </div>
   );

@@ -1,8 +1,4 @@
 .artist {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: white;
   text-align: center;
   width: 290px;
   height: 300px;
@@ -22,15 +18,9 @@
     height: 140px;
     object-fit: contain;
   }
-
-  .artist-body {
-    display: flex;
-    justify-content: space-between;
-  }
 }
 
 .artist.line {
-  flex-direction: row;
   height: 80px;
   min-width: 300px;
   max-width: 300px;

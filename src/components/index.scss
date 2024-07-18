@@ -9,6 +9,7 @@
 @import './PlayList';
 @import './PlayListsList';
 @import './PlayListTracks';
+@import './Player';
 
 .content-container {
   display: flex;
@@ -31,22 +32,22 @@
 
 .content-container.line {
   flex-direction: row;
+  flex-wrap: nowrap;
   width: calc(100% - 32px);
   height: 120px;
   overflow: scroll hidden;
   margin: 0 12px 12px 12px;
-  flex-wrap: nowrap;
 }
 
-.content-container::-webkit-scrollbar {
+.scroll-container::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
-.content-container::-webkit-scrollbar-track {
+.scroll-container::-webkit-scrollbar-track {
   background: var(--container-scroll-bg);
 }
 
-.content-container::-webkit-scrollbar-thumb {
+.scroll-container::-webkit-scrollbar-thumb {
   background-color: var(--container-scroll);
 }

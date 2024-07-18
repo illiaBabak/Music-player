@@ -1,8 +1,4 @@
 .album {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: white;
   text-align: center;
   width: 300px;
   height: 350px;
@@ -24,16 +20,7 @@
   }
 
   .album-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-
     .artists {
-      width: 100%;
-      flex-wrap: wrap;
-
       .artist-album {
         max-width: 130px;
         height: 20px;
@@ -48,7 +35,6 @@
 }
 
 .album.line {
-  flex-direction: row;
   min-width: 300px;
   max-width: 300px;
   height: 80px;

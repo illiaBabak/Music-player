@@ -1,7 +1,4 @@
 .track {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
   text-align: center;
   width: 98%;
   height: 80px;
@@ -14,10 +11,6 @@
   }
 
   .track-body {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
     color: #efedec;
 
     .btn-img {

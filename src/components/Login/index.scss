@@ -3,8 +3,11 @@
   position: relative;
   top: 32px;
 
+  .spotify-icon {
+    max-width: 300px;
+  }
+
   .login-btn {
     background-color: #09132c;
-    color: white;
   }
 }
