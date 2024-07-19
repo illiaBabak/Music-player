@@ -1,8 +1,6 @@
 import { useSearchParams } from 'react-router-dom';
 import { Track } from '../Track';
 import { useSearchTracksQuery } from 'src/api/tracks';
-import { useContext } from 'react';
-import { GlobalContext } from 'src/root';
 import { TrackType } from 'src/types/types';
 
 type Props = {
@@ -10,10 +8,10 @@ type Props = {
 };
 
 export const TracksList = ({ readyTracks }: Props): JSX.Element => {
-  const { selectedSection } = useContext(GlobalContext);
   const [searchParams] = useSearchParams();
 
   const searchedText = searchParams.get('query') ?? '';
+  const selectedSection = searchParams.get('section');
 
   const { data: tracks } = useSearchTracksQuery(searchedText);
 

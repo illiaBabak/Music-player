@@ -1,14 +1,12 @@
-import { useContext } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useSearchAlbumsQuery } from 'src/api/albums';
-import { GlobalContext } from 'src/root';
 import { Album } from '../Album';
 
 export const AlbumsList = (): JSX.Element => {
-  const { selectedSection } = useContext(GlobalContext);
   const [searchParams] = useSearchParams();
 
   const searchedText = searchParams.get('query') ?? '';
+  const selectedSection = searchParams.get('section');
 
   const { data: albums } = useSearchAlbumsQuery(searchedText);
 

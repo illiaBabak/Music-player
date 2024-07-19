@@ -1,12 +1,17 @@
-import { useContext } from 'react';
-import { GlobalContext } from 'src/root';
+import { useSearchParams } from 'react-router-dom';
 import { ChipType } from 'src/types/types';
 import { CHIPS } from 'src/utils/constants';
 
 export const Chips = (): JSX.Element => {
-  const { selectedSection, setSelectedSection } = useContext(GlobalContext);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const handleChipClick = (chip: ChipType) => setSelectedSection(chip);
+  const selectedSection = searchParams.get('section');
+
+  const handleChipClick = (chip: ChipType) =>
+    setSearchParams((prev) => {
+      prev.set('section', chip);
+      return prev;
+    });
 
   return (
     <div className='d-flex p-2 chips-container'>

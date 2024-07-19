@@ -1,6 +1,5 @@
-import { useContext } from 'react';
 import { Card } from 'react-bootstrap';
-import { GlobalContext } from 'src/root';
+import { useSearchParams } from 'react-router-dom';
 import { ArtistType } from 'src/types/types';
 
 type Props = {
@@ -8,7 +7,9 @@ type Props = {
 };
 
 export const Artist = ({ artist }: Props): JSX.Element => {
-  const { selectedSection } = useContext(GlobalContext);
+  const [searchParams] = useSearchParams();
+
+  const selectedSection = searchParams.get('section');
 
   return (
     <Card

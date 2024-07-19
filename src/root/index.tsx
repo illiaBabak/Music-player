@@ -1,19 +1,15 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes, useSearchParams } from 'react-router-dom';
 import { Login } from 'src/components/Login';
 import { Callback } from 'src/components/Callback';
 import { HomePage } from 'src/pages/Home';
-import { ChipType, TrackType } from 'src/types/types';
 import { createContext, useEffect, useState } from 'react';
 import { PlaylistsPage } from 'src/pages/Playlists';
-import { CHIPS } from 'src/utils/constants';
 
 type GlobalContextType = {
   currentUriTrack: string | null;
   setCurrentUriTrack: React.Dispatch<React.SetStateAction<string | null>>;
   isLightTheme: boolean;
   setIsLightTheme: React.Dispatch<React.SetStateAction<boolean>>;
-  selectedSection: ChipType;
-  setSelectedSection: React.Dispatch<React.SetStateAction<ChipType>>;
 };
 
 export const GlobalContext = createContext<GlobalContextType>({
@@ -25,16 +21,11 @@ export const GlobalContext = createContext<GlobalContextType>({
   setIsLightTheme: () => {
     throw new Error('Global context is not initialized');
   },
-  selectedSection: 'All',
-  setSelectedSection: () => {
-    throw new Error('Global context is not initialized');
-  },
 });
 
 export const App = (): JSX.Element => {
   const [currentUriTrack, setCurrentUriTrack] = useState<string | null>(null);
   const [isLightTheme, setIsLightTheme] = useState(false);
-  const [selectedSection, setSelectedSection] = useState<(typeof CHIPS)[number]>('All');
 
   useEffect(() => {
     const { body } = document;
@@ -57,8 +48,6 @@ export const App = (): JSX.Element => {
           setCurrentUriTrack,
           isLightTheme,
           setIsLightTheme,
-          selectedSection,
-          setSelectedSection,
         }}
       >
         <BrowserRouter>

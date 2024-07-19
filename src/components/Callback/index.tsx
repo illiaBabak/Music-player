@@ -14,7 +14,8 @@ export const Callback = (): JSX.Element => {
     if (!token) return;
 
     localStorage.setItem('spotify_token', token);
-    navigate('/home');
+
+    navigate('/home?section=All');
   }, [navigate]);
 
   return <div>Loading...</div>;

@@ -1,14 +1,12 @@
 import { useSearchParams } from 'react-router-dom';
 import { useSearchArtistQuery } from 'src/api/artists';
 import { Artist } from '../Artist';
-import { useContext } from 'react';
-import { GlobalContext } from 'src/root';
 
 export const ArtistsList = (): JSX.Element => {
-  const { selectedSection } = useContext(GlobalContext);
   const [searchParams] = useSearchParams();
 
   const searchedText = searchParams.get('query') ?? '';
+  const selectedSection = searchParams.get('section');
 
   const { data: artists } = useSearchArtistQuery(searchedText);
 

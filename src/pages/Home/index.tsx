@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Col, Container, Navbar, Row } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import { Header } from 'src/components/Header';
 import { SideBarMenu } from 'src/components/SideBarMenu';
 import { TracksList } from 'src/components/TracksList';
@@ -8,9 +8,13 @@ import { Chips } from 'src/components/Chips';
 import { ArtistsList } from 'src/components/ArtistsList';
 import { AlbumsList } from 'src/components/AlbumsList';
 import { Player } from 'src/components/Player';
+import { useSearchParams } from 'react-router-dom';
 
 export const HomePage = (): JSX.Element => {
-  const { currentUriTrack, selectedSection } = useContext(GlobalContext);
+  const { currentUriTrack } = useContext(GlobalContext);
+  const [searchParams] = useSearchParams();
+
+  const selectedSection = searchParams.get('section');
 
   const sectionClassName = `m-2 p-3 title`;
 
