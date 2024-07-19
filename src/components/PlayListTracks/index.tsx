@@ -10,7 +10,7 @@ type Props = {
 };
 
 export const PlayListTracks = ({ playlistId }: Props): JSX.Element => {
-  const { setCurrentTrack } = useContext(GlobalContext);
+  const { setCurrentUriTrack } = useContext(GlobalContext);
   const [, setSearchParams] = useSearchParams();
 
   const { data: playlistItems } = usePlaylistsItemsQuery(playlistId);
@@ -24,7 +24,7 @@ export const PlayListTracks = ({ playlistId }: Props): JSX.Element => {
         <div
           className='return-btn p-3 m-0 d-flex justify-content-center align-items-center'
           onClick={() => {
-            setCurrentTrack(null);
+            setCurrentUriTrack(null);
 
             setSearchParams((prev) => {
               prev.delete('playlist-id');

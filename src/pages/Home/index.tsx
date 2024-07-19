@@ -10,7 +10,7 @@ import { AlbumsList } from 'src/components/AlbumsList';
 import { Player } from 'src/components/Player';
 
 export const HomePage = (): JSX.Element => {
-  const { currentTrack, selectedChip } = useContext(GlobalContext);
+  const { currentUriTrack, selectedSection } = useContext(GlobalContext);
 
   const sectionClassName = `m-2 p-3 title`;
 
@@ -21,7 +21,7 @@ export const HomePage = (): JSX.Element => {
         <Col className='col-content m-0 p-0'>
           <Header />
           <Chips />
-          {selectedChip === 'All' && (
+          {selectedSection === 'All' && (
             <>
               <h4 className={sectionClassName}>Tracks</h4>
               <TracksList />
@@ -33,12 +33,12 @@ export const HomePage = (): JSX.Element => {
               <AlbumsList />
             </>
           )}
-          {selectedChip === 'Tracks' && <TracksList />}
-          {selectedChip === 'Artists' && <ArtistsList />}
-          {selectedChip === 'Albums' && <AlbumsList />}
+          {selectedSection === 'Tracks' && <TracksList />}
+          {selectedSection === 'Artists' && <ArtistsList />}
+          {selectedSection === 'Albums' && <AlbumsList />}
         </Col>
 
-        {!!currentTrack && <Player currentTrack={currentTrack} />}
+        {!!currentUriTrack && <Player currentUriTrack={currentUriTrack} />}
       </Row>
     </Container>
   );

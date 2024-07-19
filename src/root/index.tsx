@@ -8,31 +8,31 @@ import { PlaylistsPage } from 'src/pages/Playlists';
 import { CHIPS } from 'src/utils/constants';
 
 type GlobalContextType = {
-  currentTrack: TrackType | null;
-  setCurrentTrack: React.Dispatch<React.SetStateAction<TrackType | null>>;
+  currentUriTrack: string | null;
+  setCurrentUriTrack: React.Dispatch<React.SetStateAction<string | null>>;
   isLightTheme: boolean;
   setIsLightTheme: React.Dispatch<React.SetStateAction<boolean>>;
-  selectedChip: ChipType;
-  setSelectedChip: React.Dispatch<React.SetStateAction<ChipType>>;
+  selectedSection: ChipType;
+  setSelectedSection: React.Dispatch<React.SetStateAction<ChipType>>;
 };
 
 export const GlobalContext = createContext<GlobalContextType>({
-  currentTrack: null,
-  setCurrentTrack: () => {
+  currentUriTrack: null,
+  setCurrentUriTrack: () => {
     throw new Error('Global context is not initialized');
   },
   isLightTheme: false,
   setIsLightTheme: () => {
     throw new Error('Global context is not initialized');
   },
-  selectedChip: 'All',
-  setSelectedChip: () => {
+  selectedSection: 'All',
+  setSelectedSection: () => {
     throw new Error('Global context is not initialized');
   },
 });
 
 export const App = (): JSX.Element => {
-  const [currentTrack, setCurrentTrack] = useState<TrackType | null>(null);
+  const [currentUriTrack, setCurrentUriTrack] = useState<string | null>(null);
   const [isLightTheme, setIsLightTheme] = useState(false);
   const [selectedSection, setSelectedSection] = useState<(typeof CHIPS)[number]>('All');
 
@@ -53,12 +53,12 @@ export const App = (): JSX.Element => {
     <div className='main-page m-0 p-0'>
       <GlobalContext.Provider
         value={{
-          currentTrack,
-          setCurrentTrack,
+          currentUriTrack,
+          setCurrentUriTrack,
           isLightTheme,
           setIsLightTheme,
-          selectedChip: selectedSection,
-          setSelectedChip: setSelectedSection,
+          selectedSection,
+          setSelectedSection,
         }}
       >
         <BrowserRouter>

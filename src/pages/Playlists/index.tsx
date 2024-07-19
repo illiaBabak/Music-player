@@ -9,7 +9,7 @@ import { GlobalContext } from 'src/root';
 import { Player } from 'src/components/Player';
 
 export const PlaylistsPage = (): JSX.Element => {
-  const { currentTrack } = useContext(GlobalContext);
+  const { currentUriTrack } = useContext(GlobalContext);
   const [searchParams] = useSearchParams();
 
   const currentPlaylistId = searchParams.get('playlist-id') ?? '';
@@ -29,7 +29,7 @@ export const PlaylistsPage = (): JSX.Element => {
           )}
         </Col>
 
-        {!!currentTrack && <Player currentTrack={currentTrack} />}
+        {!!currentUriTrack && <Player currentUriTrack={currentUriTrack} />}
       </Row>
     </Container>
   );

@@ -8,16 +8,16 @@ type Props = {
 };
 
 export const Album = ({ album }: Props): JSX.Element => {
-  const { selectedChip } = useContext(GlobalContext);
+  const { selectedSection } = useContext(GlobalContext);
 
   return (
     <Card
-      className={`album p-2 m-2 d-flex align-items-center text-white ${selectedChip === 'All' ? 'flex-row line' : 'flex-column '}`}
+      className={`album p-2 m-2 d-flex align-items-center text-white ${selectedSection === 'All' ? 'flex-row line' : 'flex-column '}`}
     >
       <Card.Img src={album.images[0].url} className='album-icon' />
       <span className='m-3 title'>{album.name}</span>
 
-      {selectedChip !== 'All' && (
+      {selectedSection !== 'All' && (
         <Card.Body className='album-body p-0 d-flex flex-column justify-content-between align-items-center w-100'>
           <div className='m-2 artists d-flex flex-row justify-content-center flex-wrap w-100'>
             {album.artists.map((artist, index) => (

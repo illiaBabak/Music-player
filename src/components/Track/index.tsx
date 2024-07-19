@@ -9,7 +9,7 @@ type Props = {
 };
 
 export const Track = ({ track, isLine }: Props): JSX.Element => {
-  const { setCurrentTrack } = useContext(GlobalContext);
+  const { setCurrentUriTrack } = useContext(GlobalContext);
 
   return (
     <Card className={`track p-2 m-2 d-flex flex-row align-items-center ${isLine ? 'line' : ''}`}>
@@ -20,7 +20,7 @@ export const Track = ({ track, isLine }: Props): JSX.Element => {
         <Image
           className='btn-img'
           src='https://www.svgrepo.com/show/526106/play.svg'
-          onClick={() => setCurrentTrack(track)}
+          onClick={() => setCurrentUriTrack(track.uri)}
         />
       </Card.Body>
     </Card>

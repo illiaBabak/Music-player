@@ -2,13 +2,12 @@ import { useContext } from 'react';
 import { Navbar } from 'react-bootstrap';
 import SpotifyPlayer from 'react-spotify-web-playback';
 import { GlobalContext } from 'src/root';
-import { TrackType } from 'src/types/types';
 
 type Props = {
-  currentTrack: TrackType;
+  currentUriTrack: string;
 };
 
-export const Player = ({ currentTrack }: Props): JSX.Element => {
+export const Player = ({ currentUriTrack }: Props): JSX.Element => {
   const { isLightTheme } = useContext(GlobalContext);
 
   const token = localStorage.getItem('spotify_token');
@@ -18,7 +17,7 @@ export const Player = ({ currentTrack }: Props): JSX.Element => {
       <SpotifyPlayer
         key={isLightTheme ? 'player-light-theme' : 'player-dark-theme'}
         token={token ?? ''}
-        uris={[currentTrack.uri]}
+        uris={[currentUriTrack]}
         styles={{
           activeColor: '#fff',
           bgColor: `${isLightTheme ? '#3b3d3f' : '#040b1b'}`,
