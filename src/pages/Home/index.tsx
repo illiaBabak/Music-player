@@ -15,6 +15,7 @@ export const HomePage = (): JSX.Element => {
   const [searchParams] = useSearchParams();
 
   const selectedSection = searchParams.get('section');
+  const searchedText = searchParams.get('query');
 
   const sectionClassName = `m-2 p-3 title`;
 
@@ -24,22 +25,37 @@ export const HomePage = (): JSX.Element => {
         <SideBarMenu />
         <Col className='col-content m-0 p-0'>
           <Header />
-          <Chips />
-          {selectedSection === 'All' && (
+
+          {!!searchedText && (
             <>
-              <h4 className={sectionClassName}>Tracks</h4>
+              <Chips />
+              {selectedSection === 'All' && (
+                <>
+                  <h4 className={sectionClassName}>Tracks</h4>
+                  <TracksList />
+
+                  <h4 className={sectionClassName}>Artists</h4>
+                  <ArtistsList />
+
+                  <h4 className={sectionClassName}>Albums</h4>
+                  <AlbumsList />
+                </>
+              )}
+              {selectedSection === 'Tracks' && <TracksList />}
+              {selectedSection === 'Artists' && <ArtistsList />}
+              {selectedSection === 'Albums' && <AlbumsList />}
+            </>
+          )}
+
+          {!searchedText && (
+            <>
+              <h4 className={sectionClassName}>Recommendations tracks</h4>
               <TracksList />
 
-              <h4 className={sectionClassName}>Artists</h4>
-              <ArtistsList />
-
-              <h4 className={sectionClassName}>Albums</h4>
+              <h4 className={sectionClassName}>Releases albums</h4>
               <AlbumsList />
             </>
           )}
-          {selectedSection === 'Tracks' && <TracksList />}
-          {selectedSection === 'Artists' && <ArtistsList />}
-          {selectedSection === 'Albums' && <AlbumsList />}
         </Col>
 
         {!!currentUriTrack && <Player currentUriTrack={currentUriTrack} />}

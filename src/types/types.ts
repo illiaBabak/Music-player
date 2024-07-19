@@ -67,3 +67,7 @@ export type PlaylistItemsResponse = {
 };
 
 export type ChipType = (typeof CHIPS)[number];
+
+export type RecommendationTracksResponse = {
+  tracks: TrackType[];
+};
