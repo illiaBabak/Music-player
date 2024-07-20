@@ -56,7 +56,11 @@ export const App = (): JSX.Element => {
             <Route path='/login' element={<Login />} />
             <Route path='/callback' element={<Callback />} />
             <Route path='/home' element={<HomePage />} />
-            <Route path='/playlists' element={<PlaylistsPage />} />
+            <Route path='/playlists'>
+              <Route index element={<Navigate to='recommended' />} />
+              <Route path='recommended' element={<PlaylistsPage />} />
+              <Route path='my-playlists' element={<PlaylistsPage />} />
+            </Route>
           </Routes>
         </BrowserRouter>
       </GlobalContext.Provider>

@@ -1,6 +1,6 @@
 import { useContext } from 'react';
-import { Container, Row, Col, Navbar } from 'react-bootstrap';
-import { useSearchParams } from 'react-router-dom';
+import { Container, Row, Col } from 'react-bootstrap';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { Header } from 'src/components/Header';
 import { PlayListsList } from 'src/components/PlayListsList';
 import { PlayListTracks } from 'src/components/PlayListTracks';
@@ -9,10 +9,13 @@ import { GlobalContext } from 'src/root';
 import { Player } from 'src/components/Player';
 
 export const PlaylistsPage = (): JSX.Element => {
+  const location = useLocation();
   const { currentUriTrack } = useContext(GlobalContext);
   const [searchParams] = useSearchParams();
 
   const currentPlaylistId = searchParams.get('playlist-id') ?? '';
+
+  const isRecommendedRoute = location.pathname.endsWith('recommended');
 
   return (
     <Container className='d-flex playlists-container p-0 m-0 flex-nowrap'>
@@ -24,7 +27,7 @@ export const PlaylistsPage = (): JSX.Element => {
           ) : (
             <>
               <Header />
-              <PlayListsList />
+              <PlayListsList showRecommendations={isRecommendedRoute} />
             </>
           )}
         </Col>

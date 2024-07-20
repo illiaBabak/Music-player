@@ -20,6 +20,12 @@ export const Header = (): JSX.Element => {
               trimmedVal ? prev.set('query', trimmedVal) : prev.delete('query');
               return prev;
             });
+
+            if (!trimmedVal)
+              setSearchParams((prev) => {
+                prev.set('section', 'All');
+                return prev;
+              });
           }}
           onKeyDown={({ key, currentTarget }) => {
             if (key === 'Enter') currentTarget.blur();

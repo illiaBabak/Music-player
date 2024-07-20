@@ -13,7 +13,7 @@ export const Track = ({ track, isLine }: Props): JSX.Element => {
 
   return (
     <Card className={`track p-2 m-2 d-flex flex-row align-items-center ${isLine ? 'line' : ''}`}>
-      <Card.Img src={track.album.images[0].url} className='track-img' />
+      <Card.Img src={track.album.images[0].url ?? ''} className='track-img' />
       <Card.Body className='track-body d-flex flex-row justify-content-between align-items-center'>
         <span className='fs-6'>{track.name}</span>
 

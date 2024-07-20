@@ -10,6 +10,7 @@ import {
   PlaylistType,
   PlaylistItemsResponse,
   RecommendationTracksResponse,
+  FeaturedPlaylistsResponse,
 } from 'src/types/types';
 
 const isObj = (data: unknown): data is object => typeof data === 'object' && !!data;
@@ -106,3 +107,6 @@ export const isPlaylistItemsResponse = (data: unknown): data is PlaylistItemsRes
 
 export const isRecommendationsTracksResponse = (data: unknown): data is RecommendationTracksResponse =>
   isObj(data) && 'tracks' in data && Array.isArray(data.tracks) && data.tracks.every((el) => isTrack(el));
+
+export const isFeaturedPlaylists = (data: unknown): data is FeaturedPlaylistsResponse =>
+  isObj(data) && 'playlists' in data && isPlaylistsResponse(data.playlists);

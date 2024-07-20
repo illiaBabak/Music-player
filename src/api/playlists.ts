@@ -1,7 +1,7 @@
 import { useQuery, UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
 import { PlaylistItemsResponse, PlaylistType } from 'src/types/types';
-import { isPlaylist, isPlaylistItemsResponse, isPlaylistsResponse } from 'src/utils/guards';
-import { BASE_URL, PLAYLIST_ITEMS_QUERY, PLAYLIST_QUERY, PLAYLISTS_QUERY } from './constants';
+import { isFeaturedPlaylists, isPlaylist, isPlaylistItemsResponse, isPlaylistsResponse } from 'src/utils/guards';
+import { BASE_URL, FEATURED_PLAYLISTS_QUERY, PLAYLIST_ITEMS_QUERY, PLAYLIST_QUERY, PLAYLISTS_QUERY } from './constants';
 import { getHeaders } from '.';
 
 const getPlaylist = async (playlistId: string): Promise<PlaylistType | null> => {
@@ -40,6 +40,18 @@ const getPlaylistItems = async (playlistId: string): Promise<PlaylistItemsRespon
   return isPlaylistItemsResponse(responseJson) ? responseJson : null;
 };
 
+const getFeaturedPlaylists = async (): Promise<PlaylistType[]> => {
+  const response = await fetch(`${BASE_URL}/browse/featured-playlists`, {
+    headers: getHeaders(),
+  });
+
+  if (!response.ok) throw new Error('Failed to fetch featured playlists from Spotify API');
+
+  const responseJson: unknown = await response.json();
+
+  return isFeaturedPlaylists(responseJson) ? responseJson.playlists.items : [];
+};
+
 export const usePlaylistsQuery = (
   options?: Partial<UseQueryOptions<PlaylistType[]>>
 ): UseQueryResult<PlaylistType[], Error> =>
@@ -64,3 +76,8 @@ export const usePlaylistQuery = (playlistId: string): UseQueryResult<PlaylistTyp
       return await getPlaylist(playlistId);
     },
   });
+
+export const useFeaturedPlaylistsQuery = (
+  options?: Partial<UseQueryOptions<PlaylistType[]>>
+): UseQueryResult<PlaylistType[], Error> =>
+  useQuery({ queryKey: [FEATURED_PLAYLISTS_QUERY], queryFn: getFeaturedPlaylists, ...options });

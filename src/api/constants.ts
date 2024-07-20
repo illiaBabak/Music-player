@@ -15,3 +15,5 @@ export const PLAYLISTS_QUERY = 'playlists_query';
 export const PLAYLIST_ITEMS_QUERY = 'playlist_items_query';
 
 export const PLAYLIST_QUERY = 'playlist_query';
+
+export const FEATURED_PLAYLISTS_QUERY = 'featured_playlists_query';
