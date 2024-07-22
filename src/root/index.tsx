@@ -1,15 +1,20 @@
-import { BrowserRouter, Navigate, Route, Routes, useSearchParams } from 'react-router-dom';
-import { Login } from 'src/components/Login';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Callback } from 'src/components/Callback';
 import { HomePage } from 'src/pages/Home';
 import { createContext, useEffect, useState } from 'react';
 import { PlaylistsPage } from 'src/pages/Playlists';
+import { LoginPage } from 'src/pages/Login';
+import { ArtistPage } from 'src/pages/Artist';
+import { AlbumPage } from 'src/pages/Album';
+import { ArtistType } from 'src/types/types';
 
 type GlobalContextType = {
   currentUriTrack: string | null;
   setCurrentUriTrack: React.Dispatch<React.SetStateAction<string | null>>;
   isLightTheme: boolean;
   setIsLightTheme: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedArtist: ArtistType | null;
+  setSelectedArtist: React.Dispatch<React.SetStateAction<ArtistType | null>>;
 };
 
 export const GlobalContext = createContext<GlobalContextType>({
@@ -21,10 +26,15 @@ export const GlobalContext = createContext<GlobalContextType>({
   setIsLightTheme: () => {
     throw new Error('Global context is not initialized');
   },
+  selectedArtist: null,
+  setSelectedArtist: () => {
+    throw new Error('Global context is not initialized');
+  },
 });
 
 export const App = (): JSX.Element => {
   const [currentUriTrack, setCurrentUriTrack] = useState<string | null>(null);
+  const [selectedArtist, setSelectedArtist] = useState<ArtistType | null>(null);
   const [isLightTheme, setIsLightTheme] = useState(false);
 
   useEffect(() => {
@@ -48,12 +58,14 @@ export const App = (): JSX.Element => {
           setCurrentUriTrack,
           isLightTheme,
           setIsLightTheme,
+          selectedArtist,
+          setSelectedArtist,
         }}
       >
         <BrowserRouter>
           <Routes>
             <Route path='/' element={<Navigate to='/login' />} />
-            <Route path='/login' element={<Login />} />
+            <Route path='/login' element={<LoginPage />} />
             <Route path='/callback' element={<Callback />} />
             <Route path='/home' element={<HomePage />} />
             <Route path='/playlists'>
@@ -61,6 +73,8 @@ export const App = (): JSX.Element => {
               <Route path='recommended' element={<PlaylistsPage />} />
               <Route path='my-playlists' element={<PlaylistsPage />} />
             </Route>
+            <Route path='/artist' element={<ArtistPage />} />
+            <Route path='/album' element={<AlbumPage />} />
           </Routes>
         </BrowserRouter>
       </GlobalContext.Provider>

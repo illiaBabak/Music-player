@@ -1,7 +1,7 @@
 import {
   AlbumResponse,
   AlbumType,
-  ArtistResponse,
+  ArtistsResponse,
   ArtistType,
   ImagesArrType,
   PlaylistsResponse,
@@ -9,8 +9,11 @@ import {
   TrackType,
   PlaylistType,
   PlaylistItemsResponse,
-  RecommendationTracksResponse,
   FeaturedPlaylistsResponse,
+  AlbumTracksResponse,
+  TrackResponseObj,
+  ArtistsResponseObj,
+  AlbumResponseObj,
 } from 'src/types/types';
 
 const isObj = (data: unknown): data is object => typeof data === 'object' && !!data;
@@ -49,15 +52,17 @@ export const isArtist = (data: unknown): data is ArtistType =>
   'genres' in data &&
   'images' in data &&
   'followers' in data &&
+  'id' in data &&
   isString(data.name) &&
   Array.isArray(data.genres) &&
   data.genres.every((el) => isString(el)) &&
   isImagesArr(data.images) &&
   isObj(data.followers) &&
   'total' in data.followers &&
-  isNumber(data.followers.total);
+  isNumber(data.followers.total) &&
+  isString(data.id);
 
-export const isArtistResponse = (data: unknown): data is ArtistResponse =>
+export const isArtistsResponse = (data: unknown): data is ArtistsResponse =>
   isObj(data) &&
   'artists' in data &&
   isObj(data.artists) &&
@@ -72,12 +77,14 @@ export const isAlbum = (data: unknown): data is AlbumType =>
   'total_tracks' in data &&
   'release_date' in data &&
   'images' in data &&
+  'id' in data &&
   Array.isArray(data.artists) &&
-  data.artists.every((el) => isObj(el) && 'name' in el && isString(el.name)) &&
+  data.artists.every((el) => isObj(el) && 'name' in el && isString(el.name) && 'id' in el && isString(el.id)) &&
   isString(data.name) &&
   isNumber(data.total_tracks) &&
   isString(data.release_date) &&
-  isImagesArr(data.images);
+  isImagesArr(data.images) &&
+  isString(data.id);
 
 export const isAlbumResponse = (data: unknown): data is AlbumResponse =>
   isObj(data) &&
@@ -105,8 +112,20 @@ export const isPlaylistItemsResponse = (data: unknown): data is PlaylistItemsRes
   Array.isArray(data.items) &&
   data.items.every((el) => isObj(el) && 'track' in el && isTrack(el.track));
 
-export const isRecommendationsTracksResponse = (data: unknown): data is RecommendationTracksResponse =>
+export const isTrackResponseObj = (data: unknown): data is TrackResponseObj =>
   isObj(data) && 'tracks' in data && Array.isArray(data.tracks) && data.tracks.every((el) => isTrack(el));
 
 export const isFeaturedPlaylists = (data: unknown): data is FeaturedPlaylistsResponse =>
   isObj(data) && 'playlists' in data && isPlaylistsResponse(data.playlists);
+
+export const isAlbumTracksResponse = (data: unknown): data is AlbumTracksResponse =>
+  isObj(data) &&
+  'items' in data &&
+  Array.isArray(data.items) &&
+  data.items.every((el) => isObj(el) && 'id' in el && isString(el.id));
+
+export const isArtistsResponseObj = (data: unknown): data is ArtistsResponseObj =>
+  isObj(data) && 'artists' in data && Array.isArray(data.artists) && data.artists.every((el) => isArtist(el));
+
+export const isAlbumResponseObj = (data: unknown): data is AlbumResponseObj =>
+  isObj(data) && 'items' in data && Array.isArray(data.items) && data.items.every((el) => isAlbum(el));

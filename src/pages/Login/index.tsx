@@ -1,7 +1,7 @@
 import { Container } from 'react-bootstrap';
 import { API_URL, CLIENT_ID, REDIRECT_URL, SCOPES } from 'src/utils/constants';
 
-export const Login = (): JSX.Element => {
+export const LoginPage = (): JSX.Element => {
   const handleClick = () => {
     const authUrl = `${API_URL}?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URL)}&scope=${encodeURIComponent(SCOPES.join(' '))}&response_type=token&show_dialog=true`;
 

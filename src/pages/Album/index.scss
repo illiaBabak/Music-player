@@ -1,0 +1,57 @@
+.album-container {
+  min-width: 100vw;
+
+  .row-album {
+    .col-content {
+      width: 70%;
+      height: 100vh;
+
+      .album-header {
+        height: 80px;
+
+        .return-btn {
+          border-radius: 6px;
+          width: 100px;
+          height: 50px;
+          border: 4px solid var(--card-bg-color);
+          color: var(--text);
+          cursor: pointer;
+
+          &:hover {
+            transform: scale(1.03);
+            transition: 0.25s;
+          }
+        }
+      }
+
+      .album-info {
+        color: var(--text);
+
+        .album-icon {
+          width: 200px;
+          height: 200px;
+        }
+
+        .details {
+          height: 200px;
+          width: 400px;
+
+          .artist-info {
+            cursor: pointer;
+
+            .artist-icon {
+              width: 25px;
+              height: 25px;
+              object-fit: contain;
+              border-radius: 50%;
+            }
+          }
+        }
+      }
+
+      .content-container {
+        height: 50%;
+      }
+    }
+  }
+}

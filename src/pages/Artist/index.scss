@@ -1,0 +1,43 @@
+.artist-container {
+  min-width: 100vw;
+
+  .row-artist {
+    .col-content {
+      width: 70%;
+      height: 100vh;
+
+      .artist-header {
+        height: 80px;
+
+        .return-btn {
+          border-radius: 6px;
+          width: 100px;
+          height: 50px;
+          border: 4px solid var(--card-bg-color);
+          color: var(--text);
+          cursor: pointer;
+
+          &:hover {
+            transform: scale(1.03);
+            transition: 0.25s;
+          }
+        }
+      }
+
+      .artist-info {
+        color: var(--text);
+
+        .artist-icon {
+          width: 160px;
+          height: 160px;
+          object-fit: contain;
+          border-radius: 50%;
+        }
+      }
+
+      .white-text {
+        color: var(--text);
+      }
+    }
+  }
+}

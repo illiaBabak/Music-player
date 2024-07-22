@@ -1,7 +1,7 @@
 import { UseQueryOptions, UseQueryResult, useQuery } from '@tanstack/react-query';
 import { TrackType } from 'src/types/types';
-import { isRecommendationsTracksResponse, isTrackResponse } from 'src/utils/guards';
-import { BASE_URL, RECOMMENDATIONS_QUERY, TRACKS_QUERY } from './constants';
+import { isAlbumTracksResponse, isTrack, isTrackResponse, isTrackResponseObj } from 'src/utils/guards';
+import { ALBUM_TRACKS_QUERY, BASE_URL, RECOMMENDATIONS_QUERY, TOP_TRACKS_QUERY, TRACKS_QUERY } from './constants';
 import { getHeaders } from '.';
 
 const getTracks = async (searchedText: string): Promise<TrackType[]> => {
@@ -25,7 +25,51 @@ const getRecommendationTracks = async (): Promise<TrackType[]> => {
 
   const responseJson: unknown = await response.json();
 
-  return isRecommendationsTracksResponse(responseJson) ? responseJson.tracks : [];
+  return isTrackResponseObj(responseJson) ? responseJson.tracks : [];
+};
+
+const getTrack = async (id: string): Promise<TrackType | null> => {
+  const response = await fetch(`${BASE_URL}/tracks/${id}`, {
+    headers: getHeaders(),
+  });
+
+  if (!response.ok) throw new Error('Failed to fetch track from Spotify API');
+
+  const responseJson: unknown = await response.json();
+
+  return isTrack(responseJson) ? responseJson : null;
+};
+
+const getAlbumTracks = async (id: string): Promise<TrackType[] | null> => {
+  const response = await fetch(`${BASE_URL}/albums/${id}/tracks`, {
+    headers: getHeaders(),
+  });
+
+  if (!response.ok) throw new Error('Failed to fetch album tracks from Spotify API');
+
+  const responseJson: unknown = await response.json();
+
+  if (!isAlbumTracksResponse(responseJson)) return null;
+
+  const tracksId = responseJson.items.map((el) => el.id);
+
+  const trackPromises = tracksId.map((trackId) => getTrack(trackId));
+
+  const tracks = (await Promise.all(trackPromises)).filter((track): track is TrackType => track !== null);
+
+  return tracks;
+};
+
+const getArtistTopTracks = async (id: string): Promise<TrackType[]> => {
+  const response = await fetch(`${BASE_URL}/artists/${id}/top-tracks`, {
+    headers: getHeaders(),
+  });
+
+  if (!response.ok) throw new Error('Failed to fetch top tracks from Spotify API');
+
+  const responseJson: unknown = await response.json();
+
+  return isTrackResponseObj(responseJson) ? responseJson.tracks : [];
 };
 
 export const useSearchTracksQuery = (
@@ -47,4 +91,20 @@ export const useRecommendationTracksQuery = (
     queryKey: [RECOMMENDATIONS_QUERY],
     queryFn: getRecommendationTracks,
     ...options,
+  });
+
+export const useAlbumTracksQuery = (id: string): UseQueryResult<TrackType[] | null, Error> =>
+  useQuery({
+    queryKey: [ALBUM_TRACKS_QUERY, id],
+    queryFn: async () => {
+      return await getAlbumTracks(id);
+    },
+  });
+
+export const useArtistTopTracks = (id: string): UseQueryResult<TrackType[], Error> =>
+  useQuery({
+    queryKey: [TOP_TRACKS_QUERY, id],
+    queryFn: async () => {
+      return await getArtistTopTracks(id);
+    },
   });

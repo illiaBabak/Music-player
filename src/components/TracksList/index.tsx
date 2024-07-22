@@ -17,7 +17,7 @@ export const TracksList = ({ readyTracks }: Props): JSX.Element => {
 
   const { data: recommendationsTracks } = useRecommendationTracksQuery({ enabled: !searchedText });
 
-  const isLine = !readyTracks && selectedSection === 'All';
+  const isLine = !!readyTracks || selectedSection === 'All';
 
   return (
     <div className={`content-container scroll-container ${isLine ? 'line' : ''}`}>

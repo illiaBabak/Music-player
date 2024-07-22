@@ -20,6 +20,7 @@ export type TrackResponse = {
 };
 
 export type ArtistType = {
+  id: string;
   name: string;
   genres: string[];
   images: ImagesArrType;
@@ -28,7 +29,7 @@ export type ArtistType = {
   };
 };
 
-export type ArtistResponse = {
+export type ArtistsResponse = {
   artists: {
     items: ArtistType[];
   };
@@ -37,11 +38,13 @@ export type ArtistResponse = {
 export type AlbumType = {
   artists: {
     name: string;
+    id: string;
   }[];
   name: string;
   total_tracks: number;
   release_date: string;
   images: ImagesArrType;
+  id: string;
 };
 
 export type AlbumResponse = {
@@ -68,10 +71,24 @@ export type PlaylistItemsResponse = {
 
 export type ChipType = (typeof CHIPS)[number];
 
-export type RecommendationTracksResponse = {
+export type TrackResponseObj = {
   tracks: TrackType[];
 };
 
 export type FeaturedPlaylistsResponse = {
   playlists: PlaylistsResponse;
+};
+
+export type AlbumTracksResponse = {
+  items: {
+    id: string;
+  }[];
+};
+
+export type ArtistsResponseObj = {
+  artists: ArtistType[];
+};
+
+export type AlbumResponseObj = {
+  items: AlbumType[];
 };

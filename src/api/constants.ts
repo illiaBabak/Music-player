@@ -17,3 +17,15 @@ export const PLAYLIST_ITEMS_QUERY = 'playlist_items_query';
 export const PLAYLIST_QUERY = 'playlist_query';
 
 export const FEATURED_PLAYLISTS_QUERY = 'featured_playlists_query';
+
+export const ALBUM_TRACKS_QUERY = 'albums_tracks_query';
+
+export const ALBUM_QUERY = 'album_query';
+
+export const ARTIST_QUERY = 'artist_query';
+
+export const TOP_TRACKS_QUERY = 'top_tracks_query';
+
+export const RELATED_ARTISTS_QUERY = 'related_artists_query';
+
+export const ARTIST_ALBUMS_QUERY = 'artist_albums_query';

@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { Header } from 'src/components/Header';
 import { SideBarMenu } from 'src/components/SideBarMenu';
@@ -12,10 +12,18 @@ import { useSearchParams } from 'react-router-dom';
 
 export const HomePage = (): JSX.Element => {
   const { currentUriTrack } = useContext(GlobalContext);
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const selectedSection = searchParams.get('section');
   const searchedText = searchParams.get('query');
+
+  useEffect(() => {
+    if (!selectedSection)
+      setSearchParams((prev) => {
+        prev.set('section', 'All');
+        return prev;
+      });
+  }, [selectedSection, setSearchParams]);
 
   const sectionClassName = `m-2 p-3 title`;
 
