@@ -35,7 +35,9 @@ export const GlobalContext = createContext<GlobalContextType>({
 export const App = (): JSX.Element => {
   const [currentUriTrack, setCurrentUriTrack] = useState<string | null>(null);
   const [selectedArtist, setSelectedArtist] = useState<ArtistType | null>(null);
-  const [isLightTheme, setIsLightTheme] = useState(false);
+  const [isLightTheme, setIsLightTheme] = useState(
+    JSON.parse(localStorage.getItem('is_light_theme') ?? '') === 'light' ? true : false
+  );
 
   useEffect(() => {
     const { body } = document;
@@ -48,6 +50,8 @@ export const App = (): JSX.Element => {
     body.style.setProperty('--text', isLightTheme ? '#030c1d' : '#ffffff');
     body.style.setProperty('--sidebar-color', isLightTheme ? '#4d4d4d' : '#081325');
     body.style.setProperty('--main-page-color', isLightTheme ? '#dbdbdb' : '#010916');
+
+    localStorage.setItem('is_light_theme', JSON.stringify(isLightTheme ? 'light' : 'dark'));
   }, [isLightTheme]);
 
   return (
