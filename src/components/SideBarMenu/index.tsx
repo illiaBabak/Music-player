@@ -2,7 +2,10 @@ import { Navbar, Container, Nav } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { capitalize } from 'src/utils/capitalize';
 
-const LINKS = ['home', 'playlists'] as const;
+const LINKS = [
+  { route: 'home', imgPath: '/src/images/home-icon.png' },
+  { route: 'playlists', imgPath: '/src/images/disc-icon.png' },
+] as const;
 
 const PLAYLISTS_LINKS = ['recommended', 'my-playlists'] as const;
 
@@ -16,19 +19,18 @@ export const SideBarMenu = (): JSX.Element => {
   return (
     <Navbar className='flex-column menu p-4' data-bs-theme='dark'>
       <Container fluid className='d-flex flex-column'>
-        <Navbar.Text className='d-flex align-items-center w-100 text-white'>
-          <h4>Music player</h4>
-          <img alt='icon' src='src/images/logo.png' className='d-inline-block align-top menu-icon m-1' />
-        </Navbar.Text>
-        <Nav className='flex-column mt-2 w-100'>
+        <img alt='icon' src='/src/images/logo.png' className='d-inline-block align-top menu-icon m-1' />
+
+        <Nav className='flex-column mt-4 w-100'>
           {LINKS.map((link) => (
-            <Nav.Link
-              key={link}
-              onClick={() => navigate(`/${link}`)}
-              className={currentLocationName.startsWith(link) ? 'selected-link' : ''}
+            <div
+              key={link.route}
+              className={`link d-flex flex-row align-items-center p-2 m-1 ${currentLocationName.startsWith(link.route) ? 'selected-link' : ''}`}
+              onClick={() => navigate(`/${link.route}`)}
             >
-              {capitalize(link)}
-            </Nav.Link>
+              <img src={link.imgPath} className='link-icon me-2' />
+              {capitalize(link.route)}
+            </div>
           ))}
 
           {isPlaylistPage &&
@@ -36,7 +38,7 @@ export const SideBarMenu = (): JSX.Element => {
               <Nav.Link
                 key={link}
                 onClick={() => navigate(`/playlists/${link}`)}
-                className={`sub-link ${currentLocationName.endsWith(link) ? 'selected-link' : ''}`}
+                className={`sub-link ms-4 m-1 ${currentLocationName.endsWith(link) ? 'selected-link' : ''}`}
               >
                 -{capitalize(link)}
               </Nav.Link>

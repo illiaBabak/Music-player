@@ -20,6 +20,7 @@ export const TracksList = ({ readyTracks }: Props): JSX.Element => {
 
   const { data: recommendationsTracks, isFetching: isFetchingRecommendations } = useRecommendationTracksQuery({
     enabled: !searchedText,
+    refetchInterval: 60000,
   });
 
   const isLine = !!readyTracks || selectedSection === 'All';

@@ -4,13 +4,31 @@
   background-color: var(--sidebar-color);
 
   .menu-icon {
-    width: 55px;
-    height: 55px;
+    width: 85px;
+    height: 85px;
     object-fit: contain;
+  }
+
+  .link {
+    color: #a5a5a5;
+    cursor: pointer;
+
+    .link-icon {
+      width: 30px;
+      height: 30px;
+      object-fit: contain;
+    }
+
+    &:hover {
+      transition: 0.25s;
+      transform: scale(1.03);
+    }
   }
 
   .selected-link {
     color: white;
+    background-color: var(--card-bg-hover);
+    border-radius: 6px;
   }
 
   .sub-link {
