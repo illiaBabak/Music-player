@@ -22,7 +22,6 @@ export const LoginPage = (): JSX.Element => {
           <span className='btn-text d-flex align-items-center justify-content-center'>Click to login</span>
         </button>
       </div>
-
       <AnimatedBg />
     </Container>
   );

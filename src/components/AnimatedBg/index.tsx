@@ -40,15 +40,5 @@ export const AnimatedBg = (): JSX.Element => (
     <div className='star'></div>
     <div className='star'></div>
     <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
   </div>
 );
