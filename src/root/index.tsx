@@ -1,5 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import { Callback } from 'src/components/Callback';
+import { RedirectPage } from 'src/pages/Redirect';
 import { HomePage } from 'src/pages/Home';
 import { createContext, useEffect, useState } from 'react';
 import { PlaylistsPage } from 'src/pages/Playlists';
@@ -69,8 +69,9 @@ export const App = (): JSX.Element => {
         <BrowserRouter>
           <Routes>
             <Route path='/' element={<Navigate to='/login' />} />
+            <Route path='/*' element={<Navigate to='/redirect' />} />
             <Route path='/login' element={<LoginPage />} />
-            <Route path='/callback' element={<Callback />} />
+            <Route path='/redirect' element={<RedirectPage />} />
             <Route path='/home' element={<HomePage />} />
             <Route path='/playlists'>
               <Route index element={<Navigate to='recommended' />} />

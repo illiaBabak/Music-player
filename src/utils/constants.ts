@@ -2,7 +2,7 @@ export const CHIPS = ['All', 'Tracks', 'Artists', 'Albums'] as const;
 
 export const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
 
-export const REDIRECT_URL = 'http://localhost:3000/callback';
+export const REDIRECT_URL = 'http://localhost:3000/redirect';
 
 export const API_URL = 'https://accounts.spotify.com/authorize';
 
