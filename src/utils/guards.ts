@@ -31,12 +31,17 @@ export const isTrack = (data: unknown): data is TrackType =>
   'uri' in data &&
   'album' in data &&
   'preview_url' in data &&
+  'duration_ms' in data &&
+  'artists' in data &&
   isString(data.name) &&
   isString(data.uri) &&
   isObj(data.album) &&
   (isString(data.preview_url) || typeof data.preview_url === 'object') &&
   'images' in data.album &&
-  isImagesArr(data.album.images);
+  isImagesArr(data.album.images) &&
+  isNumber(data.duration_ms) &&
+  Array.isArray(data.artists) &&
+  data.artists.every((el) => isObj(el) && 'name' in el && 'id' in el && isString(el.name) && isString(el.id));
 
 export const isTrackResponse = (data: unknown): data is TrackResponse =>
   isObj(data) &&

@@ -1,8 +1,9 @@
 .track {
   text-align: center;
   width: 98%;
-  height: 80px;
+  height: 85px;
   background-color: var(--card-bg-color);
+  position: relative;
 
   &:hover {
     transition: 0.25s;
@@ -10,16 +11,12 @@
     background-color: var(--card-bg-hover);
   }
 
-  .track-body {
-    color: #efedec;
-
-    .btn-img {
-      width: 50px;
-      height: 50px;
-      object-fit: contain;
-      border-radius: 50%;
-      cursor: pointer;
-    }
+  .btn-img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    border-radius: 50%;
+    cursor: pointer;
   }
 
   .track-img {
@@ -27,9 +24,53 @@
     height: 60px;
     object-fit: contain;
   }
+
+  .track-info {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    .track-duration {
+      position: absolute;
+      left: 50%;
+    }
+
+    .artists-track {
+      width: 300px;
+      position: absolute;
+      left: 70%;
+
+      .artist-track {
+        cursor: pointer;
+
+        &:hover {
+          transform: scale(1.03);
+          transition: 0.25s;
+        }
+      }
+    }
+  }
 }
 
 .track.line {
   min-width: 300px;
   max-width: 300px;
+
+  .track-info {
+    .track-name {
+      display: inline-block;
+      padding-left: 70%;
+      animation: scroll-track-name 6s linear infinite;
+    }
+  }
+}
+
+@keyframes scroll-track-name {
+  0% {
+    transform: translateX(100px);
+  }
+
+  100% {
+    transform: translateX(-200px);
+  }
 }

@@ -36,7 +36,7 @@ const getRelatedArtists = async (id: string): Promise<ArtistType[]> => {
   if (!response.ok) throw new Error('Failed to fetch related artists from Spotify API');
 
   const responseJson: unknown = await response.json();
-  console.log(isArtistsResponseObj(responseJson), responseJson);
+
   return isArtistsResponseObj(responseJson) ? responseJson.artists : [];
 };
 

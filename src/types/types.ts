@@ -8,6 +8,11 @@ export type TrackType = {
   album: {
     images: ImagesArrType;
   };
+  artists: {
+    name: string;
+    id: string;
+  }[];
+  duration_ms: number;
   name: string;
   uri: string;
   preview_url: string;

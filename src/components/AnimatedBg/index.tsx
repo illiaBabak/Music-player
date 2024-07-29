@@ -1,44 +1,7 @@
 export const AnimatedBg = (): JSX.Element => (
   <div className='stars'>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
-    <div className='star'></div>
+    {Array.from({ length: 40 }).map((_, index) => (
+      <div className='star' key={`${index}-star`}></div>
+    ))}
   </div>
 );

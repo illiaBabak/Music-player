@@ -7,8 +7,8 @@
 .stars {
   position: absolute;
   top: 0;
-  left: 15%;
-  width: calc(100vw - 15%);
+  left: 0;
+  width: 100vw;
   height: 100%;
   color: rgb(111, 66, 171);
   overflow: hidden;
@@ -25,7 +25,7 @@
 
   position: absolute;
   top: var(--top-offset);
-  left: 0;
+  left: 20%;
   width: var(--star-tail-length);
   height: var(--star-tail-height);
   color: var(--star-color);
@@ -70,7 +70,7 @@
 
 @keyframes fall {
   to {
-    transform: translate3d(-80em, 0, 0);
+    transform: translate3d(-120em, 0, 0);
   }
 }
 
@@ -80,13 +80,11 @@
     width: var(--star-tail-length);
     opacity: 1;
   }
-
   70%,
   80% {
     width: 0;
     opacity: 0.4;
   }
-
   100% {
     width: 0;
     opacity: 0;
