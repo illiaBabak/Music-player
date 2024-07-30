@@ -6,5 +6,10 @@
       width: 70%;
       height: 100vh;
     }
+
+    .col-content.playing {
+      overflow: hidden scroll;
+      height: calc(100vh - 100px); // 100px = player height
+    }
   }
 }

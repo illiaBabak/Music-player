@@ -21,7 +21,7 @@ export const PlaylistsPage = (): JSX.Element => {
     <Container className='d-flex playlists-container p-0 m-0 flex-nowrap'>
       <Row className='row-playlists w-100 flex-nowrap'>
         <SideBarMenu />
-        <Col className='col-content m-0 p-0'>
+        <Col className={`col-content m-0 p-0 scroll-container ${currentUriTrack ? 'playing' : ''}`}>
           {currentPlaylistId ? (
             <PlayListTracks playlistId={currentPlaylistId} />
           ) : (

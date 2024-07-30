@@ -31,7 +31,7 @@ export const HomePage = (): JSX.Element => {
     <Container className='d-flex flex-nowrap home-container p-0 m-0'>
       <Row className='row-home w-100 flex-nowrap'>
         <SideBarMenu />
-        <Col className='col-content m-0 p-0'>
+        <Col className={`col-content m-0 p-0 scroll-container ${currentUriTrack ? 'playing' : ''}`}>
           <Header />
 
           {!!searchedText && (

@@ -10,5 +10,10 @@
         color: var(--text);
       }
     }
+
+    .col-content.playing {
+      overflow: hidden scroll;
+      height: calc(100vh - 100px); // 100px = player height
+    }
   }
 }

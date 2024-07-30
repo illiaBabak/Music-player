@@ -28,7 +28,7 @@ export const TracksList = ({ readyTracks, isLine }: Props): JSX.Element => {
       {(isFetchingTracks || isFetchingRecommendations) && <Loader />}
 
       {(readyTracks ? readyTracks : searchedText ? tracks : recommendationsTracks)?.map((track, index) => (
-        <Track track={track} key={`${track.name}-track-${index}-${track.uri}`} isLine={isLine} />
+        <Track track={track} key={`${track.name}-track-${index}-${track.uri}-${track.id}`} isLine={isLine} />
       ))}
     </div>
   );

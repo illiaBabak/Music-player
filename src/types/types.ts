@@ -16,6 +16,7 @@ export type TrackType = {
   name: string;
   uri: string;
   preview_url: string;
+  id: string;
 };
 
 export type TrackResponse = {

@@ -23,7 +23,7 @@ export const Track = ({ track, isLine }: Props): JSX.Element => {
       />
 
       <Card.Img src={track.album.images.length ? track.album.images[0].url : ''} className='track-img ms-4' />
-      <Card.Body className='track-info d-flex flex-row justify-content-end align-items-center text-white'>
+      <Card.Body className='track-info d-flex flex-row justify-content-start align-items-center text-white'>
         <span className='fs-6 track-name'>{track.name}</span>
 
         {!isLine && (
@@ -31,7 +31,11 @@ export const Track = ({ track, isLine }: Props): JSX.Element => {
             <span className='fs-6 track-duration'>{msToMinSec(track.duration_ms)}</span>
             <span className='fs-6 d-flex flex-row justify-content-start align-items-center artists-track'>
               {track.artists.map((artist) => (
-                <p className='artist-track m-0 ms-2' onClick={() => navigate(`/artist?artist-id=${artist.id}`)}>
+                <p
+                  key={`${artist.id}-${track.id}-text`}
+                  className='artist-track m-0 ms-2'
+                  onClick={() => navigate(`/artist?artist-id=${artist.id}`)}
+                >
                   {artist.name}
                 </p>
               ))}
