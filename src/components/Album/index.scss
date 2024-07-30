@@ -3,6 +3,7 @@
   width: 300px;
   height: 350px;
   background-color: var(--card-bg-color);
+  overflow: hidden;
   cursor: pointer;
 
   &:hover {
@@ -10,12 +11,18 @@
   }
 
   .title {
+    display: inline-block;
+    padding-left: 70%;
     font-size: 18px;
+    animation: scroll-album-title 6s linear infinite;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .album-icon {
-    width: 140px;
-    height: 140px;
+    width: 185px;
+    height: 185px;
     object-fit: contain;
   }
 
@@ -25,6 +32,12 @@
         max-width: 130px;
         height: 20px;
         font-size: 14px;
+        cursor: pointer;
+
+        &:hover {
+          transition: 0.25s;
+          transform: scale(1.03);
+        }
       }
     }
 
@@ -32,19 +45,34 @@
       font-size: 14px;
     }
   }
+
+  &:hover {
+    transform: scale(1.03);
+    transition: 0.25s;
+  }
 }
 
 .album.line {
-  min-width: 300px;
-  max-width: 300px;
-  height: 80px;
+  min-width: 220px;
+  max-width: 220px;
+  height: 230px;
 
   .title {
     font-size: 16px;
   }
 
   .album-icon {
-    height: 60px;
-    width: 60px;
+    height: 140px;
+    width: 140px;
+  }
+}
+
+@keyframes scroll-album-title {
+  0% {
+    transform: translateX(180px);
+  }
+
+  100% {
+    transform: translateX(-550px);
   }
 }

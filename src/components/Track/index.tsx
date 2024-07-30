@@ -23,7 +23,7 @@ export const Track = ({ track, isLine }: Props): JSX.Element => {
       />
 
       <Card.Img src={track.album.images.length ? track.album.images[0].url : ''} className='track-img ms-4' />
-      <Card.Body className='track-info d-flex flex-row justify-content-start align-items-center text-white'>
+      <Card.Body className='track-info d-flex flex-row justify-content-end align-items-center text-white'>
         <span className='fs-6 track-name'>{track.name}</span>
 
         {!isLine && (

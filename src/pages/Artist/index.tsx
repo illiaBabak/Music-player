@@ -61,7 +61,7 @@ export const ArtistPage = (): JSX.Element => {
 
           <div className='white-text m-3 mt-4'>
             <h4>Top tracks</h4>
-            <TracksList readyTracks={topTracks} />
+            <TracksList readyTracks={topTracks} isLine={true} />
           </div>
 
           <div className='white-text m-3 mt-4'>

@@ -9,6 +9,7 @@ import { SideBarMenu } from 'src/components/SideBarMenu';
 import { ThemeBtn } from 'src/components/ThemeBtn';
 import { TracksList } from 'src/components/TracksList';
 import { GlobalContext } from 'src/root';
+import { formatDate } from 'src/utils/formatDate';
 
 export const AlbumPage = (): JSX.Element => {
   const { currentUriTrack } = useContext(GlobalContext);
@@ -39,20 +40,20 @@ export const AlbumPage = (): JSX.Element => {
           </div>
           <div className='album-info w-100 m-2 p-3 d-flex justify-content-start align-items-center'>
             <img src={selectedAlbum?.images[0].url ?? ''} className='album-icon' />
-            <div className='details d-flex flex-column ms-2'>
-              <div className='fs-2'>{selectedAlbum?.name}</div>
+            <div className='details d-flex flex-column ms-2 w-100'>
+              <div className='fs-1 w-100'>{selectedAlbum?.name}</div>
               <span className='fs-6 mt-1'>Tracks: {selectedAlbum?.total_tracks}</span>
-              <span className='fs-6 mt-1'>Release date: {selectedAlbum?.release_date}</span>
+              <span className='fs-6 mt-1'>Release date: {formatDate(selectedAlbum?.release_date ?? '')}</span>
               <div
-                className='artist-info d-flex flex-row justify-content-start align-items-center mt-1'
+                className='artist-info d-flex flex-row justify-content-start align-items-center mt-4'
                 onClick={() => navigate(`/artist?artist-id=${artist?.id}`)}
               >
                 <img className='artist-icon' src={artist?.images[0].url} />
-                <span className='fs-6 m-1'>{artist?.name}</span>
+                <span className='fs-5 m-2'>{artist?.name}</span>
               </div>
             </div>
           </div>
-          <TracksList readyTracks={albumTracks ?? []} />
+          <TracksList readyTracks={albumTracks ?? []} isLine={false} />
         </Col>
 
         {!!currentUriTrack && <Player currentUriTrack={currentUriTrack} />}

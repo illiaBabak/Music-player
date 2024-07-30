@@ -49,7 +49,7 @@ export const PlayListTracks = ({ playlistId }: Props): JSX.Element => {
         <span className='fs-4 m-2'>{playlistData?.name}</span>
       </div>
 
-      <TracksList readyTracks={tracks} />
+      <TracksList readyTracks={tracks} isLine={false} />
     </div>
   );
 };

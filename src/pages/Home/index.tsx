@@ -40,7 +40,7 @@ export const HomePage = (): JSX.Element => {
               {selectedSection === 'All' && (
                 <>
                   <h4 className={sectionClassName}>Tracks</h4>
-                  <TracksList />
+                  <TracksList isLine={true} />
 
                   <h4 className={sectionClassName}>Artists</h4>
                   <ArtistsList />
@@ -49,7 +49,7 @@ export const HomePage = (): JSX.Element => {
                   <AlbumsList />
                 </>
               )}
-              {selectedSection === 'Tracks' && <TracksList />}
+              {selectedSection === 'Tracks' && <TracksList isLine={false} />}
               {selectedSection === 'Artists' && <ArtistsList />}
               {selectedSection === 'Albums' && <AlbumsList />}
             </>
@@ -58,7 +58,7 @@ export const HomePage = (): JSX.Element => {
           {!searchedText && (
             <>
               <h4 className={sectionClassName}>Recommendations tracks</h4>
-              <TracksList />
+              <TracksList isLine={true} />
 
               <h4 className={sectionClassName}>Releases albums</h4>
               <AlbumsList />

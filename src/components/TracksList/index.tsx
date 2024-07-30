@@ -6,13 +6,13 @@ import { Loader } from '../Loader';
 
 type Props = {
   readyTracks?: TrackType[];
+  isLine: boolean;
 };
 
-export const TracksList = ({ readyTracks }: Props): JSX.Element => {
+export const TracksList = ({ readyTracks, isLine }: Props): JSX.Element => {
   const [searchParams] = useSearchParams();
 
   const searchedText = searchParams.get('query') ?? '';
-  const selectedSection = searchParams.get('section');
 
   const { data: tracks, isFetching: isFetchingTracks } = useSearchTracksQuery(searchedText, {
     enabled: !!searchedText,
@@ -22,8 +22,6 @@ export const TracksList = ({ readyTracks }: Props): JSX.Element => {
     enabled: !searchedText,
     refetchInterval: 60000,
   });
-
-  const isLine = !!readyTracks || selectedSection === 'All';
 
   return (
     <div className={`content-container scroll-container ${isLine ? 'line' : ''}`}>

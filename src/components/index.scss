@@ -35,7 +35,9 @@
   flex-direction: row;
   flex-wrap: nowrap;
   width: calc(100% - 32px);
-  height: 120px;
+  min-height: 120px;
+  max-height: 300px;
+  height: auto;
   overflow: scroll hidden;
   margin: 0 12px 12px 12px;
 }
