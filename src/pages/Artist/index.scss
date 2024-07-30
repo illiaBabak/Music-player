@@ -5,6 +5,7 @@
     .col-content {
       width: 70%;
       height: 100vh;
+      overflow: hidden scroll;
 
       .artist-header {
         height: 80px;
@@ -28,9 +29,9 @@
         color: var(--text);
 
         .artist-icon {
-          width: 160px;
-          height: 160px;
-          object-fit: contain;
+          width: 180px;
+          height: 180px;
+          object-fit: cover;
           border-radius: 50%;
         }
       }

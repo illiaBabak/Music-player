@@ -13,10 +13,10 @@ export const Album = ({ album, isLine }: Props): JSX.Element => {
   return (
     <Card
       onClick={() => navigate(`/album?album-id=${album.id}`)}
-      className={`album p-2 m-2 d-flex align-items-center text-white ${isLine ? 'line' : ''}`}
+      className={`album p-2 m-2 d-flex align-items-center text-white ${isLine ? 'line mx-3' : ''}`}
     >
       <Card.Img src={album.images[0].url} className='album-icon' />
-      <span className='m-3 title'>{album.name}</span>
+      <span className={`${isLine ? 'm-1 mt-2' : 'm-3'} title`}>{album.name}</span>
 
       {!isLine && (
         <Card.Body className='album-body p-0 d-flex flex-column justify-content-between align-items-center w-100'>

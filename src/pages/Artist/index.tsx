@@ -27,10 +27,10 @@ export const ArtistPage = (): JSX.Element => {
   const { data: topTracks } = useArtistTopTracks(selectedArtistId);
 
   return (
-    <Container className='d-flex flex-nowrap artist-container p-0 m-0'>
+    <Container className='d-flex flex-nowrap artist-container p-0 m-0 '>
       <Row className='row-artist w-100 flex-nowrap'>
         <SideBarMenu />
-        <Col className='col-content m-0 p-0'>
+        <Col className='col-content m-0 p-0 scroll-container'>
           <div className='artist-header d-flex flex-row justify-content-between align-items-center p-3 w-100'>
             <div
               className='return-btn p-3 m-0 d-flex justify-content-center align-items-center'
@@ -59,7 +59,7 @@ export const ArtistPage = (): JSX.Element => {
             </div>
           </div>
 
-          <div className='white-text m-3 mt-4'>
+          <div className='white-text m-4 mt-4'>
             <h4>Top tracks</h4>
             <TracksList readyTracks={topTracks} isLine={true} />
           </div>

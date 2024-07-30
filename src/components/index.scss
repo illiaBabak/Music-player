@@ -41,16 +41,3 @@
   overflow: scroll hidden;
   margin: 0 12px 12px 12px;
 }
-
-.scroll-container::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-.scroll-container::-webkit-scrollbar-track {
-  background: var(--container-scroll-bg);
-}
-
-.scroll-container::-webkit-scrollbar-thumb {
-  background-color: var(--container-scroll);
-}

@@ -53,12 +53,13 @@
 }
 
 .album.line {
-  min-width: 220px;
-  max-width: 220px;
-  height: 230px;
+  min-width: 210px;
+  max-width: 210px;
+  height: 220px;
 
   .title {
     font-size: 16px;
+    padding-left: 0;
   }
 
   .album-icon {
