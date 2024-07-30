@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from 'src/root';
 import { TrackType } from 'src/types/types';
 import { msToMinSec } from 'src/utils/msToSeconds';
+import { calcDuration } from 'src/utils/calcDuration';
 
 type Props = {
   track: TrackType;
@@ -24,7 +25,9 @@ export const Track = ({ track, isLine }: Props): JSX.Element => {
 
       <Card.Img src={track.album.images.length ? track.album.images[0].url : ''} className='track-img ms-4' />
       <Card.Body className='track-info d-flex flex-row justify-content-start align-items-center'>
-        <span className='fs-6 track-name text-white'>{track.name}</span>
+        <span className='fs-6 track-name text-white' style={{ animationDuration: `${calcDuration(track.name)}s` }}>
+          {track.name}
+        </span>
 
         {!isLine && (
           <>

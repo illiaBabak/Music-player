@@ -18,3 +18,7 @@ export const SCOPES = [
   'playlist-read-private',
   'streaming',
 ];
+
+export const DIVIDE_FACTOR = 10;
+
+export const MULTIPLACTION_FACTOR = 4.1;

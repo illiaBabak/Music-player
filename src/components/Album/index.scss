@@ -14,7 +14,9 @@
     display: inline-block;
     padding-left: 70%;
     font-size: 18px;
-    animation: scroll-album-title 6s linear infinite;
+    animation-name: scroll-album-title;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -70,10 +72,10 @@
 
 @keyframes scroll-album-title {
   0% {
-    transform: translateX(180px);
+    transform: translateX(110px);
   }
 
   100% {
-    transform: translateX(-550px);
+    transform: translateX(-240px);
   }
 }
