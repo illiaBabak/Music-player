@@ -5,6 +5,7 @@
     .col-content {
       width: 70%;
       height: 100vh;
+      overflow: hidden scroll;
 
       .title {
         color: var(--text);
@@ -12,8 +13,7 @@
     }
 
     .col-content.playing {
-      overflow: hidden scroll;
-      height: calc(100vh - 100px); // 100px = player height
+      height: calc(100vh - 80px); // 80px = player height
     }
   }
 }

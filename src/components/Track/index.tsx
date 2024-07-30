@@ -11,25 +11,25 @@ type Props = {
 };
 
 export const Track = ({ track, isLine }: Props): JSX.Element => {
-  const { setCurrentUriTrack } = useContext(GlobalContext);
+  const { setCurrentUriTrack, isLightTheme } = useContext(GlobalContext);
   const navigate = useNavigate();
 
   return (
     <Card className={`track p-2 m-2 d-flex flex-row align-items-center ${isLine ? 'line' : ''}`}>
       <Image
         className='btn-img ms-2'
-        src='https://www.svgrepo.com/show/526106/play.svg'
+        src={isLightTheme ? '/src/images/play-icon-light.svg' : '/src/images/play.svg'}
         onClick={() => setCurrentUriTrack(track.uri)}
       />
 
       <Card.Img src={track.album.images.length ? track.album.images[0].url : ''} className='track-img ms-4' />
-      <Card.Body className='track-info d-flex flex-row justify-content-start align-items-center text-white'>
-        <span className='fs-6 track-name'>{track.name}</span>
+      <Card.Body className='track-info d-flex flex-row justify-content-start align-items-center'>
+        <span className='fs-6 track-name text-white'>{track.name}</span>
 
         {!isLine && (
           <>
-            <span className='fs-6 track-duration'>{msToMinSec(track.duration_ms)}</span>
-            <span className='fs-6 d-flex flex-row justify-content-start align-items-center artists-track'>
+            <span className='fs-6 track-duration text-white'>{msToMinSec(track.duration_ms)}</span>
+            <span className='fs-6 d-flex flex-row justify-content-start align-items-center artists-track text-white'>
               {track.artists.map((artist) => (
                 <p
                   key={`${artist.id}-${track.id}-text`}

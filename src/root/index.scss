@@ -14,9 +14,9 @@
 }
 
 .scroll-container::-webkit-scrollbar-track {
-  background: var(--container-scroll-bg);
+  background: var(--card-bg-color);
 }
 
 .scroll-container::-webkit-scrollbar-thumb {
-  background-color: var(--container-scroll);
+  background-color: var(--accent);
 }

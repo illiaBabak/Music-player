@@ -7,7 +7,9 @@
   cursor: pointer;
 
   &:hover {
-    background-color: var(--card-bg-hover);
+    background-color: var(--accent);
+    transform: scale(1.03);
+    transition: 0.25s;
   }
 
   .title {
@@ -23,16 +25,16 @@
 }
 
 .artist.line {
-  height: 160px;
-  min-width: 160px;
-  max-width: 160px;
+  height: 180px;
+  min-width: 180px;
+  max-width: 180px;
 
   .title {
     font-size: 14px;
   }
 
   .artist-icon {
-    width: 120px;
-    height: 120px;
+    width: 110px;
+    height: 110px;
   }
 }
