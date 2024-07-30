@@ -15,14 +15,10 @@ export const PlayList = ({ playlist }: Props): JSX.Element => {
       onClick={() => setSearchParams({ 'playlist-id': playlist.id })}
     >
       <Card.Img
-        src={
-          playlist.images
-            ? playlist.images[0].url
-            : 'https://static.vecteezy.com/system/resources/previews/005/337/799/non_2x/icon-image-not-found-free-vector.jpg'
-        }
-        className='playlist-icon'
+        src={playlist.images ? playlist.images[0].url : '/src/images/not-found.jpg'}
+        className='playlist-icon mt-2'
       />
-      <span className='fs-5 m-1'>{playlist.name}</span>
+      <span className='fs-5 mb-2'>{playlist.name}</span>
     </Card>
   );
 };

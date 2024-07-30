@@ -37,16 +37,15 @@ export const PlayListTracks = ({ playlistId }: Props): JSX.Element => {
         <ThemeBtn />
       </div>
 
-      <div className='playlist-info p-2 d-flex flex-row justify-content-center align-items-center'>
+      <div className='playlist-info p-2 d-flex flex-row justify-content-center align-items-center w-100'>
         <img
-          src={
-            playlistData?.images
-              ? playlistData.images[0].url
-              : 'https://static.vecteezy.com/system/resources/previews/005/337/799/non_2x/icon-image-not-found-free-vector.jpg'
-          }
-          className='playlist-icon'
+          src={playlistData?.images ? playlistData.images[0].url : '/src/images/not-found.jpg'}
+          className='playlist-icon mx-2'
         />
-        <span className='fs-4 m-2'>{playlistData?.name}</span>
+        <div className='details d-flex flex-column w-100'>
+          <span className='fs-4 m-2'>{playlistData?.name}</span>
+          <span className='fs-6 m-2'>{playlistData?.description}</span>
+        </div>
       </div>
 
       <TracksList readyTracks={tracks} isLine={false} />

@@ -62,6 +62,7 @@ export type PlaylistType = {
   name: string;
   id: string;
   images: ImagesArrType | null;
+  description: string;
 };
 
 export type PlaylistsResponse = {

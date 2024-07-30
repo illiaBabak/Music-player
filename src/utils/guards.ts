@@ -104,9 +104,11 @@ export const isPlaylist = (data: unknown): data is PlaylistType =>
   'id' in data &&
   'name' in data &&
   'images' in data &&
+  'description' in data &&
   isString(data.id) &&
   isString(data.name) &&
-  (isImagesArr(data.images) || (typeof data.images === 'object' && !data.images));
+  (isImagesArr(data.images) || (typeof data.images === 'object' && !data.images)) &&
+  isString(data.description);
 
 export const isPlaylistsResponse = (data: unknown): data is PlaylistsResponse =>
   isObj(data) && 'items' in data && Array.isArray(data.items) && data.items.every((el) => isPlaylist(el));
