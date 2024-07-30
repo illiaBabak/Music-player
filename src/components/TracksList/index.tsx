@@ -24,7 +24,7 @@ export const TracksList = ({ readyTracks, isLine }: Props): JSX.Element => {
   });
 
   return (
-    <div className={`content-container scroll-container ${isLine ? 'line' : ''}`}>
+    <div className={`content-container scroll-container ${isLine ? 'line tracks-line' : ''}`}>
       {(isFetchingTracks || isFetchingRecommendations) && <Loader />}
 
       {(readyTracks ? readyTracks : searchedText ? tracks : recommendationsTracks)?.map((track, index) => (

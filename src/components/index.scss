@@ -42,3 +42,10 @@
   overflow: scroll hidden;
   margin: 0 12px 12px 12px;
 }
+
+.content-container.line.tracks-line {
+  min-height: 240px;
+  max-height: 240px;
+  flex-wrap: wrap;
+  flex-direction: column;
+}

@@ -50,8 +50,12 @@
       }
 
       .content-container {
-        height: 55%;
+        height: 60%;
       }
+    }
+
+    .col-content.playing {
+      height: calc(100vh - 80px); // 80px = player height
     }
   }
 }
