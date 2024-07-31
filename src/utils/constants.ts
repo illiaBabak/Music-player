@@ -1,5 +1,7 @@
 export const CHIPS = ['All', 'Tracks', 'Artists', 'Albums'] as const;
 
+export const INITIALIZE_CHIPS = ['Top', 'Recommendations'] as const;
+
 export const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
 
 export const REDIRECT_URL = 'http://localhost:3000/redirect';

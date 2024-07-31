@@ -1,8 +1,8 @@
 import { useContext } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useArtistAlbums, useArtistQuery, useRelatedArtists } from 'src/api/artists';
-import { useArtistTopTracks } from 'src/api/tracks';
+import { useArtistAlbumsQuery, useArtistQuery, useRelatedArtistsQuery } from 'src/api/artists';
+import { useArtistTopTracksQuery } from 'src/api/tracks';
 import { AlbumsList } from 'src/components/AlbumsList';
 import { ArtistsList } from 'src/components/ArtistsList';
 import { Player } from 'src/components/Player';
@@ -20,11 +20,11 @@ export const ArtistPage = (): JSX.Element => {
 
   const { data: artist } = useArtistQuery(selectedArtistId);
 
-  const { data: relatedArtists } = useRelatedArtists(selectedArtistId);
+  const { data: relatedArtists, isFetching: isFetchingRelatedArtists } = useRelatedArtistsQuery(selectedArtistId);
 
-  const { data: artistAlbums } = useArtistAlbums(selectedArtistId);
+  const { data: artistAlbums, isFetching: isFetchingArtistsAlbums } = useArtistAlbumsQuery(selectedArtistId);
 
-  const { data: topTracks } = useArtistTopTracks(selectedArtistId);
+  const { data: artistTopTracks, isFetching: isFetchingArtistsTopTracks } = useArtistTopTracksQuery(selectedArtistId);
 
   return (
     <Container className='d-flex flex-nowrap artist-container p-0 m-0 '>
@@ -60,18 +60,18 @@ export const ArtistPage = (): JSX.Element => {
           </div>
 
           <div className='white-text m-4 mt-4'>
-            <h4>Top tracks</h4>
-            <TracksList readyTracks={topTracks} isLine={true} />
+            <h4>Artist's top tracks</h4>
+            <TracksList tracks={artistTopTracks ?? []} isLine={true} isLoading={isFetchingArtistsTopTracks} />
           </div>
 
           <div className='white-text m-3 mt-4'>
             <h4>Artist's albums</h4>
-            <AlbumsList readyAlbums={artistAlbums} />
+            <AlbumsList albums={artistAlbums ?? []} isLine={true} isLoading={isFetchingArtistsAlbums} />
           </div>
 
           <div className='white-text m-3 mt-4'>
             <h4>Related artists</h4>
-            <ArtistsList readyArtists={relatedArtists} />
+            <ArtistsList artists={relatedArtists ?? []} isLine={true} isLoading={isFetchingRelatedArtists} />
           </div>
         </Col>
 

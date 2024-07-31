@@ -1,6 +1,8 @@
 .chips-container {
   .chip {
-    width: 90px;
+    min-width: 90px;
+    max-width: 180px;
+    width: auto;
     height: 40px;
     border-radius: 4px;
     border: 2px var(--sidebar-color) dashed;

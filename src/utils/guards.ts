@@ -14,6 +14,8 @@ import {
   TrackResponseObj,
   ArtistsResponseObj,
   AlbumResponseObj,
+  TopTracksType,
+  TopArtistsType,
 } from 'src/types/types';
 
 const isObj = (data: unknown): data is object => typeof data === 'object' && !!data;
@@ -138,3 +140,9 @@ export const isArtistsResponseObj = (data: unknown): data is ArtistsResponseObj 
 
 export const isAlbumResponseObj = (data: unknown): data is AlbumResponseObj =>
   isObj(data) && 'items' in data && Array.isArray(data.items) && data.items.every((el) => isAlbum(el));
+
+export const isTopTracks = (data: unknown): data is TopTracksType =>
+  isObj(data) && 'items' in data && Array.isArray(data.items) && data.items.every((el) => isTrack(el));
+
+export const isTopArtists = (data: unknown): data is TopArtistsType =>
+  isObj(data) && 'items' in data && Array.isArray(data.items) && data.items.every((el) => isArtist(el));

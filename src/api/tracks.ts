@@ -1,7 +1,14 @@
 import { UseQueryOptions, UseQueryResult, useQuery } from '@tanstack/react-query';
 import { TrackType } from 'src/types/types';
-import { isAlbumTracksResponse, isTrack, isTrackResponse, isTrackResponseObj } from 'src/utils/guards';
-import { ALBUM_TRACKS_QUERY, BASE_URL, RECOMMENDATIONS_QUERY, TOP_TRACKS_QUERY, TRACKS_QUERY } from './constants';
+import { isAlbumTracksResponse, isTopTracks, isTrack, isTrackResponse, isTrackResponseObj } from 'src/utils/guards';
+import {
+  ALBUM_TRACKS_QUERY,
+  BASE_URL,
+  RECOMMENDATIONS_QUERY,
+  TOP_TRACKS_QUERY,
+  TOP_USER_TRACKS_QUERY,
+  TRACKS_QUERY,
+} from './constants';
 import { getHeaders } from '.';
 
 const getTracks = async (searchedText: string): Promise<TrackType[]> => {
@@ -72,6 +79,18 @@ const getArtistTopTracks = async (id: string): Promise<TrackType[]> => {
   return isTrackResponseObj(responseJson) ? responseJson.tracks : [];
 };
 
+const getTopUserTracks = async (): Promise<TrackType[]> => {
+  const response = await fetch(`${BASE_URL}/me/top/tracks`, {
+    headers: getHeaders(),
+  });
+
+  if (!response.ok) throw new Error('Failed to fetch top user tracks from Spotify API');
+
+  const responseJson: unknown = await response.json();
+
+  return isTopTracks(responseJson) ? responseJson.items : [];
+};
+
 export const useSearchTracksQuery = (
   searchedText: string,
   options?: Partial<UseQueryOptions<TrackType[]>>
@@ -101,10 +120,15 @@ export const useAlbumTracksQuery = (id: string): UseQueryResult<TrackType[] | nu
     },
   });
 
-export const useArtistTopTracks = (id: string): UseQueryResult<TrackType[], Error> =>
+export const useArtistTopTracksQuery = (id: string): UseQueryResult<TrackType[], Error> =>
   useQuery({
     queryKey: [TOP_TRACKS_QUERY, id],
     queryFn: async () => {
       return await getArtistTopTracks(id);
     },
   });
+
+export const useTopUserTracksQuery = (
+  options?: Partial<UseQueryOptions<TrackType[]>>
+): UseQueryResult<TrackType[], Error> =>
+  useQuery({ queryKey: [TOP_USER_TRACKS_QUERY], queryFn: getTopUserTracks, ...options });

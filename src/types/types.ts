@@ -1,4 +1,4 @@
-import { CHIPS } from 'src/utils/constants';
+import { CHIPS, INITIALIZE_CHIPS } from 'src/utils/constants';
 
 export type ImagesArrType = {
   url: string;
@@ -78,6 +78,8 @@ export type PlaylistItemsResponse = {
 
 export type ChipType = (typeof CHIPS)[number];
 
+export type InitializeChipType = (typeof INITIALIZE_CHIPS)[number];
+
 export type TrackResponseObj = {
   tracks: TrackType[];
 };
@@ -98,4 +100,12 @@ export type ArtistsResponseObj = {
 
 export type AlbumResponseObj = {
   items: AlbumType[];
+};
+
+export type TopTracksType = {
+  items: TrackType[];
+};
+
+export type TopArtistsType = {
+  items: ArtistType[];
 };

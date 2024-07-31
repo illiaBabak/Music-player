@@ -16,7 +16,7 @@ export const RedirectPage = (): JSX.Element => {
 
     localStorage.setItem('spotify_token', token);
 
-    navigate('/home?section=All');
+    navigate('/home?section=Top');
   }, [navigate]);
 
   return (

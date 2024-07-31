@@ -29,3 +29,7 @@ export const TOP_TRACKS_QUERY = 'top_tracks_query';
 export const RELATED_ARTISTS_QUERY = 'related_artists_query';
 
 export const ARTIST_ALBUMS_QUERY = 'artist_albums_query';
+
+export const TOP_USER_TRACKS_QUERY = 'top_user_tracks_query';
+
+export const TOP_USER_ARTISTS_QUERY = 'top_user_artists_query';

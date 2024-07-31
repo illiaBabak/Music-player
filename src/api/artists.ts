@@ -1,7 +1,14 @@
 import { useQuery, UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
 import { AlbumType, ArtistType } from 'src/types/types';
-import { isAlbumResponseObj, isArtist, isArtistsResponse, isArtistsResponseObj } from 'src/utils/guards';
-import { ARTIST_ALBUMS_QUERY, ARTIST_QUERY, ARTISTS_QUERY, BASE_URL, RELATED_ARTISTS_QUERY } from './constants';
+import { isAlbumResponseObj, isArtist, isArtistsResponse, isArtistsResponseObj, isTopArtists } from 'src/utils/guards';
+import {
+  ARTIST_ALBUMS_QUERY,
+  ARTIST_QUERY,
+  ARTISTS_QUERY,
+  BASE_URL,
+  RELATED_ARTISTS_QUERY,
+  TOP_USER_ARTISTS_QUERY,
+} from './constants';
 import { getHeaders } from '.';
 
 const getArtists = async (searchedText: string): Promise<ArtistType[]> => {
@@ -52,6 +59,18 @@ const getArtistAlbums = async (id: string): Promise<AlbumType[]> => {
   return isAlbumResponseObj(responseJson) ? responseJson.items : [];
 };
 
+const getTopUserArtists = async (): Promise<ArtistType[]> => {
+  const response = await fetch(`${BASE_URL}/me/top/artists`, {
+    headers: getHeaders(),
+  });
+
+  if (!response.ok) throw new Error('Failed to fetch top user artists from Spotify API');
+
+  const responseJson: unknown = await response.json();
+
+  return isTopArtists(responseJson) ? responseJson.items : [];
+};
+
 export const useSearchArtistQuery = (
   searchedText: string,
   options?: Partial<UseQueryOptions<ArtistType[]>>
@@ -76,7 +95,7 @@ export const useArtistQuery = (
     ...options,
   });
 
-export const useRelatedArtists = (id: string): UseQueryResult<ArtistType[], Error> =>
+export const useRelatedArtistsQuery = (id: string): UseQueryResult<ArtistType[], Error> =>
   useQuery({
     queryKey: [RELATED_ARTISTS_QUERY, id],
     queryFn: async () => {
@@ -84,10 +103,15 @@ export const useRelatedArtists = (id: string): UseQueryResult<ArtistType[], Erro
     },
   });
 
-export const useArtistAlbums = (id: string): UseQueryResult<AlbumType[], Error> =>
+export const useArtistAlbumsQuery = (id: string): UseQueryResult<AlbumType[], Error> =>
   useQuery({
     queryKey: [ARTIST_ALBUMS_QUERY, id],
     queryFn: async () => {
       return await getArtistAlbums(id);
     },
   });
+
+export const useTopUserArtistsQuery = (
+  options?: Partial<UseQueryOptions<ArtistType[]>>
+): UseQueryResult<ArtistType[], Error> =>
+  useQuery({ queryKey: [TOP_USER_ARTISTS_QUERY], queryFn: getTopUserArtists, ...options });

@@ -13,7 +13,7 @@ export const PlayListTracks = ({ playlistId }: Props): JSX.Element => {
   const { setCurrentUriTrack } = useContext(GlobalContext);
   const [, setSearchParams] = useSearchParams();
 
-  const { data: playlistItems } = usePlaylistsItemsQuery(playlistId);
+  const { data: playlistItems, isFetching: isFetchingTracks } = usePlaylistsItemsQuery(playlistId);
   const { data: playlistData } = usePlaylistQuery(playlistId);
 
   const tracks = playlistItems?.items.map((item) => item.track);
@@ -48,7 +48,7 @@ export const PlayListTracks = ({ playlistId }: Props): JSX.Element => {
         </div>
       </div>
 
-      <TracksList readyTracks={tracks} isLine={false} />
+      <TracksList tracks={tracks ?? []} isLine={false} isLoading={isFetchingTracks} />
     </div>
   );
 };

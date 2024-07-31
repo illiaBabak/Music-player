@@ -1,13 +1,17 @@
 import { useSearchParams } from 'react-router-dom';
-import { ChipType } from 'src/types/types';
-import { CHIPS } from 'src/utils/constants';
+import { ChipType, InitializeChipType } from 'src/types/types';
+import { CHIPS, INITIALIZE_CHIPS } from 'src/utils/constants';
 
-export const Chips = (): JSX.Element => {
+type Props = {
+  isInitialize: boolean;
+};
+
+export const Chips = ({ isInitialize }: Props): JSX.Element => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const selectedSection = searchParams.get('section');
 
-  const handleChipClick = (chip: ChipType) =>
+  const handleChipClick = (chip: ChipType | InitializeChipType) =>
     setSearchParams((prev) => {
       prev.set('section', chip);
       return prev;
@@ -15,7 +19,7 @@ export const Chips = (): JSX.Element => {
 
   return (
     <div className='d-flex p-2 chips-container'>
-      {CHIPS.map((chip) => (
+      {(isInitialize ? INITIALIZE_CHIPS : CHIPS).map((chip) => (
         <div
           key={chip}
           className={`chip m-2 p-2 d-flex justify-content-center text-white ${selectedSection === chip ? 'selected' : ''}`}

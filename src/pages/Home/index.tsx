@@ -9,23 +9,61 @@ import { ArtistsList } from 'src/components/ArtistsList';
 import { AlbumsList } from 'src/components/AlbumsList';
 import { Player } from 'src/components/Player';
 import { useSearchParams } from 'react-router-dom';
+import { useRecommendationTracksQuery, useSearchTracksQuery, useTopUserTracksQuery } from 'src/api/tracks';
+import { useSearchArtistQuery, useTopUserArtistsQuery } from 'src/api/artists';
+import { useReleasesAlbumsQuery, useSearchAlbumsQuery } from 'src/api/albums';
 
 export const HomePage = (): JSX.Element => {
   const { currentUriTrack } = useContext(GlobalContext);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const selectedSection = searchParams.get('section');
-  const searchedText = searchParams.get('query');
+  const searchedText = searchParams.get('query') ?? '';
+
+  const sectionClassName = `m-2 p-3 title`;
+
+  const isRecommendationsSection = selectedSection === 'Recommendations';
+
+  const isTopSection = selectedSection === 'Top';
+
+  const { data: tracks, isFetching: isFetchingTracks } = useSearchTracksQuery(searchedText, {
+    enabled: !!searchedText,
+  });
+
+  const { data: recommendationsTracks, isFetching: isFetchingRecommendations } = useRecommendationTracksQuery({
+    enabled: isRecommendationsSection,
+    refetchInterval: 60000,
+  });
+
+  const { data: topTracks, isFetching: isFetchingTopTracks } = useTopUserTracksQuery({ enabled: isTopSection });
+
+  const { data: albums, isFetching: isFetchingAlbums } = useSearchAlbumsQuery(searchedText, {
+    enabled: !!searchedText,
+  });
+
+  const { data: releasesAlbums, isFetching: isFetchingReleases } = useReleasesAlbumsQuery({
+    enabled: isRecommendationsSection,
+  });
+
+  const { data: artists, isFetching: isFetchingArtists } = useSearchArtistQuery(searchedText, {
+    enabled: !isTopSection,
+  });
+
+  const { data: topArtists, isFetching: isFetchingTopArtists } = useTopUserArtistsQuery({ enabled: isTopSection });
 
   useEffect(() => {
-    if (!selectedSection)
+    if ((!selectedSection || selectedSection === 'All') && !searchedText)
+      setSearchParams((prev) => {
+        prev.set('section', 'Top');
+        return prev;
+      });
+
+    if (isTopSection && searchedText)
       setSearchParams((prev) => {
         prev.set('section', 'All');
         return prev;
       });
-  }, [selectedSection, setSearchParams]);
-
-  const sectionClassName = `m-2 p-3 title`;
+  }, [setSearchParams, selectedSection, searchedText, isTopSection]);
 
   return (
     <Container className='d-flex flex-nowrap home-container p-0 m-0'>
@@ -34,34 +72,63 @@ export const HomePage = (): JSX.Element => {
         <Col className={`col-content m-0 p-0 scroll-container ${currentUriTrack ? 'playing' : ''}`}>
           <Header />
 
+          <Chips isInitialize={!searchedText} />
+
           {!!searchedText && (
             <>
-              <Chips />
               {selectedSection === 'All' && (
                 <>
                   <h4 className={sectionClassName}>Tracks</h4>
-                  <TracksList isLine={true} />
+                  <TracksList isLine={true} tracks={tracks ?? []} isLoading={isFetchingTracks} />
 
                   <h4 className={sectionClassName}>Artists</h4>
-                  <ArtistsList />
+                  <ArtistsList artists={artists ?? []} isLine={true} isLoading={isFetchingArtists} />
 
                   <h4 className={sectionClassName}>Albums</h4>
-                  <AlbumsList />
+                  <AlbumsList isLine={true} isLoading={isFetchingAlbums} albums={albums ?? []} />
                 </>
               )}
-              {selectedSection === 'Tracks' && <TracksList isLine={false} />}
-              {selectedSection === 'Artists' && <ArtistsList />}
-              {selectedSection === 'Albums' && <AlbumsList />}
+              {selectedSection === 'Tracks' && (
+                <TracksList isLine={false} tracks={tracks ?? []} isLoading={isFetchingTracks} />
+              )}
+              {selectedSection === 'Artists' && (
+                <ArtistsList artists={artists ?? []} isLine={false} isLoading={isFetchingArtists} />
+              )}
+              {selectedSection === 'Albums' && (
+                <AlbumsList isLine={false} isLoading={isFetchingAlbums} albums={albums ?? []} />
+              )}
             </>
           )}
 
           {!searchedText && (
             <>
-              <h4 className={sectionClassName}>Recommendations tracks</h4>
-              <TracksList isLine={true} />
+              {isRecommendationsSection && (
+                <>
+                  <h4 className={sectionClassName}>Recommendations tracks</h4>
+                  <TracksList
+                    isLine={true}
+                    isLoading={isFetchingRecommendations}
+                    tracks={recommendationsTracks ?? []}
+                  />
 
-              <h4 className={sectionClassName}>Releases albums</h4>
-              <AlbumsList />
+                  <h4 className={sectionClassName}>Releases albums</h4>
+                  <AlbumsList isLine={true} albums={releasesAlbums ?? []} isLoading={isFetchingReleases} />
+                </>
+              )}
+
+              {isTopSection && (
+                <>
+                  <h4 className={sectionClassName}>Your top tracks</h4>
+                  <TracksList isLine={true} isLoading={isFetchingTopTracks} tracks={topTracks ?? []} />
+
+                  {!!topArtists?.length && (
+                    <>
+                      <h4 className={sectionClassName}>Your top artists</h4>
+                      <ArtistsList isLine={true} artists={topArtists} isLoading={isFetchingTopArtists} />
+                    </>
+                  )}
+                </>
+              )}
             </>
           )}
         </Col>
