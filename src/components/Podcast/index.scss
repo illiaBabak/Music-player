@@ -1,0 +1,24 @@
+.podcast {
+  width: 98%;
+  height: 220px;
+  background-color: var(--card-bg-color);
+  cursor: pointer;
+
+  &:hover {
+    transition: 0.25s;
+    transform: scale(1.02);
+  }
+
+  .podcast-icon {
+    width: 180px;
+    height: 180px;
+    object-fit: contain;
+  }
+
+  .description {
+    font-size: 14px;
+    overflow: hidden scroll;
+    max-height: 100px;
+    height: auto;
+  }
+}

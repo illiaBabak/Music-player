@@ -32,7 +32,7 @@ export const PlaylistsPage = (): JSX.Element => {
           )}
         </Col>
 
-        {!!currentUriTrack && <Player currentUriTrack={currentUriTrack} />}
+        {!!currentUriTrack && <Player />}
       </Row>
     </Container>
   );

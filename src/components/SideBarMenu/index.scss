@@ -10,7 +10,7 @@
   }
 
   .link {
-    color: #a5a5a5;
+    color: var(--link-text);
     cursor: pointer;
 
     .link-icon {
@@ -25,13 +25,14 @@
     }
   }
 
+  .sub-link {
+    font-size: 14px;
+    color: var(--link-text);
+  }
+
   .selected-link {
     color: white;
     background-color: var(--accent);
     border-radius: 6px;
-  }
-
-  .sub-link {
-    font-size: 14px;
   }
 }

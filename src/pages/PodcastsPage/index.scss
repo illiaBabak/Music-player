@@ -1,0 +1,24 @@
+.podcasts-container {
+  min-width: 100vw;
+
+  .row-podcasts {
+    .col-content {
+      width: 70%;
+      height: 100vh;
+      position: relative;
+
+      .empty-text {
+        color: var(--text);
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    .col-content.playing {
+      overflow: hidden scroll;
+      height: calc(100vh - 80px); // 80px = player height
+    }
+  }
+}

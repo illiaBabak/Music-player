@@ -109,3 +109,31 @@ export type TopTracksType = {
 export type TopArtistsType = {
   items: ArtistType[];
 };
+
+export type ShowType = {
+  name: string;
+  description: string;
+  id: string;
+  images: ImagesArrType;
+  publisher: string;
+  uri: string;
+};
+
+export type ShowsResponseType = {
+  shows: {
+    items: ShowType[];
+  };
+};
+
+export type EpisodeType = {
+  name: string;
+  description: string;
+  uri: string;
+  release_date: string;
+  duration_ms: number;
+  images: ImagesArrType;
+};
+
+export type ShowsEpisodesResponse = {
+  items: EpisodeType[];
+};

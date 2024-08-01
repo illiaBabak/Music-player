@@ -12,7 +12,7 @@ export const TracksList = ({ tracks, isLine, isLoading }: Props): JSX.Element =>
   <div className={`content-container scroll-container ${isLine ? 'line tracks-line' : ''}`}>
     {isLoading && <Loader />}
 
-    {tracks?.map((track, index) => (
+    {tracks.map((track, index) => (
       <Track track={track} key={`${track.name}-track-${index}-${track.uri}-${track.id}`} isLine={isLine} />
     ))}
   </div>

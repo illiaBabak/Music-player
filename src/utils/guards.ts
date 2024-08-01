@@ -16,6 +16,10 @@ import {
   AlbumResponseObj,
   TopTracksType,
   TopArtistsType,
+  ShowType,
+  ShowsResponseType,
+  EpisodeType,
+  ShowsEpisodesResponse,
 } from 'src/types/types';
 
 const isObj = (data: unknown): data is object => typeof data === 'object' && !!data;
@@ -146,3 +150,44 @@ export const isTopTracks = (data: unknown): data is TopTracksType =>
 
 export const isTopArtists = (data: unknown): data is TopArtistsType =>
   isObj(data) && 'items' in data && Array.isArray(data.items) && data.items.every((el) => isArtist(el));
+
+export const isShow = (data: unknown): data is ShowType =>
+  isObj(data) &&
+  'name' in data &&
+  'description' in data &&
+  'id' in data &&
+  'images' in data &&
+  'publisher' in data &&
+  'uri' in data &&
+  isString(data.name) &&
+  isString(data.description) &&
+  isString(data.id) &&
+  isImagesArr(data.images) &&
+  isString(data.publisher) &&
+  isString(data.uri);
+
+export const isShowsResponse = (data: unknown): data is ShowsResponseType =>
+  isObj(data) &&
+  'shows' in data &&
+  isObj(data.shows) &&
+  'items' in data.shows &&
+  Array.isArray(data.shows.items) &&
+  data.shows.items.every((el) => isShow(el));
+
+export const isEpisode = (data: unknown): data is EpisodeType =>
+  isObj(data) &&
+  'name' in data &&
+  'description' in data &&
+  'uri' in data &&
+  'release_date' in data &&
+  'duration_ms' in data &&
+  'images' in data &&
+  isString(data.name) &&
+  isString(data.description) &&
+  isString(data.uri) &&
+  isString(data.release_date) &&
+  isNumber(data.duration_ms) &&
+  isImagesArr(data.images);
+
+export const isShowsEpisodesResponse = (data: unknown): data is ShowsEpisodesResponse =>
+  isObj(data) && 'items' in data && Array.isArray(data.items) && data.items.every((el) => isEpisode(el));

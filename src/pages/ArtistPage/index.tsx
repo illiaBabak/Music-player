@@ -75,7 +75,7 @@ export const ArtistPage = (): JSX.Element => {
           </div>
         </Col>
 
-        {!!currentUriTrack && <Player currentUriTrack={currentUriTrack} />}
+        {!!currentUriTrack && <Player />}
       </Row>
     </Container>
   );

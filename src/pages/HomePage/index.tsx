@@ -58,12 +58,12 @@ export const HomePage = (): JSX.Element => {
         return prev;
       });
 
-    if (isTopSection && searchedText)
+    if ((isTopSection || isRecommendationsSection) && searchedText)
       setSearchParams((prev) => {
         prev.set('section', 'All');
         return prev;
       });
-  }, [setSearchParams, selectedSection, searchedText, isTopSection]);
+  }, [setSearchParams, selectedSection, searchedText, isTopSection, isRecommendationsSection]);
 
   return (
     <Container className='d-flex flex-nowrap home-container p-0 m-0'>
@@ -133,7 +133,7 @@ export const HomePage = (): JSX.Element => {
           )}
         </Col>
 
-        {!!currentUriTrack && <Player currentUriTrack={currentUriTrack} />}
+        {!!currentUriTrack && <Player />}
       </Row>
     </Container>
   );

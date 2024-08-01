@@ -1,12 +1,13 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import { RedirectPage } from 'src/pages/Redirect';
-import { HomePage } from 'src/pages/Home';
+import { RedirectPage } from 'src/pages/RedirectPage';
+import { HomePage } from 'src/pages/HomePage';
 import { createContext, useEffect, useState } from 'react';
-import { PlaylistsPage } from 'src/pages/Playlists';
-import { LoginPage } from 'src/pages/Login';
-import { ArtistPage } from 'src/pages/Artist';
-import { AlbumPage } from 'src/pages/Album';
+import { PlaylistsPage } from 'src/pages/PlaylistsPage';
+import { LoginPage } from 'src/pages/LoginPage';
+import { ArtistPage } from 'src/pages/ArtistPage';
+import { AlbumPage } from 'src/pages/AlbumPage';
 import { ArtistType } from 'src/types/types';
+import { PodcastsPage } from 'src/pages/PodcastsPage';
 
 type GlobalContextType = {
   currentUriTrack: string | null;
@@ -47,6 +48,7 @@ export const App = (): JSX.Element => {
     body.style.setProperty('--text', isLightTheme ? '#140f0b' : '#ffffff');
     body.style.setProperty('--sidebar-color', isLightTheme ? '#ff8300' : '#190b2e');
     body.style.setProperty('--main-page-color', isLightTheme ? '#ffffff' : '#0e091a');
+    body.style.setProperty('--link-text', isLightTheme ? '#cacaca' : '#8f9199');
 
     localStorage.setItem('is_light_theme', JSON.stringify(isLightTheme ? 'light' : 'dark'));
   }, [isLightTheme]);
@@ -77,6 +79,7 @@ export const App = (): JSX.Element => {
             </Route>
             <Route path='/artist' element={<ArtistPage />} />
             <Route path='/album' element={<AlbumPage />} />
+            <Route path='/podcasts' element={<PodcastsPage />} />
           </Routes>
         </BrowserRouter>
       </GlobalContext.Provider>

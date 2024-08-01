@@ -33,3 +33,9 @@ export const ARTIST_ALBUMS_QUERY = 'artist_albums_query';
 export const TOP_USER_TRACKS_QUERY = 'top_user_tracks_query';
 
 export const TOP_USER_ARTISTS_QUERY = 'top_user_artists_query';
+
+export const PODCASTS_QUERY = 'podcasts_query';
+
+export const PODCAST_QUERY = 'podcast_query';
+
+export const PODCAST_EPISODES_QUERY = 'podcast_episodes_query';

@@ -56,7 +56,7 @@ export const AlbumPage = (): JSX.Element => {
           <TracksList tracks={albumTracks ?? []} isLine={false} isLoading={isFetchingAlbumTracks} />
         </Col>
 
-        {!!currentUriTrack && <Player currentUriTrack={currentUriTrack} />}
+        {!!currentUriTrack && <Player />}
       </Row>
     </Container>
   );

@@ -1,0 +1,31 @@
+.episode {
+  width: 95%;
+  height: 180px;
+  background-color: var(--card-bg-color);
+  color: var(--text);
+
+  &:hover {
+    background-color: var(--accent);
+    transform: scale(1.01);
+    transition: 0.25s;
+  }
+
+  .episode-icon {
+    width: 140px;
+    height: 140px;
+    object-fit: contain;
+  }
+
+  .episode-body {
+    position: relative;
+
+    .description {
+      height: 80px;
+      overflow: hidden scroll;
+    }
+
+    .detail {
+      font-size: 12px;
+    }
+  }
+}

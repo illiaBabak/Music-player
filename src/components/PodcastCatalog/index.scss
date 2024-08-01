@@ -1,0 +1,39 @@
+.podcast-catalog {
+  .header {
+    height: 80px;
+
+    .return-btn {
+      border-radius: 6px;
+      width: 100px;
+      height: 50px;
+      border: 4px solid var(--card-bg-color);
+      color: var(--text);
+      cursor: pointer;
+
+      &:hover {
+        transform: scale(1.03);
+        transition: 0.25s;
+      }
+    }
+  }
+
+  .podcast-info {
+    height: 250px;
+
+    .podcast-icon {
+      width: 220px;
+      height: 220px;
+      object-fit: contain;
+    }
+
+    .podcast-details {
+      color: var(--text);
+
+      .description {
+        height: 120px;
+        overflow: hidden scroll;
+        font-size: 14px;
+      }
+    }
+  }
+}

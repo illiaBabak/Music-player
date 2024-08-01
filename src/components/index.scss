@@ -11,6 +11,9 @@
 @import './Player';
 @import './Loader';
 @import './AnimatedBg';
+@import './Podcast';
+@import './PodcastCatalog';
+@import './Episode';
 
 .content-container {
   display: flex;
@@ -50,4 +53,12 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+}
+
+.content-container.podcasts {
+  height: 90%;
+}
+
+.content-container.episodes {
+  height: 60%;
 }

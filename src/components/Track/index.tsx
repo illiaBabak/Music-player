@@ -3,7 +3,7 @@ import { Card, Image } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from 'src/root';
 import { TrackType } from 'src/types/types';
-import { msToMinSec } from 'src/utils/msToSeconds';
+import { msToMinSec } from 'src/utils/msToMinSec';
 import { calcDuration } from 'src/utils/calcDuration';
 
 type Props = {
