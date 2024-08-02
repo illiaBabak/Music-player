@@ -64,6 +64,7 @@ export type PlaylistType = {
   id: string;
   images: ImagesArrType | null;
   description: string;
+  public: boolean;
 };
 
 export type PlaylistsResponse = {
@@ -136,4 +137,14 @@ export type EpisodeType = {
 
 export type ShowsEpisodesResponse = {
   items: EpisodeType[];
+};
+
+export type UserType = {
+  id: string;
+};
+
+export type AlertProps = {
+  text: string;
+  type: 'success' | 'error';
+  position: 'top' | 'bottom';
 };

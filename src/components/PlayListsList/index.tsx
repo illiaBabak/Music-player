@@ -33,7 +33,9 @@ export const PlayListsList = ({ showRecommendations }: Props): JSX.Element => {
     <div className='playlists-list scroll-container d-flex flex-row flex-wrap align-items-center justify-content-center w-100'>
       {(isFetchingPlaylists || isFetchinFeaturedPlaylists) && <Loader />}
 
-      {filteredPlaylists?.map((playlist, index) => <PlayList key={`${playlist.id}-${index}`} playlist={playlist} />)}
+      {filteredPlaylists?.map((playlist, index) => (
+        <PlayList key={`${playlist.id ?? ''}-${index}`} playlist={playlist} />
+      ))}
     </div>
   );
 };

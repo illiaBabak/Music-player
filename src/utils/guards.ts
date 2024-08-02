@@ -20,6 +20,7 @@ import {
   ShowsResponseType,
   EpisodeType,
   ShowsEpisodesResponse,
+  UserType,
 } from 'src/types/types';
 
 const isObj = (data: unknown): data is object => typeof data === 'object' && !!data;
@@ -27,6 +28,8 @@ const isObj = (data: unknown): data is object => typeof data === 'object' && !!d
 const isString = (data: unknown): data is string => typeof data === 'string';
 
 const isNumber = (data: unknown): data is number => typeof data === 'number';
+
+const isBool = (data: unknown): data is boolean => typeof data === 'boolean';
 
 const isImagesArr = (data: unknown): data is ImagesArrType =>
   Array.isArray(data) && data.every((el) => isObj(el) && 'url' in el && isString(el.url));
@@ -113,10 +116,12 @@ export const isPlaylist = (data: unknown): data is PlaylistType =>
   'name' in data &&
   'images' in data &&
   'description' in data &&
+  'public' in data &&
   isString(data.id) &&
   isString(data.name) &&
   (isImagesArr(data.images) || (typeof data.images === 'object' && !data.images)) &&
-  isString(data.description);
+  isString(data.description) &&
+  isBool(data.public);
 
 export const isPlaylistsResponse = (data: unknown): data is PlaylistsResponse =>
   isObj(data) && 'items' in data && Array.isArray(data.items) && data.items.every((el) => isPlaylist(el));
@@ -191,3 +196,5 @@ export const isEpisode = (data: unknown): data is EpisodeType =>
 
 export const isShowsEpisodesResponse = (data: unknown): data is ShowsEpisodesResponse =>
   isObj(data) && 'items' in data && Array.isArray(data.items) && data.items.every((el) => isEpisode(el));
+
+export const isUser = (data: unknown): data is UserType => isObj(data) && 'id' in data && isString(data.id);

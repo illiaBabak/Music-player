@@ -39,3 +39,9 @@ export const PODCASTS_QUERY = 'podcasts_query';
 export const PODCAST_QUERY = 'podcast_query';
 
 export const PODCAST_EPISODES_QUERY = 'podcast_episodes_query';
+
+export const USER_QUERY = 'user_query';
+
+export const PLAYLIST_MUTATION = 'playlist_mutation';
+
+export const PLAYLIST_ADD = 'playlist_add';

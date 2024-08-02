@@ -18,6 +18,8 @@ export const SCOPES = [
   'user-read-playback-position',
   'user-top-read',
   'playlist-read-private',
+  'playlist-modify-public',
+  'playlist-modify-private',
   'streaming',
 ];
 

@@ -6,8 +6,9 @@ import { PlaylistsPage } from 'src/pages/PlaylistsPage';
 import { LoginPage } from 'src/pages/LoginPage';
 import { ArtistPage } from 'src/pages/ArtistPage';
 import { AlbumPage } from 'src/pages/AlbumPage';
-import { ArtistType } from 'src/types/types';
+import { AlertProps, ArtistType } from 'src/types/types';
 import { PodcastsPage } from 'src/pages/PodcastsPage';
+import { Alert } from 'react-bootstrap';
 
 type GlobalContextType = {
   currentUriTrack: string | null;
@@ -16,6 +17,7 @@ type GlobalContextType = {
   setIsLightTheme: React.Dispatch<React.SetStateAction<boolean>>;
   selectedArtist: ArtistType | null;
   setSelectedArtist: React.Dispatch<React.SetStateAction<ArtistType | null>>;
+  setAlertProps: React.Dispatch<React.SetStateAction<AlertProps | null>>;
 };
 
 export const GlobalContext = createContext<GlobalContextType>({
@@ -31,6 +33,9 @@ export const GlobalContext = createContext<GlobalContextType>({
   setSelectedArtist: () => {
     throw new Error('Global context is not initialized');
   },
+  setAlertProps: () => {
+    throw new Error('Global context is not initialized');
+  },
 });
 
 export const App = (): JSX.Element => {
@@ -39,6 +44,7 @@ export const App = (): JSX.Element => {
   const [isLightTheme, setIsLightTheme] = useState(
     JSON.parse(localStorage.getItem('is_light_theme') ?? '') === 'light' ? true : false
   );
+  const [alertProps, setAlertProps] = useState<AlertProps | null>(null);
 
   useEffect(() => {
     const { body } = document;
@@ -53,6 +59,31 @@ export const App = (): JSX.Element => {
     localStorage.setItem('is_light_theme', JSON.stringify(isLightTheme ? 'light' : 'dark'));
   }, [isLightTheme]);
 
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
+
+  const startAlertTimer = () => {
+    const id = setTimeout(() => {
+      setAlertProps(null);
+    }, 5000);
+
+    setTimeoutId(id);
+
+    return id;
+  };
+
+  const handleMouseEnter = () => {
+    if (!timeoutId) return;
+
+    clearTimeout(timeoutId);
+    setTimeoutId(null);
+  };
+
+  useEffect(() => {
+    const id = startAlertTimer();
+
+    return () => clearTimeout(id);
+  }, [alertProps]);
+
   return (
     <div className='main-page m-0 p-0'>
       <GlobalContext.Provider
@@ -63,6 +94,7 @@ export const App = (): JSX.Element => {
           setIsLightTheme,
           selectedArtist,
           setSelectedArtist,
+          setAlertProps,
         }}
       >
         <BrowserRouter>
@@ -83,6 +115,15 @@ export const App = (): JSX.Element => {
           </Routes>
         </BrowserRouter>
       </GlobalContext.Provider>
+
+      {alertProps && (
+        <Alert
+          onClose={() => setAlertProps(null)}
+          {...alertProps}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={startAlertTimer}
+        />
+      )}
     </div>
   );
 };
