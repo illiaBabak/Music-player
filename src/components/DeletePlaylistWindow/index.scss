@@ -1,0 +1,23 @@
+.wrapper {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(17, 17, 17, 0.572);
+  position: absolute;
+  z-index: 5;
+  cursor: pointer;
+
+  .delete-window {
+    width: 600px;
+    height: 210px;
+    background-color: var(--card-bg-color);
+    border-radius: 8px;
+    text-align: center;
+    cursor: default;
+
+    .cancel-btn {
+      color: var(--text);
+      background-color: var(--main-page-color);
+      border: none;
+    }
+  }
+}

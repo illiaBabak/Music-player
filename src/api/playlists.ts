@@ -12,6 +12,7 @@ import {
   BASE_URL,
   FEATURED_PLAYLISTS_QUERY,
   PLAYLIST_ADD,
+  PLAYLIST_DELETE,
   PLAYLIST_ITEMS_QUERY,
   PLAYLIST_MUTATION,
   PLAYLIST_QUERY,
@@ -85,6 +86,15 @@ const addPlaylist = async ({
   if (!response.ok) throw new Error('Failed to add a new playlist using Spotify API');
 };
 
+const deletePlaylist = async (playlistId: string) => {
+  const response = await fetch(`${BASE_URL}/playlists/${playlistId}/followers`, {
+    headers: getHeaders(),
+    method: 'DELETE',
+  });
+
+  if (!response.ok) throw new Error('Failed to delete a playlist using Spotify API');
+};
+
 export const usePlaylistsQuery = (
   options?: Partial<UseQueryOptions<PlaylistType[]>>
 ): UseQueryResult<PlaylistType[], Error> =>
@@ -135,6 +145,46 @@ export const useAddPlaylist = (): UseMutationResult<
       const prevVal = queryClient.getQueryData<PlaylistType[] | undefined>([PLAYLISTS_QUERY]);
 
       queryClient.setQueryData([PLAYLISTS_QUERY], (prev: PlaylistType[]) => [playlistToCreate, ...[prev]]);
+
+      return { prevVal };
+    },
+
+    onSuccess: () => {
+      setAlertProps({ text: 'Success', type: 'success', position: 'top' });
+
+      queryClient.invalidateQueries({ queryKey: [PLAYLISTS_QUERY] });
+    },
+
+    onError: (_, __, context) => {
+      setAlertProps({ text: 'Error', type: 'error', position: 'top' });
+
+      queryClient.setQueryData([PLAYLISTS_QUERY], context?.prevVal);
+    },
+  });
+};
+
+export const useDeletePlaylist = (): UseMutationResult<
+  void,
+  Error,
+  string,
+  {
+    prevVal: PlaylistType[] | undefined;
+  }
+> => {
+  const queryClient = useQueryClient();
+  const { setAlertProps } = useContext(GlobalContext);
+
+  return useMutation({
+    mutationKey: [PLAYLIST_MUTATION, PLAYLIST_DELETE],
+    mutationFn: deletePlaylist,
+    onMutate: async (playlistId) => {
+      await queryClient.cancelQueries({ queryKey: [PLAYLISTS_QUERY] });
+
+      const prevVal = queryClient.getQueryData<PlaylistType[] | undefined>([PLAYLISTS_QUERY]);
+
+      queryClient.setQueryData([PLAYLISTS_QUERY], (prev: PlaylistType[]) =>
+        prev.filter((playlist) => playlist.id !== playlistId)
+      );
 
       return { prevVal };
     },

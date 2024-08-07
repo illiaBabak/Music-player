@@ -45,3 +45,5 @@ export const USER_QUERY = 'user_query';
 export const PLAYLIST_MUTATION = 'playlist_mutation';
 
 export const PLAYLIST_ADD = 'playlist_add';
+
+export const PLAYLIST_DELETE = 'playlist_delete';
