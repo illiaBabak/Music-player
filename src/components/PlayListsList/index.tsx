@@ -3,6 +3,8 @@ import { PlayList } from '../PlayList';
 import { useSearchParams } from 'react-router-dom';
 import { PlaylistType } from 'src/types/types';
 import { Loader } from '../Loader';
+import { useContext, useEffect } from 'react';
+import { PlaylistContext } from 'src/pages/PlaylistsPage';
 
 type Props = {
   showRecommendations: boolean;
@@ -12,14 +14,23 @@ const isPlaylistContainsText = (playlist: PlaylistType, text: string) =>
   playlist.name.toLocaleLowerCase().includes(text.toLocaleLowerCase());
 
 export const PlayListsList = ({ showRecommendations }: Props): JSX.Element => {
+  const { disabledPlaylists } = useContext(PlaylistContext);
   const [searchParams] = useSearchParams();
 
   const searchedText = searchParams.get('query') ?? '';
 
-  const { data: playlists, isFetching: isFetchingPlaylists } = usePlaylistsQuery({ enabled: !showRecommendations });
+  const {
+    data: playlists,
+    isFetching: isFetchingPlaylists,
+    refetch,
+  } = usePlaylistsQuery({ enabled: !showRecommendations });
   const { data: featuredPlaylists, isFetching: isFetchinFeaturedPlaylists } = useFeaturedPlaylistsQuery({
     enabled: showRecommendations,
   });
+
+  useEffect(() => {
+    refetch();
+  }, [disabledPlaylists, refetch]);
 
   const filteredPlaylists = searchedText
     ? (showRecommendations ? featuredPlaylists : playlists)?.filter((playlist) =>

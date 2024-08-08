@@ -13,6 +13,7 @@ import {
   FEATURED_PLAYLISTS_QUERY,
   PLAYLIST_ADD,
   PLAYLIST_DELETE,
+  PLAYLIST_EDIT,
   PLAYLIST_ITEMS_QUERY,
   PLAYLIST_MUTATION,
   PLAYLIST_QUERY,
@@ -86,13 +87,29 @@ const addPlaylist = async ({
   if (!response.ok) throw new Error('Failed to add a new playlist using Spotify API');
 };
 
-const deletePlaylist = async (playlistId: string) => {
+const deletePlaylist = async (playlistId: string): Promise<void> => {
   const response = await fetch(`${BASE_URL}/playlists/${playlistId}/followers`, {
     headers: getHeaders(),
     method: 'DELETE',
   });
 
   if (!response.ok) throw new Error('Failed to delete a playlist using Spotify API');
+};
+
+const editPlaylist = async ({
+  editedPlaylist,
+  playlistId,
+}: {
+  editedPlaylist: Partial<PlaylistType>;
+  playlistId: string;
+}): Promise<void> => {
+  const response = await fetch(`${BASE_URL}/playlists/${playlistId}`, {
+    headers: getHeaders(),
+    method: 'PUT',
+    body: JSON.stringify(editedPlaylist),
+  });
+
+  if (!response.ok) throw new Error('Failed to edit a playlist using Spotify API');
 };
 
 export const usePlaylistsQuery = (
@@ -144,7 +161,7 @@ export const useAddPlaylist = (): UseMutationResult<
 
       const prevVal = queryClient.getQueryData<PlaylistType[] | undefined>([PLAYLISTS_QUERY]);
 
-      queryClient.setQueryData([PLAYLISTS_QUERY], (prev: PlaylistType[]) => [playlistToCreate, ...[prev]]);
+      queryClient.setQueryData([PLAYLISTS_QUERY], (prev: PlaylistType[]) => [playlistToCreate, ...prev]);
 
       return { prevVal };
     },
@@ -184,6 +201,49 @@ export const useDeletePlaylist = (): UseMutationResult<
 
       queryClient.setQueryData([PLAYLISTS_QUERY], (prev: PlaylistType[]) =>
         prev.filter((playlist) => playlist.id !== playlistId)
+      );
+
+      return { prevVal };
+    },
+
+    onSuccess: () => {
+      setAlertProps({ text: 'Success', type: 'success', position: 'top' });
+
+      queryClient.invalidateQueries({ queryKey: [PLAYLISTS_QUERY] });
+    },
+
+    onError: (_, __, context) => {
+      setAlertProps({ text: 'Error', type: 'error', position: 'top' });
+
+      queryClient.setQueryData([PLAYLISTS_QUERY], context?.prevVal);
+    },
+  });
+};
+
+export const useEditPlaylist = (): UseMutationResult<
+  void,
+  Error,
+  {
+    editedPlaylist: Partial<PlaylistType>;
+    playlistId: string;
+  },
+  {
+    prevVal: PlaylistType[] | undefined;
+  }
+> => {
+  const queryClient = useQueryClient();
+  const { setAlertProps } = useContext(GlobalContext);
+
+  return useMutation({
+    mutationFn: editPlaylist,
+    mutationKey: [PLAYLIST_MUTATION, PLAYLIST_EDIT],
+    onMutate: async ({ editedPlaylist, playlistId }) => {
+      await queryClient.cancelQueries({ queryKey: [PLAYLISTS_QUERY] });
+
+      const prevVal = queryClient.getQueryData<PlaylistType[] | undefined>([PLAYLISTS_QUERY]);
+
+      queryClient.setQueryData([PLAYLISTS_QUERY], (prev: PlaylistType[]) =>
+        prev ? prev.map((playlist) => (playlist.id === playlistId ? { ...playlist, ...editedPlaylist } : playlist)) : []
       );
 
       return { prevVal };

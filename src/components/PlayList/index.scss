@@ -3,6 +3,7 @@
   width: 220px;
   height: 240px;
   background-color: var(--card-bg-color);
+  overflow: hidden;
   cursor: pointer;
 
   .playlist-icon {
@@ -16,4 +17,11 @@
     transform: scale(1.01);
     background-color: var(--accent);
   }
+}
+
+.disabled-playlist {
+  filter: grayscale(10%);
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
 }

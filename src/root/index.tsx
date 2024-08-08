@@ -8,7 +8,7 @@ import { ArtistPage } from 'src/pages/ArtistPage';
 import { AlbumPage } from 'src/pages/AlbumPage';
 import { AlertProps, ArtistType } from 'src/types/types';
 import { PodcastsPage } from 'src/pages/PodcastsPage';
-import { Alert } from 'react-bootstrap';
+import { Alert } from 'src/components/Alert';
 
 type GlobalContextType = {
   currentUriTrack: string | null;
