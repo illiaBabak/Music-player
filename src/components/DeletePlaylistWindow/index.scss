@@ -18,6 +18,18 @@
       color: var(--text);
       background-color: var(--main-page-color);
       border: none;
+
+      &:hover {
+        transform: scale(1.08);
+        transition: 0.25s;
+      }
+    }
+
+    .delete-btn {
+      &:hover {
+        animation: shake 2s;
+        animation-iteration-count: infinite;
+      }
     }
   }
 }

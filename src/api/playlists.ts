@@ -200,7 +200,7 @@ export const useDeletePlaylist = (): UseMutationResult<
       const prevVal = queryClient.getQueryData<PlaylistType[] | undefined>([PLAYLISTS_QUERY]);
 
       queryClient.setQueryData([PLAYLISTS_QUERY], (prev: PlaylistType[]) =>
-        prev.filter((playlist) => playlist.id !== playlistId)
+        prev ? prev.filter((playlist) => playlist.id !== playlistId) : []
       );
 
       return { prevVal };

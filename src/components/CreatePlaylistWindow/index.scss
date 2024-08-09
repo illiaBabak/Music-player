@@ -32,6 +32,26 @@
     .dropdown-text {
       width: 300px;
       height: 40px;
+      background-color: var(--accent);
+      border: none;
+    }
+
+    .dropdown-menu {
+      width: 100%;
+    }
+
+    .cancel-btn {
+      &:hover {
+        animation: shake 2s;
+        animation-iteration-count: infinite;
+      }
+    }
+
+    .confirm-btn {
+      &:hover {
+        transform: scale(1.08);
+        transition: 0.25s;
+      }
     }
   }
 }

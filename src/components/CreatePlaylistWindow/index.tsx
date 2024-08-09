@@ -82,7 +82,7 @@ export const CreatePlaylistWindow = ({ onClose }: Props): JSX.Element => {
               {playlistToCreate.public ? 'Public' : 'Private'}
             </Dropdown.Toggle>
 
-            <Dropdown.Menu>
+            <Dropdown.Menu className='dropdown-menu'>
               <Dropdown.Item eventKey='Public'>Public</Dropdown.Item>
               <Dropdown.Item eventKey='Private'>Private</Dropdown.Item>
             </Dropdown.Menu>
@@ -90,11 +90,11 @@ export const CreatePlaylistWindow = ({ onClose }: Props): JSX.Element => {
         </div>
 
         <div className='d-flex flex-row'>
-          <Button variant='success m-2' disabled={!playlistToCreate.name} onClick={handleSubmit}>
+          <Button variant='success m-2 confirm-btn' disabled={!playlistToCreate.name} onClick={handleSubmit}>
             Create
           </Button>
           <Button
-            variant='danger m-2'
+            variant='danger m-2 cancel-btn'
             onClick={() => {
               setPlaylistToCreate(DEFAULT_VALUE);
 

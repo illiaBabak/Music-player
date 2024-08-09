@@ -32,7 +32,7 @@ export const DeletePlaylistWindow = ({ onClose, playlistId }: Props): JSX.Elemen
         <h3>Are you sure you want to delete the playlist?</h3>
 
         <div className='d-flex flex-row'>
-          <Button variant='danger m-2' onClick={handleDelete}>
+          <Button variant='danger m-2 delete-btn' onClick={handleDelete}>
             Delete
           </Button>
           <Button className='cancel-btn' variant='dark m-2' onClick={() => onClose()}>

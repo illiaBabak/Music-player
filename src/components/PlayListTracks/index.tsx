@@ -173,8 +173,8 @@ export const PlayListTracks = ({
           )}
         </div>
 
-        <Button disabled={isEditedPlaylist} onClick={handleSubmitChanges}>
-          Save changes
+        <Button disabled={isEditedPlaylist} onClick={handleSubmitChanges} className='confirm-btn'>
+          Confirm changes
         </Button>
       </div>
 

@@ -18,6 +18,7 @@
   }
 
   .playlist-info {
+    position: relative;
     width: 400px;
     color: var(--text);
 
@@ -53,6 +54,21 @@
 
     .not-own {
       pointer-events: none;
+    }
+
+    .dropdown-text {
+      background-color: var(--accent);
+      border: none;
+    }
+
+    .confirm-btn {
+      width: 170px;
+      height: 40px;
+      position: absolute;
+      right: 24px;
+      bottom: 24px;
+      background-color: var(--accent);
+      border: none;
     }
   }
 }
