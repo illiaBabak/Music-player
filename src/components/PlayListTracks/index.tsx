@@ -1,11 +1,12 @@
 import { useSearchParams } from 'react-router-dom';
 import { ThemeBtn } from '../ThemeBtn';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { GlobalContext } from 'src/root';
-import { useEditPlaylist, usePlaylistQuery, usePlaylistsItemsQuery } from 'src/api/playlists';
+import { useCustomImagePlaylist, useEditPlaylist, usePlaylistQuery, usePlaylistsItemsQuery } from 'src/api/playlists';
 import { TracksList } from '../TracksList';
 import { PlaylistType } from 'src/types/types';
 import { Button, Dropdown } from 'react-bootstrap';
+import { isString } from 'src/utils/guards';
 
 type Props = {
   playlistId: string;
@@ -27,6 +28,7 @@ export const PlayListTracks = ({
   const { data: playlistData } = usePlaylistQuery(playlistId);
 
   const { mutateAsync: editPlaylist } = useEditPlaylist();
+  const { mutateAsync: addCustomImagePlaylist } = useCustomImagePlaylist();
 
   const tracks = playlistItems?.items.map((item) => item.track);
 
@@ -36,12 +38,16 @@ export const PlayListTracks = ({
     name: playlistData?.name,
     description: playlistData?.description,
     public: playlistData?.public,
+    images: playlistData?.images,
   });
+
+  const inputFileRef = useRef<HTMLInputElement | null>(null);
 
   const isEditedPlaylist =
     editingPlaylist.name === playlistData?.name &&
     editingPlaylist.description === playlistData?.description &&
-    editingPlaylist.public === playlistData?.public;
+    editingPlaylist.public === playlistData?.public &&
+    editingPlaylist?.images?.[0].url === playlistData?.images?.[0].url;
 
   useEffect(() => {
     setEditingPlaylist({ ...playlistData });
@@ -68,6 +74,8 @@ export const PlayListTracks = ({
 
     editPlaylist({ editedPlaylist: editingPlaylist, playlistId: playlistData?.id ?? '' });
 
+    addCustomImagePlaylist({ playlistId: playlistData?.id ?? '', image: editingPlaylist?.images?.[0].url ?? '' });
+
     disablePlaylist(playlistData?.id ?? '');
 
     setSearchParams((prev) => {
@@ -75,6 +83,26 @@ export const PlayListTracks = ({
 
       return prev;
     });
+  };
+
+  const handleImageClick = () => {
+    if (!inputFileRef.current) return;
+
+    inputFileRef.current.click();
+  };
+
+  const handleImageUpload = ({ currentTarget: { files } }: React.ChangeEvent<HTMLInputElement>) => {
+    if (!files) return;
+
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      const base64String = e.target?.result;
+
+      if (isString(base64String)) setEditingPlaylist((prev) => ({ ...prev, images: [{ url: base64String }] }));
+    };
+
+    if (files[0]) reader.readAsDataURL(files[0]);
   };
 
   return (
@@ -99,11 +127,13 @@ export const PlayListTracks = ({
       <div className='playlist-info p-2 d-flex flex-row justify-content-center align-items-center w-100'>
         <div className='d-flex justify-content-center align-items-end'>
           <img
-            src={playlistData?.images ? playlistData.images[0].url : '/src/images/not-found.jpg'}
+            src={editingPlaylist.images?.length ? editingPlaylist.images[0].url : '/src/images/not-found.jpg'}
             className='playlist-icon mx-2'
+            onClick={handleImageClick}
           />
 
           {isOwnPlaylist && <img src='/src/images/trash.png' className='dlt-icon' onClick={showDeleteWindow} />}
+          {isOwnPlaylist && <input type='file' className='img-input' ref={inputFileRef} onChange={handleImageUpload} />}
         </div>
 
         <div className='d-flex flex-column w-100 h-100'>

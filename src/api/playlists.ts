@@ -14,6 +14,7 @@ import {
   PLAYLIST_ADD,
   PLAYLIST_DELETE,
   PLAYLIST_EDIT,
+  PLAYLIST_IMAGE_UPLOAD,
   PLAYLIST_ITEMS_QUERY,
   PLAYLIST_MUTATION,
   PLAYLIST_QUERY,
@@ -110,6 +111,22 @@ const editPlaylist = async ({
   });
 
   if (!response.ok) throw new Error('Failed to edit a playlist using Spotify API');
+};
+
+const addCustomPlaylistImage = async ({ playlistId, image }: { playlistId: string; image: string }): Promise<void> => {
+  const base64HeaderPattern = /^data:image\/(png|jpeg|jpg|gif);base64,/;
+  const base64Data = image.replace(base64HeaderPattern, '');
+
+  const response = await fetch(`${BASE_URL}/playlists/${playlistId}/images`, {
+    headers: {
+      ...getHeaders(),
+      'Content-Type': 'image/jpeg',
+    },
+    method: 'PUT',
+    body: base64Data,
+  });
+
+  if (!response.ok) throw new Error('Failed to add custom img to playlist using Spotify API');
 };
 
 export const usePlaylistsQuery = (
@@ -244,6 +261,44 @@ export const useEditPlaylist = (): UseMutationResult<
 
       queryClient.setQueryData([PLAYLISTS_QUERY], (prev: PlaylistType[]) =>
         prev ? prev.map((playlist) => (playlist.id === playlistId ? { ...playlist, ...editedPlaylist } : playlist)) : []
+      );
+
+      return { prevVal };
+    },
+
+    onSuccess: () => {
+      setAlertProps({ text: 'Success', type: 'success', position: 'top' });
+
+      queryClient.invalidateQueries({ queryKey: [PLAYLISTS_QUERY] });
+    },
+
+    onError: (_, __, context) => {
+      setAlertProps({ text: 'Error', type: 'error', position: 'top' });
+
+      queryClient.setQueryData([PLAYLISTS_QUERY], context?.prevVal);
+    },
+  });
+};
+
+export const useCustomImagePlaylist = (): UseMutationResult<
+  void,
+  Error,
+  { playlistId: string; image: string },
+  { prevVal: PlaylistType[] | undefined }
+> => {
+  const queryClient = useQueryClient();
+  const { setAlertProps } = useContext(GlobalContext);
+
+  return useMutation({
+    mutationKey: [PLAYLIST_MUTATION, PLAYLIST_IMAGE_UPLOAD],
+    mutationFn: addCustomPlaylistImage,
+    onMutate: async ({ playlistId, image }) => {
+      await queryClient.cancelQueries({ queryKey: [PLAYLISTS_QUERY] });
+
+      const prevVal = queryClient.getQueryData<PlaylistType[] | undefined>([PLAYLISTS_QUERY]);
+
+      queryClient.setQueryData([PLAYLISTS_QUERY], (prev: PlaylistType[]) =>
+        prev.map((playlist) => (playlist.id === playlistId ? { ...playlist, images: [{ url: image }] } : playlist))
       );
 
       return { prevVal };

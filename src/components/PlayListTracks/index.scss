@@ -26,6 +26,16 @@
       width: 140px;
       height: 140px;
       object-fit: cover;
+      cursor: pointer;
+
+      &:hover {
+        transform: scale(1.03);
+        transition: 0.25s;
+      }
+    }
+
+    .img-input {
+      display: none;
     }
 
     .dlt-icon {

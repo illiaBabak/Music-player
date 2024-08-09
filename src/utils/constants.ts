@@ -21,6 +21,7 @@ export const SCOPES = [
   'playlist-modify-public',
   'playlist-modify-private',
   'streaming',
+  'ugc-image-upload',
 ];
 
 export const DIVIDE_FACTOR = 10;

@@ -25,7 +25,7 @@ import {
 
 const isObj = (data: unknown): data is object => typeof data === 'object' && !!data;
 
-const isString = (data: unknown): data is string => typeof data === 'string';
+export const isString = (data: unknown): data is string => typeof data === 'string';
 
 const isNumber = (data: unknown): data is number => typeof data === 'number';
 
