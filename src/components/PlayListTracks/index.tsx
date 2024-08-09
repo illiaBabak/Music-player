@@ -5,6 +5,7 @@ import { GlobalContext } from 'src/root';
 import { useEditPlaylist, usePlaylistQuery, usePlaylistsItemsQuery } from 'src/api/playlists';
 import { TracksList } from '../TracksList';
 import { PlaylistType } from 'src/types/types';
+import { Button, Dropdown } from 'react-bootstrap';
 
 type Props = {
   playlistId: string;
@@ -37,6 +38,11 @@ export const PlayListTracks = ({
     public: playlistData?.public,
   });
 
+  const isEditedPlaylist =
+    editingPlaylist.name === playlistData?.name &&
+    editingPlaylist.description === playlistData?.description &&
+    editingPlaylist.public === playlistData?.public;
+
   useEffect(() => {
     setEditingPlaylist({ ...playlistData });
   }, [playlistData]);
@@ -48,6 +54,11 @@ export const PlayListTracks = ({
     }));
   };
 
+  const handleBlur = () => {
+    setIsEditingName(false);
+    setIsEditingDescription(false);
+  };
+
   const handleSubmitChanges = () => {
     if (!editingPlaylist.name) {
       setAlertProps({ position: 'top', text: 'Name required', type: 'error' });
@@ -55,15 +66,13 @@ export const PlayListTracks = ({
       return;
     }
 
-    setIsEditingName(false);
-    setIsEditingDescription(false);
-
     editPlaylist({ editedPlaylist: editingPlaylist, playlistId: playlistData?.id ?? '' });
 
     disablePlaylist(playlistData?.id ?? '');
 
     setSearchParams((prev) => {
       prev.delete('playlist-id');
+
       return prev;
     });
   };
@@ -104,7 +113,7 @@ export const PlayListTracks = ({
               type='text'
               value={editingPlaylist?.name}
               onChange={handleInputChange}
-              onBlur={handleSubmitChanges}
+              onBlur={handleBlur}
               onKeyDown={({ key, currentTarget }) => {
                 if (key === 'Enter') currentTarget.blur();
               }}
@@ -112,8 +121,8 @@ export const PlayListTracks = ({
               autoFocus
             />
           ) : (
-            <span className='fs-4 m-2' onClick={() => setIsEditingName(true)}>
-              {editingPlaylist?.name}
+            <span className={`fs-4 m-2 ${isOwnPlaylist ? '' : 'not-own'}`} onClick={() => setIsEditingName(true)}>
+              {editingPlaylist?.name ? editingPlaylist.name : 'Add name'}
             </span>
           )}
 
@@ -123,7 +132,7 @@ export const PlayListTracks = ({
               type='text'
               value={editingPlaylist?.description}
               onChange={handleInputChange}
-              onBlur={handleSubmitChanges}
+              onBlur={handleBlur}
               onKeyDown={({ key, currentTarget }) => {
                 if (key === 'Enter') currentTarget.blur();
               }}
@@ -133,7 +142,7 @@ export const PlayListTracks = ({
             />
           ) : (
             <span
-              className='fs-6 m-2'
+              className={`fs-6 m-2 ${isOwnPlaylist ? '' : 'not-own'}`}
               onClick={() => {
                 setIsEditingDescription(true);
               }}
@@ -141,7 +150,32 @@ export const PlayListTracks = ({
               {editingPlaylist.description ? editingPlaylist?.description : 'Add description'}
             </span>
           )}
+
+          {isOwnPlaylist && (
+            <Dropdown
+              className='m-2 mt-3'
+              onSelect={(option) => {
+                setEditingPlaylist((prev) => ({
+                  ...prev,
+                  public: option === 'Public',
+                }));
+              }}
+            >
+              <Dropdown.Toggle className='dropdown-text'>
+                {editingPlaylist.public ? 'Public' : 'Private'}
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item eventKey='Public'>Public</Dropdown.Item>
+                <Dropdown.Item eventKey='Private'>Private</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          )}
         </div>
+
+        <Button disabled={isEditedPlaylist} onClick={handleSubmitChanges}>
+          Save changes
+        </Button>
       </div>
 
       <TracksList tracks={tracks ?? []} isLine={false} isLoading={isFetchingTracks} />
