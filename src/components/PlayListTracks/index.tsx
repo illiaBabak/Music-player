@@ -106,7 +106,7 @@ export const PlayListTracks = ({
   };
 
   return (
-    <div className='playlist-tracks d-flex flex-column w-100 h-100 justify-content-start'>
+    <div className='playlist-tracks d-flex flex-column w-100 h-100 justify-content-start align-items-center'>
       <div className='header d-flex flex-row justify-content-between p-3 w-100 align-items-center'>
         <div
           className='return-btn p-3 m-0 d-flex justify-content-center align-items-center'
@@ -208,7 +208,11 @@ export const PlayListTracks = ({
         </Button>
       </div>
 
-      <TracksList tracks={tracks ?? []} isLine={false} isLoading={isFetchingTracks} />
+      {tracks?.length ? (
+        <TracksList tracks={tracks} isLine={false} isLoading={isFetchingTracks} />
+      ) : (
+        <div className='fs-2 mt-4'>No tracks :(</div>
+      )}
     </div>
   );
 };
