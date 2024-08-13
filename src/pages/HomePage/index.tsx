@@ -12,9 +12,10 @@ import { useSearchParams } from 'react-router-dom';
 import { useRecommendationTracksQuery, useSearchTracksQuery, useTopUserTracksQuery } from 'src/api/tracks';
 import { useSearchArtistQuery, useTopUserArtistsQuery } from 'src/api/artists';
 import { useReleasesAlbumsQuery, useSearchAlbumsQuery } from 'src/api/albums';
+import { PlaylistsModal } from 'src/components/PlaylistsModal';
 
 export const HomePage = (): JSX.Element => {
-  const { currentUriTrack } = useContext(GlobalContext);
+  const { currentUriTrack, shouldShowPlaylists, setShouldShowPlaylists } = useContext(GlobalContext);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const selectedSection = searchParams.get('section');
@@ -69,6 +70,9 @@ export const HomePage = (): JSX.Element => {
     <Container className='d-flex flex-nowrap home-container p-0 m-0'>
       <Row className='row-home w-100 flex-nowrap'>
         <SideBarMenu />
+
+        {shouldShowPlaylists && <PlaylistsModal onClose={() => setShouldShowPlaylists(false)} />}
+
         <Col className={`col-content m-0 p-0 scroll-container ${currentUriTrack ? 'playing' : ''}`}>
           <Header />
 

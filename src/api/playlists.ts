@@ -12,6 +12,7 @@ import {
   BASE_URL,
   FEATURED_PLAYLISTS_QUERY,
   PLAYLIST_ADD,
+  PLAYLIST_ADD_ITEMS,
   PLAYLIST_DELETE,
   PLAYLIST_EDIT,
   PLAYLIST_IMAGE_UPLOAD,
@@ -23,6 +24,7 @@ import {
 import { getHeaders } from '.';
 import { useContext } from 'react';
 import { GlobalContext } from 'src/root';
+import { BASE64_PATTERN } from 'src/utils/constants';
 
 const getPlaylist = async (playlistId: string): Promise<PlaylistType | null> => {
   const response = await fetch(`${BASE_URL}/playlists/${playlistId}`, {
@@ -114,8 +116,9 @@ const editPlaylist = async ({
 };
 
 const addCustomPlaylistImage = async ({ playlistId, image }: { playlistId: string; image: string }): Promise<void> => {
-  const base64HeaderPattern = /^data:image\/(png|jpeg|jpg|gif);base64,/;
-  const base64Data = image.replace(base64HeaderPattern, '');
+  const base64Data = image.replace(BASE64_PATTERN, '');
+
+  if (!base64Data) return;
 
   const response = await fetch(`${BASE_URL}/playlists/${playlistId}/images`, {
     headers: {
@@ -127,6 +130,19 @@ const addCustomPlaylistImage = async ({ playlistId, image }: { playlistId: strin
   });
 
   if (!response.ok) throw new Error('Failed to add custom img to playlist using Spotify API');
+};
+
+const addTracksToPlaylist = async ({ playlistId, uris }: { playlistId: string; uris: string[] }): Promise<void> => {
+  const response = await fetch(`${BASE_URL}/playlists/${playlistId}/tracks`, {
+    headers: getHeaders(),
+    method: 'POST',
+    body: JSON.stringify({
+      uris: [...uris],
+      position: 0,
+    }),
+  });
+
+  if (!response.ok) throw new Error('Failed to add items to playlist using Spotify API');
 };
 
 export const usePlaylistsQuery = (
@@ -259,7 +275,7 @@ export const useEditPlaylist = (): UseMutationResult<
 
       const prevVal = queryClient.getQueryData<PlaylistType[] | undefined>([PLAYLISTS_QUERY]);
 
-      queryClient.setQueryData([PLAYLISTS_QUERY], (prev: PlaylistType[]) =>
+      queryClient.setQueryData([PLAYLISTS_QUERY, playlistId], (prev: PlaylistType[]) =>
         prev ? prev.map((playlist) => (playlist.id === playlistId ? { ...playlist, ...editedPlaylist } : playlist)) : []
       );
 
@@ -314,6 +330,44 @@ export const useCustomImagePlaylist = (): UseMutationResult<
       setAlertProps({ text: 'Error', type: 'error', position: 'top' });
 
       queryClient.setQueryData([PLAYLISTS_QUERY], context?.prevVal);
+    },
+  });
+};
+
+export const useAddItemsPlaylist = (): UseMutationResult<
+  void,
+  Error,
+  { playlistId: string; uris: string[] },
+  { prevVal: PlaylistItemsResponse | undefined }
+> => {
+  const queryClient = useQueryClient();
+  const { setAlertProps } = useContext(GlobalContext);
+
+  return useMutation({
+    mutationKey: [PLAYLIST_MUTATION, PLAYLIST_ADD_ITEMS],
+    mutationFn: addTracksToPlaylist,
+
+    onMutate: async ({ playlistId, uris }) => {
+      await queryClient.cancelQueries({ queryKey: [PLAYLIST_ITEMS_QUERY, playlistId] });
+
+      const prevVal = queryClient.getQueryData<PlaylistItemsResponse | undefined>([PLAYLIST_ITEMS_QUERY, playlistId]);
+
+      queryClient.setQueryData([PLAYLIST_ITEMS_QUERY, playlistId], (prev: PlaylistItemsResponse | undefined) => ({
+        ...prev,
+        items: [...(prev?.items ?? []), ...uris.map((uri) => ({ track: { uri } }))],
+      }));
+
+      return { prevVal };
+    },
+
+    onSuccess: () => {
+      setAlertProps({ text: 'Success', type: 'success', position: 'top' });
+      queryClient.invalidateQueries({ queryKey: [PLAYLISTS_QUERY] });
+    },
+
+    onError: (_, __, context) => {
+      setAlertProps({ text: 'Error', type: 'error', position: 'top' });
+      queryClient.setQueryData([PLAYLIST_ITEMS_QUERY], context?.prevVal);
     },
   });
 };

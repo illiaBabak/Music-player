@@ -12,16 +12,10 @@ type Props = {
   playlistId: string;
   isOwnPlaylist: boolean;
   showDeleteWindow: () => void;
-  disablePlaylist: (playlistId: string) => void;
 };
 
-export const PlayListTracks = ({
-  playlistId,
-  isOwnPlaylist,
-  showDeleteWindow,
-  disablePlaylist,
-}: Props): JSX.Element => {
-  const { setCurrentUriTrack, setAlertProps } = useContext(GlobalContext);
+export const PlayListTracks = ({ playlistId, isOwnPlaylist, showDeleteWindow }: Props): JSX.Element => {
+  const { setCurrentUriTrack, setAlertProps, disablePlaylist } = useContext(GlobalContext);
   const [, setSearchParams] = useSearchParams();
 
   const { data: playlistItems, isFetching: isFetchingTracks } = usePlaylistsItemsQuery(playlistId);
@@ -74,7 +68,8 @@ export const PlayListTracks = ({
 
     editPlaylist({ editedPlaylist: editingPlaylist, playlistId: playlistData?.id ?? '' });
 
-    addCustomImagePlaylist({ playlistId: playlistData?.id ?? '', image: editingPlaylist?.images?.[0].url ?? '' });
+    if (!editingPlaylist.images?.[0].url)
+      addCustomImagePlaylist({ playlistId: playlistData?.id ?? '', image: editingPlaylist.images?.[0].url ?? '' });
 
     disablePlaylist(playlistData?.id ?? '');
 
@@ -203,13 +198,15 @@ export const PlayListTracks = ({
           )}
         </div>
 
-        <Button disabled={isEditedPlaylist} onClick={handleSubmitChanges} className='confirm-btn'>
-          Confirm changes
-        </Button>
+        {isOwnPlaylist && (
+          <Button disabled={isEditedPlaylist} onClick={handleSubmitChanges} className='confirm-btn'>
+            Confirm changes
+          </Button>
+        )}
       </div>
 
       {tracks?.length ? (
-        <TracksList tracks={tracks} isLine={false} isLoading={isFetchingTracks} />
+        <TracksList tracks={tracks} isLine={false} isLoading={isFetchingTracks} isTracksInPlaylist={true} />
       ) : (
         <div className='fs-2 mt-4'>No tracks :(</div>
       )}

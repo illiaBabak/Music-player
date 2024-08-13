@@ -18,6 +18,10 @@ type GlobalContextType = {
   selectedArtist: ArtistType | null;
   setSelectedArtist: React.Dispatch<React.SetStateAction<ArtistType | null>>;
   setAlertProps: React.Dispatch<React.SetStateAction<AlertProps | null>>;
+  shouldShowPlaylists: boolean;
+  setShouldShowPlaylists: React.Dispatch<React.SetStateAction<boolean>>;
+  disabledPlaylists: string[];
+  disablePlaylist: (playlistId: string) => void;
 };
 
 export const GlobalContext = createContext<GlobalContextType>({
@@ -36,6 +40,14 @@ export const GlobalContext = createContext<GlobalContextType>({
   setAlertProps: () => {
     throw new Error('Global context is not initialized');
   },
+  shouldShowPlaylists: false,
+  setShouldShowPlaylists: () => {
+    throw new Error('Global context is not initialized');
+  },
+  disabledPlaylists: [],
+  disablePlaylist: () => {
+    throw new Error('Global context is not initialized');
+  },
 });
 
 export const App = (): JSX.Element => {
@@ -45,6 +57,17 @@ export const App = (): JSX.Element => {
     JSON.parse(localStorage.getItem('is_light_theme') ?? '') === 'light' ? true : false
   );
   const [alertProps, setAlertProps] = useState<AlertProps | null>(null);
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
+  const [shouldShowPlaylists, setShouldShowPlaylists] = useState(false);
+  const [disabledPlaylists, setDisabledPlaylists] = useState<string[]>([]);
+
+  const disablePlaylist = (playlistId: string) => {
+    setDisabledPlaylists((prev) => [...prev, playlistId]);
+
+    setTimeout(() => {
+      setDisabledPlaylists((prev) => prev.filter((id) => id !== playlistId));
+    }, 20000);
+  };
 
   useEffect(() => {
     const { body } = document;
@@ -58,8 +81,6 @@ export const App = (): JSX.Element => {
 
     localStorage.setItem('is_light_theme', JSON.stringify(isLightTheme ? 'light' : 'dark'));
   }, [isLightTheme]);
-
-  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
   const startAlertTimer = () => {
     const id = setTimeout(() => {
@@ -95,6 +116,10 @@ export const App = (): JSX.Element => {
           selectedArtist,
           setSelectedArtist,
           setAlertProps,
+          setShouldShowPlaylists,
+          shouldShowPlaylists,
+          disabledPlaylists,
+          disablePlaylist,
         }}
       >
         <BrowserRouter>

@@ -36,6 +36,25 @@
       left: 50%;
     }
 
+    .add-icon {
+      width: 30px;
+      height: 30px;
+      object-fit: contain;
+      position: absolute;
+      right: 30px;
+      cursor: pointer;
+
+      &:hover {
+        transform: scale(1.03);
+        transition: 0.25s;
+      }
+    }
+
+    .add-icon.line {
+      right: 0;
+      bottom: 0;
+    }
+
     .artists-track {
       width: 300px;
       position: absolute;

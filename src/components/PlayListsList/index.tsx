@@ -4,17 +4,19 @@ import { useSearchParams } from 'react-router-dom';
 import { PlaylistType } from 'src/types/types';
 import { Loader } from '../Loader';
 import { useContext, useEffect } from 'react';
-import { PlaylistContext } from 'src/pages/PlaylistsPage';
+import { GlobalContext } from 'src/root';
 
 type Props = {
   showRecommendations: boolean;
+  setSelectedPlaylists?: React.Dispatch<React.SetStateAction<string[]>>;
+  selectedPlaylists?: string[];
 };
 
 const isPlaylistContainsText = (playlist: PlaylistType, text: string) =>
   playlist.name.toLocaleLowerCase().includes(text.toLocaleLowerCase());
 
-export const PlayListsList = ({ showRecommendations }: Props): JSX.Element => {
-  const { disabledPlaylists } = useContext(PlaylistContext);
+export const PlayListsList = ({ showRecommendations, setSelectedPlaylists, selectedPlaylists }: Props): JSX.Element => {
+  const { disabledPlaylists } = useContext(GlobalContext);
   const [searchParams] = useSearchParams();
 
   const searchedText = searchParams.get('query') ?? '';
@@ -45,7 +47,12 @@ export const PlayListsList = ({ showRecommendations }: Props): JSX.Element => {
       {(isFetchingPlaylists || isFetchinFeaturedPlaylists) && <Loader />}
 
       {filteredPlaylists?.map((playlist, index) => (
-        <PlayList key={`${playlist.id ?? ''}-${index}`} playlist={playlist} />
+        <PlayList
+          key={`${playlist.id ?? ''}-${index}`}
+          playlist={playlist}
+          setSelectedPlaylists={setSelectedPlaylists}
+          selectedPlaylists={selectedPlaylists}
+        />
       ))}
     </div>
   );

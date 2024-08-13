@@ -1,0 +1,19 @@
+.wrapper {
+  .playlists-window {
+    width: 80%;
+    height: 80%;
+    background-color: var(--sidebar-color);
+
+    .save-btn {
+      width: 180px;
+      background-color: var(--card-bg-color);
+      border: none;
+
+      &:hover {
+        transform: scale(1.1);
+        transition: 0.25s;
+        background-color: var(--accent);
+      }
+    }
+  }
+}

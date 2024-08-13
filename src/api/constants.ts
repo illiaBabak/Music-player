@@ -51,3 +51,5 @@ export const PLAYLIST_DELETE = 'playlist_delete';
 export const PLAYLIST_EDIT = 'playlist_edit';
 
 export const PLAYLIST_IMAGE_UPLOAD = 'playlist_img_upload';
+
+export const PLAYLIST_ADD_ITEMS = 'playlist_add_items';

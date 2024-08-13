@@ -27,3 +27,5 @@ export const SCOPES = [
 export const DIVIDE_FACTOR = 10;
 
 export const MULTIPLACTION_FACTOR = 4.1;
+
+export const BASE64_PATTERN = /^data:image\/(png|jpeg|jpg|gif);base64,/;

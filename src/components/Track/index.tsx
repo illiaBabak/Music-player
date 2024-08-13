@@ -9,10 +9,11 @@ import { calcDuration } from 'src/utils/calcDuration';
 type Props = {
   track: TrackType;
   isLine: boolean;
+  isTracksInPlaylist?: boolean;
 };
 
-export const Track = ({ track, isLine }: Props): JSX.Element => {
-  const { setCurrentUriTrack, isLightTheme } = useContext(GlobalContext);
+export const Track = ({ track, isLine, isTracksInPlaylist }: Props): JSX.Element => {
+  const { setCurrentUriTrack, isLightTheme, setShouldShowPlaylists } = useContext(GlobalContext);
   const navigate = useNavigate();
 
   return (
@@ -23,7 +24,7 @@ export const Track = ({ track, isLine }: Props): JSX.Element => {
         onClick={() => setCurrentUriTrack(track.uri)}
       />
 
-      <Card.Img src={track.album.images.length ? track.album.images[0].url : ''} className='track-img ms-4' />
+      <Card.Img src={track ? track.album.images[0].url : '/src/images/not-found.jpg'} className='track-img ms-4' />
       <Card.Body className='track-info d-flex flex-row justify-content-start align-items-center'>
         <span className='fs-6 track-name text-white' style={{ animationDuration: `${calcDuration(track.name)}s` }}>
           {track.name}
@@ -44,6 +45,17 @@ export const Track = ({ track, isLine }: Props): JSX.Element => {
               ))}
             </span>
           </>
+        )}
+
+        {!isTracksInPlaylist && (
+          <Image
+            className={`add-icon ${isLine ? 'line' : ''} `}
+            src={isLightTheme ? '/src/images/add-light-icon.png' : '/src/images/add-icon.png'}
+            onClick={() => {
+              setShouldShowPlaylists(true);
+              navigate(`/home?track-to-add=${track.uri}`);
+            }}
+          />
         )}
       </Card.Body>
     </Card>

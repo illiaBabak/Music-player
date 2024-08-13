@@ -6,14 +6,22 @@ type Props = {
   tracks: TrackType[];
   isLine: boolean;
   isLoading: boolean;
+  isTracksInPlaylist?: boolean;
 };
 
-export const TracksList = ({ tracks, isLine, isLoading }: Props): JSX.Element => (
+export const TracksList = ({ tracks, isLine, isLoading, isTracksInPlaylist }: Props): JSX.Element => (
   <div className={`content-container scroll-container ${isLine ? 'line tracks-line' : ''}`}>
-    {isLoading && <Loader />}
-
-    {tracks.map((track, index) => (
-      <Track track={track} key={`${track.name}-track-${index}-${track.uri}-${track.id}`} isLine={isLine} />
-    ))}
+    {isLoading ? (
+      <Loader />
+    ) : (
+      tracks.map((track, index) => (
+        <Track
+          track={track}
+          key={`${track.name}-track-${index}-${track.uri}-${track.id}`}
+          isLine={isLine}
+          isTracksInPlaylist={isTracksInPlaylist}
+        />
+      ))
+    )}
   </div>
 );
