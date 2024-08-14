@@ -1,9 +1,8 @@
 import { Button } from 'react-bootstrap';
 import { PlayListsList } from '../PlayListsList';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useAddItemsPlaylist } from 'src/api/playlists';
-import { GlobalContext } from 'src/root';
 
 type Props = {
   onClose: () => void;
@@ -11,21 +10,18 @@ type Props = {
 
 export const PlaylistsModal = ({ onClose }: Props): JSX.Element => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [selectedPlaylists, setSelectedPlaylists] = useState<string[]>([]);
-  const { disablePlaylist } = useContext(GlobalContext);
+  const [selectedPlaylistsId, setSelectedPlaylistsId] = useState<string[]>([]);
 
   const trackUri = searchParams.get('track-to-add') ?? '';
 
   const { mutateAsync: addTrack } = useAddItemsPlaylist();
 
   const handleSubmit = () => {
-    selectedPlaylists.map((id) => {
+    selectedPlaylistsId.map((id) => {
       addTrack({ playlistId: id, uris: [trackUri] });
-
-      disablePlaylist(id);
     });
 
-    setSelectedPlaylists([]);
+    setSelectedPlaylistsId([]);
 
     setSearchParams((prev) => {
       prev.delete('playlist-id');
@@ -55,8 +51,8 @@ export const PlaylistsModal = ({ onClose }: Props): JSX.Element => {
       >
         <PlayListsList
           showRecommendations={false}
-          selectedPlaylists={selectedPlaylists}
-          setSelectedPlaylists={setSelectedPlaylists}
+          selectedPlaylistsId={selectedPlaylistsId}
+          setSelectedPlaylistsId={setSelectedPlaylistsId}
         />
         <Button onClick={handleSubmit} className='save-btn mt-4'>
           Save

@@ -154,12 +154,16 @@ export const usePlaylistsQuery = (
     ...options,
   });
 
-export const usePlaylistsItemsQuery = (playlistId: string): UseQueryResult<PlaylistItemsResponse, Error> =>
+export const usePlaylistsItemsQuery = (
+  playlistId: string,
+  options?: Partial<UseQueryOptions<PlaylistItemsResponse | null>>
+): UseQueryResult<PlaylistItemsResponse | null, Error> =>
   useQuery({
     queryKey: [PLAYLIST_ITEMS_QUERY, playlistId],
-    queryFn: async () => {
+    queryFn: async (): Promise<PlaylistItemsResponse | null> => {
       return await getPlaylistItems(playlistId);
     },
+    ...options,
   });
 
 export const usePlaylistQuery = (playlistId: string): UseQueryResult<PlaylistType, Error> =>
@@ -360,9 +364,11 @@ export const useAddItemsPlaylist = (): UseMutationResult<
       return { prevVal };
     },
 
-    onSuccess: () => {
+    onSuccess: (_, { playlistId }) => {
       setAlertProps({ text: 'Success', type: 'success', position: 'top' });
       queryClient.invalidateQueries({ queryKey: [PLAYLISTS_QUERY] });
+      queryClient.invalidateQueries({ queryKey: [PLAYLIST_QUERY, playlistId] });
+      queryClient.invalidateQueries({ queryKey: [PLAYLIST_ITEMS_QUERY] });
     },
 
     onError: (_, __, context) => {

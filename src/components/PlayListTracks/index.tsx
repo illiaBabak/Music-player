@@ -7,6 +7,7 @@ import { TracksList } from '../TracksList';
 import { PlaylistType } from 'src/types/types';
 import { Button, Dropdown } from 'react-bootstrap';
 import { isString } from 'src/utils/guards';
+import { useRecommendationTracksQuery } from 'src/api/tracks';
 
 type Props = {
   playlistId: string;
@@ -20,6 +21,7 @@ export const PlayListTracks = ({ playlistId, isOwnPlaylist, showDeleteWindow }: 
 
   const { data: playlistItems, isFetching: isFetchingTracks } = usePlaylistsItemsQuery(playlistId);
   const { data: playlistData } = usePlaylistQuery(playlistId);
+  const { data: recommendedTracks, isFetching: isFetchingRecommendations } = useRecommendationTracksQuery();
 
   const { mutateAsync: editPlaylist } = useEditPlaylist();
   const { mutateAsync: addCustomImagePlaylist } = useCustomImagePlaylist();
@@ -209,6 +211,18 @@ export const PlayListTracks = ({ playlistId, isOwnPlaylist, showDeleteWindow }: 
         <TracksList tracks={tracks} isLine={false} isLoading={isFetchingTracks} isTracksInPlaylist={true} />
       ) : (
         <div className='fs-2 mt-4'>No tracks :(</div>
+      )}
+
+      {!!recommendedTracks?.length && isOwnPlaylist && (
+        <>
+          <h5 className='mt-4'>Recommended tracks</h5>
+          <TracksList
+            tracks={recommendedTracks}
+            isLine={true}
+            isLoading={isFetchingRecommendations}
+            playlistId={playlistId}
+          />
+        </>
       )}
     </div>
   );

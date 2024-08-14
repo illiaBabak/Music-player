@@ -6,11 +6,11 @@ import { PlaylistType } from 'src/types/types';
 
 type Props = {
   playlist: PlaylistType;
-  setSelectedPlaylists?: React.Dispatch<React.SetStateAction<string[]>>;
-  selectedPlaylists?: string[];
+  setSelectedPlaylistsId?: React.Dispatch<React.SetStateAction<string[]>>;
+  selectedPlaylistsId?: string[];
 };
 
-export const PlayList = ({ playlist, selectedPlaylists, setSelectedPlaylists }: Props): JSX.Element => {
+export const PlayList = ({ playlist, selectedPlaylistsId, setSelectedPlaylistsId }: Props): JSX.Element => {
   const { shouldShowPlaylists, disabledPlaylists } = useContext(GlobalContext);
   const [, setSearchParams] = useSearchParams();
 
@@ -18,11 +18,11 @@ export const PlayList = ({ playlist, selectedPlaylists, setSelectedPlaylists }: 
 
   return (
     <Card
-      className={`playlist p-1 m-3 d-flex align-items-center justify-content-between text-white ${isDisabledPlaylist ? 'disabled-playlist' : ''} ${selectedPlaylists?.some((id) => playlist.id === id) && shouldShowPlaylists ? 'selected' : ''}`}
+      className={`playlist p-1 m-3 d-flex align-items-center justify-content-between text-white ${isDisabledPlaylist ? 'disabled-playlist' : ''} ${selectedPlaylistsId?.some((id) => playlist.id === id) && shouldShowPlaylists ? 'selected' : ''}`}
       onClick={() => {
         {
-          setSelectedPlaylists &&
-            setSelectedPlaylists((prev) => {
+          setSelectedPlaylistsId &&
+            setSelectedPlaylistsId((prev) => {
               if (prev.some((id) => id === playlist.id)) return prev.filter((id) => id !== playlist.id);
               else return [...prev, playlist.id];
             });
@@ -39,7 +39,9 @@ export const PlayList = ({ playlist, selectedPlaylists, setSelectedPlaylists }: 
         className='playlist-icon mt-2'
       />
       <span className='fs-5 mb-2'>{isDisabledPlaylist ? 'Updating...' : playlist.name}</span>
-      {selectedPlaylists?.some((id) => playlist.id === id) && <span className='fs-1 mb-2 selected-text'>Selected</span>}
+      {selectedPlaylistsId?.some((id) => playlist.id === id) && (
+        <span className='fs-1 mb-2 selected-text'>Selected</span>
+      )}
     </Card>
   );
 };

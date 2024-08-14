@@ -7,9 +7,10 @@ type Props = {
   isLine: boolean;
   isLoading: boolean;
   isTracksInPlaylist?: boolean;
+  playlistId?: string;
 };
 
-export const TracksList = ({ tracks, isLine, isLoading, isTracksInPlaylist }: Props): JSX.Element => (
+export const TracksList = ({ tracks, isLine, isLoading, isTracksInPlaylist, playlistId }: Props): JSX.Element => (
   <div className={`content-container scroll-container ${isLine ? 'line tracks-line' : ''}`}>
     {isLoading ? (
       <Loader />
@@ -20,6 +21,7 @@ export const TracksList = ({ tracks, isLine, isLoading, isTracksInPlaylist }: Pr
           key={`${track.name}-track-${index}-${track.uri}-${track.id}`}
           isLine={isLine}
           isTracksInPlaylist={isTracksInPlaylist}
+          playlistId={playlistId}
         />
       ))
     )}

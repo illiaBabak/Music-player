@@ -8,14 +8,18 @@ import { GlobalContext } from 'src/root';
 
 type Props = {
   showRecommendations: boolean;
-  setSelectedPlaylists?: React.Dispatch<React.SetStateAction<string[]>>;
-  selectedPlaylists?: string[];
+  setSelectedPlaylistsId?: React.Dispatch<React.SetStateAction<string[]>>;
+  selectedPlaylistsId?: string[];
 };
 
 const isPlaylistContainsText = (playlist: PlaylistType, text: string) =>
   playlist.name.toLocaleLowerCase().includes(text.toLocaleLowerCase());
 
-export const PlayListsList = ({ showRecommendations, setSelectedPlaylists, selectedPlaylists }: Props): JSX.Element => {
+export const PlayListsList = ({
+  showRecommendations,
+  setSelectedPlaylistsId,
+  selectedPlaylistsId,
+}: Props): JSX.Element => {
   const { disabledPlaylists } = useContext(GlobalContext);
   const [searchParams] = useSearchParams();
 
@@ -50,8 +54,8 @@ export const PlayListsList = ({ showRecommendations, setSelectedPlaylists, selec
         <PlayList
           key={`${playlist.id ?? ''}-${index}`}
           playlist={playlist}
-          setSelectedPlaylists={setSelectedPlaylists}
-          selectedPlaylists={selectedPlaylists}
+          setSelectedPlaylistsId={setSelectedPlaylistsId}
+          selectedPlaylistsId={selectedPlaylistsId}
         />
       ))}
     </div>
