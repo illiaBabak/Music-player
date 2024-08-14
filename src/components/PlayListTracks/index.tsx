@@ -5,7 +5,6 @@ import { GlobalContext } from 'src/root';
 import { useCustomImagePlaylist, useEditPlaylist, usePlaylistQuery, usePlaylistsItemsQuery } from 'src/api/playlists';
 import { TracksList } from '../TracksList';
 import { PlaylistType } from 'src/types/types';
-import { Button, Dropdown } from 'react-bootstrap';
 import { isString } from 'src/utils/guards';
 import { useRecommendationTracksQuery } from 'src/api/tracks';
 
@@ -16,7 +15,7 @@ type Props = {
 };
 
 export const PlayListTracks = ({ playlistId, isOwnPlaylist, showDeleteWindow }: Props): JSX.Element => {
-  const { setCurrentUriTrack, setAlertProps, disablePlaylist } = useContext(GlobalContext);
+  const { setCurrentUriTrack, setAlertProps, disablePlaylist, isLightTheme } = useContext(GlobalContext);
   const [, setSearchParams] = useSearchParams();
 
   const { data: playlistItems, isFetching: isFetchingTracks } = usePlaylistsItemsQuery(playlistId);
@@ -33,17 +32,10 @@ export const PlayListTracks = ({ playlistId, isOwnPlaylist, showDeleteWindow }: 
   const [editingPlaylist, setEditingPlaylist] = useState<Partial<PlaylistType>>({
     name: playlistData?.name,
     description: playlistData?.description,
-    public: playlistData?.public,
     images: playlistData?.images,
   });
 
   const inputFileRef = useRef<HTMLInputElement | null>(null);
-
-  const isEditedPlaylist =
-    editingPlaylist.name === playlistData?.name &&
-    editingPlaylist.description === playlistData?.description &&
-    editingPlaylist.public === playlistData?.public &&
-    editingPlaylist?.images?.[0].url === playlistData?.images?.[0].url;
 
   useEffect(() => {
     setEditingPlaylist({ ...playlistData });
@@ -59,9 +51,7 @@ export const PlayListTracks = ({ playlistId, isOwnPlaylist, showDeleteWindow }: 
   const handleBlur = () => {
     setIsEditingName(false);
     setIsEditingDescription(false);
-  };
 
-  const handleSubmitChanges = () => {
     if (!editingPlaylist.name) {
       setAlertProps({ position: 'top', text: 'Name required', type: 'error' });
 
@@ -129,10 +119,16 @@ export const PlayListTracks = ({ playlistId, isOwnPlaylist, showDeleteWindow }: 
             onClick={handleImageClick}
           />
 
-          {isOwnPlaylist && <img src='/src/images/trash.png' className='dlt-icon' onClick={showDeleteWindow} />}
           {isOwnPlaylist && <input type='file' className='img-input' ref={inputFileRef} onChange={handleImageUpload} />}
         </div>
 
+        {isOwnPlaylist && (
+          <img
+            src={isLightTheme ? '/src/images/trash.png' : '/src/images/dark-trash-icon.png'}
+            className='dlt-icon'
+            onClick={showDeleteWindow}
+          />
+        )}
         <div className='d-flex flex-column w-100 h-100'>
           {isEditingName ? (
             <input
@@ -177,34 +173,7 @@ export const PlayListTracks = ({ playlistId, isOwnPlaylist, showDeleteWindow }: 
               {editingPlaylist.description ? editingPlaylist?.description : 'Add description'}
             </span>
           )}
-
-          {isOwnPlaylist && (
-            <Dropdown
-              className='m-2 mt-3'
-              onSelect={(option) => {
-                setEditingPlaylist((prev) => ({
-                  ...prev,
-                  public: option === 'Public',
-                }));
-              }}
-            >
-              <Dropdown.Toggle className='dropdown-text'>
-                {editingPlaylist.public ? 'Public' : 'Private'}
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu>
-                <Dropdown.Item eventKey='Public'>Public</Dropdown.Item>
-                <Dropdown.Item eventKey='Private'>Private</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          )}
         </div>
-
-        {isOwnPlaylist && (
-          <Button disabled={isEditedPlaylist} onClick={handleSubmitChanges} className='confirm-btn'>
-            Confirm changes
-          </Button>
-        )}
       </div>
 
       {tracks?.length ? (

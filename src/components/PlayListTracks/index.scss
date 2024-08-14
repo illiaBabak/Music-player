@@ -28,6 +28,7 @@
       width: 140px;
       height: 140px;
       object-fit: cover;
+      border-radius: 50%;
       cursor: pointer;
 
       &:hover {
@@ -41,12 +42,14 @@
     }
 
     .dlt-icon {
-      width: 25px;
-      height: 25px;
+      width: 40px;
+      height: 40px;
       object-fit: cover;
-      background-color: #ffffff;
       border-radius: 10%;
       padding: 2px;
+      position: absolute;
+      right: 16px;
+      bottom: 16px;
       cursor: pointer;
 
       &:hover {
@@ -66,21 +69,6 @@
 
     .not-own {
       pointer-events: none;
-    }
-
-    .dropdown-text {
-      background-color: var(--accent);
-      border: none;
-    }
-
-    .confirm-btn {
-      width: 170px;
-      height: 40px;
-      position: absolute;
-      right: 24px;
-      bottom: 24px;
-      background-color: var(--accent);
-      border: none;
     }
   }
 }
