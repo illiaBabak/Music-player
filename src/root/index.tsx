@@ -56,6 +56,7 @@ export const App = (): JSX.Element => {
   const [isLightTheme, setIsLightTheme] = useState(
     JSON.parse(localStorage.getItem('is_light_theme') ?? '') === 'light' ? true : false
   );
+
   const [alertProps, setAlertProps] = useState<AlertProps | null>(null);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const [shouldShowPlaylists, setShouldShowPlaylists] = useState(false);
@@ -72,11 +73,11 @@ export const App = (): JSX.Element => {
   useEffect(() => {
     const { body } = document;
 
-    body.style.setProperty('--card-bg-color', isLightTheme ? '#d98350' : '#130821');
-    body.style.setProperty('--accent', isLightTheme ? '#b04813' : '#433673');
+    body.style.setProperty('--card-bg-color', isLightTheme ? '#fc8508' : '#130821');
+    body.style.setProperty('--accent', isLightTheme ? '#d66d11' : '#433673');
     body.style.setProperty('--text', isLightTheme ? '#140f0b' : '#ffffff');
-    body.style.setProperty('--sidebar-color', isLightTheme ? '#ff8300' : '#190b2e');
-    body.style.setProperty('--main-page-color', isLightTheme ? '#ffffff' : '#0e091a');
+    body.style.setProperty('--sidebar-color', isLightTheme ? '#eb9031' : '#190b2e');
+    body.style.setProperty('--main-page-color', isLightTheme ? '#fff7e8' : '#0e091a');
     body.style.setProperty('--link-text', isLightTheme ? '#cacaca' : '#8f9199');
 
     localStorage.setItem('is_light_theme', JSON.stringify(isLightTheme ? 'light' : 'dark'));

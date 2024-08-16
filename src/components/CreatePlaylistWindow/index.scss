@@ -9,14 +9,15 @@
     .field {
       height: 32px;
       width: 240px;
-      border: 4px solid var(--card-bg-color);
+      border: 4px solid var(--sidebar-color);
       border-radius: 4px;
-      background-color: var(--sidebar-color);
+      background-color: var(--card-bg-color);
       color: white;
 
       &:focus,
       &:active {
         border-color: var(--accent);
+        background-color: var(--accent);
         outline: none;
         box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1);
       }
