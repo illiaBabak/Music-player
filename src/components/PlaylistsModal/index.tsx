@@ -3,6 +3,7 @@ import { PlayListsList } from '../PlayListsList';
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useAddItemsPlaylist } from 'src/api/playlists';
+import { ModalWrapper } from '../ModalWrapper';
 
 type Props = {
   onClose: () => void;
@@ -33,13 +34,13 @@ export const PlaylistsModal = ({ onClose }: Props): JSX.Element => {
   };
 
   return (
-    <div
-      className='wrapper d-flex justify-content-center align-items-center'
-      onClick={() => {
+    <ModalWrapper
+      onClose={() => {
         setSearchParams((prev) => {
           prev.delete('track-to-add');
           return prev;
         });
+
         onClose();
       }}
     >
@@ -58,6 +59,6 @@ export const PlaylistsModal = ({ onClose }: Props): JSX.Element => {
           Save
         </Button>
       </div>
-    </div>
+    </ModalWrapper>
   );
 };

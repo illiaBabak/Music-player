@@ -33,7 +33,7 @@ export const HomePage = (): JSX.Element => {
 
   const { data: recommendationsTracks, isFetching: isFetchingRecommendations } = useRecommendationTracksQuery({
     enabled: isRecommendationsSection,
-    refetchInterval: 60000,
+    refetchInterval: 90000,
   });
 
   const { data: topTracks, isFetching: isFetchingTopTracks } = useTopUserTracksQuery({ enabled: isTopSection });
@@ -47,7 +47,7 @@ export const HomePage = (): JSX.Element => {
   });
 
   const { data: artists, isFetching: isFetchingArtists } = useSearchArtistQuery(searchedText, {
-    enabled: !isTopSection,
+    enabled: !!searchedText,
   });
 
   const { data: topArtists, isFetching: isFetchingTopArtists } = useTopUserArtistsQuery({ enabled: isTopSection });

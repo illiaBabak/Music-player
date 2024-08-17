@@ -69,7 +69,7 @@ export const Track = ({ track, isLine, isTracksInPlaylist, playlistId }: Props):
             className={`add-icon ${isLine ? 'line' : ''} `}
             src={isLightTheme ? '/src/images/add-light-icon.png' : '/src/images/add-icon.png'}
             onClick={
-              playlistId
+              playlistId //check if we are in playlist route
                 ? () => {
                     addTrack({ playlistId, uris: [track.uri] });
                   }

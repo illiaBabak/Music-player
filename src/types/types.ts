@@ -111,7 +111,7 @@ export type TopArtistsType = {
   items: ArtistType[];
 };
 
-export type ShowType = {
+export type PodcastType = {
   name: string;
   description: string;
   id: string;
@@ -120,9 +120,9 @@ export type ShowType = {
   uri: string;
 };
 
-export type ShowsResponseType = {
+export type PodcastsResponseType = {
   shows: {
-    items: ShowType[];
+    items: PodcastType[];
   };
 };
 
@@ -135,7 +135,7 @@ export type EpisodeType = {
   images: ImagesArrType;
 };
 
-export type ShowsEpisodesResponse = {
+export type PodcastEpisodesResponse = {
   items: EpisodeType[];
 };
 

@@ -38,6 +38,7 @@ export const AlbumPage = (): JSX.Element => {
             </div>
             <ThemeBtn />
           </div>
+
           <div className='album-info w-100 m-2 p-3 d-flex justify-content-start align-items-center'>
             <img src={selectedAlbum?.images[0].url ?? ''} className='album-icon' />
             <div className='details d-flex flex-column ms-2 w-100'>
@@ -53,6 +54,7 @@ export const AlbumPage = (): JSX.Element => {
               </div>
             </div>
           </div>
+
           <TracksList tracks={albumTracks ?? []} isLine={false} isLoading={isFetchingAlbumTracks} />
         </Col>
 

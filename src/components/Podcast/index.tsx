@@ -2,10 +2,10 @@ import { useContext } from 'react';
 import { Card } from 'react-bootstrap';
 import { useSearchParams } from 'react-router-dom';
 import { GlobalContext } from 'src/root';
-import { ShowType } from 'src/types/types';
+import { PodcastType } from 'src/types/types';
 
 type Props = {
-  podcast: ShowType;
+  podcast: PodcastType;
 };
 
 export const Podcast = ({ podcast }: Props): JSX.Element => {

@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Dropdown, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { useAddPlaylist } from 'src/api/playlists';
 import { useUserQuery } from 'src/api/user';
 import { PlaylistType } from 'src/types/types';
+import { ModalWrapper } from '../ModalWrapper';
 
 type Props = {
   onClose: () => void;
@@ -28,13 +29,6 @@ export const CreatePlaylistWindow = ({ onClose }: Props): JSX.Element => {
     }));
   };
 
-  const handleSelectPrivacy = (eventKey: string | null) => {
-    setPlaylistToCreate((prev) => ({
-      ...prev,
-      public: eventKey === 'Public',
-    }));
-  };
-
   const handleSubmit = () => {
     createPlaylist({ playlistToCreate, userId: user?.id ?? '' });
 
@@ -44,13 +38,10 @@ export const CreatePlaylistWindow = ({ onClose }: Props): JSX.Element => {
   };
 
   return (
-    <div className='wrapper d-flex justify-content-center align-items-center' onClick={onClose}>
+    <ModalWrapper onClose={onClose}>
       <div
         className='create-window d-flex flex-column justify-content-between align-items-center text-white p-4'
-        onClick={(e) => {
-          e.stopPropagation();
-          e.preventDefault();
-        }}
+        onClick={(e) => e.stopPropagation()}
       >
         <h2>Create a playlist</h2>
 
@@ -76,17 +67,6 @@ export const CreatePlaylistWindow = ({ onClose }: Props): JSX.Element => {
               onChange={handleChangeField}
             />
           </div>
-
-          <Dropdown className='m-2 mt-4' onSelect={handleSelectPrivacy}>
-            <Dropdown.Toggle className='dropdown-text'>
-              {playlistToCreate.public ? 'Public' : 'Private'}
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu className='dropdown-menu'>
-              <Dropdown.Item eventKey='Public'>Public</Dropdown.Item>
-              <Dropdown.Item eventKey='Private'>Private</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
         </div>
 
         <div className='d-flex flex-row'>
@@ -105,6 +85,6 @@ export const CreatePlaylistWindow = ({ onClose }: Props): JSX.Element => {
           </Button>
         </div>
       </div>
-    </div>
+    </ModalWrapper>
   );
 };

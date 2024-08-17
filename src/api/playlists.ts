@@ -366,7 +366,6 @@ export const useAddItemsPlaylist = (): UseMutationResult<
 
     onSuccess: (_, { playlistId }) => {
       setAlertProps({ text: 'Success', type: 'success', position: 'top' });
-      queryClient.invalidateQueries({ queryKey: [PLAYLISTS_QUERY] });
       queryClient.invalidateQueries({ queryKey: [PLAYLIST_QUERY, playlistId] });
       queryClient.invalidateQueries({ queryKey: [PLAYLIST_ITEMS_QUERY] });
     },

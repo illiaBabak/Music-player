@@ -26,6 +26,8 @@ export const ArtistPage = (): JSX.Element => {
 
   const { data: artistTopTracks, isFetching: isFetchingArtistsTopTracks } = useArtistTopTracksQuery(selectedArtistId);
 
+  const artistSectionClassName = 'white-text m-4 mt-4';
+
   return (
     <Container className='d-flex flex-nowrap artist-container p-0 m-0 '>
       <Row className='row-artist w-100 flex-nowrap'>
@@ -59,17 +61,17 @@ export const ArtistPage = (): JSX.Element => {
             </div>
           </div>
 
-          <div className='white-text m-4 mt-4'>
+          <div className={artistSectionClassName}>
             <h4>Artist's top tracks</h4>
             <TracksList tracks={artistTopTracks ?? []} isLine={true} isLoading={isFetchingArtistsTopTracks} />
           </div>
 
-          <div className='white-text m-3 mt-4'>
+          <div className={artistSectionClassName}>
             <h4>Artist's albums</h4>
             <AlbumsList albums={artistAlbums ?? []} isLine={true} isLoading={isFetchingArtistsAlbums} />
           </div>
 
-          <div className='white-text m-3 mt-4'>
+          <div className={artistSectionClassName}>
             <h4>Related artists</h4>
             <ArtistsList artists={relatedArtists ?? []} isLine={true} isLoading={isFetchingRelatedArtists} />
           </div>

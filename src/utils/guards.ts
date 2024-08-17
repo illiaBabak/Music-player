@@ -16,10 +16,10 @@ import {
   AlbumResponseObj,
   TopTracksType,
   TopArtistsType,
-  ShowType,
-  ShowsResponseType,
+  PodcastType,
+  PodcastsResponseType,
   EpisodeType,
-  ShowsEpisodesResponse,
+  PodcastEpisodesResponse,
   UserType,
 } from 'src/types/types';
 
@@ -156,7 +156,7 @@ export const isTopTracks = (data: unknown): data is TopTracksType =>
 export const isTopArtists = (data: unknown): data is TopArtistsType =>
   isObj(data) && 'items' in data && Array.isArray(data.items) && data.items.every((el) => isArtist(el));
 
-export const isShow = (data: unknown): data is ShowType =>
+export const isPodcast = (data: unknown): data is PodcastType =>
   isObj(data) &&
   'name' in data &&
   'description' in data &&
@@ -171,13 +171,13 @@ export const isShow = (data: unknown): data is ShowType =>
   isString(data.publisher) &&
   isString(data.uri);
 
-export const isShowsResponse = (data: unknown): data is ShowsResponseType =>
+export const isPodcastsResponse = (data: unknown): data is PodcastsResponseType =>
   isObj(data) &&
   'shows' in data &&
   isObj(data.shows) &&
   'items' in data.shows &&
   Array.isArray(data.shows.items) &&
-  data.shows.items.every((el) => isShow(el));
+  data.shows.items.every((el) => isPodcast(el));
 
 export const isEpisode = (data: unknown): data is EpisodeType =>
   isObj(data) &&
@@ -194,7 +194,7 @@ export const isEpisode = (data: unknown): data is EpisodeType =>
   isNumber(data.duration_ms) &&
   isImagesArr(data.images);
 
-export const isShowsEpisodesResponse = (data: unknown): data is ShowsEpisodesResponse =>
+export const isShowsEpisodesResponse = (data: unknown): data is PodcastEpisodesResponse =>
   isObj(data) && 'items' in data && Array.isArray(data.items) && data.items.every((el) => isEpisode(el));
 
 export const isUser = (data: unknown): data is UserType => isObj(data) && 'id' in data && isString(data.id);

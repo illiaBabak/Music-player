@@ -9,9 +9,10 @@ type Props = {
 
 export const EpisodesList = ({ episodes, isLoading }: Props): JSX.Element => (
   <div className='content-container episodes scroll-container'>
-    {isLoading && <Loader />}
-    {episodes.map((episode, index) => (
-      <Episode episode={episode} key={`episode-${index}-${episode.uri}`} />
-    ))}
+    {isLoading ? (
+      <Loader />
+    ) : (
+      episodes.map((episode, index) => <Episode episode={episode} key={`episode-${index}-${episode.uri}`} />)
+    )}
   </div>
 );

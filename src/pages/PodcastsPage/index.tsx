@@ -16,7 +16,9 @@ export const PodcastsPage = (): JSX.Element => {
   const searchedText = searchParams.get('query') ?? '';
   const podcastId = searchParams.get('podcast-id');
 
-  const { data: podcasts, isFetching: isFetchingPodcasts } = usePodcastsQuery(searchedText);
+  const { data: podcasts, isFetching: isFetchingPodcasts } = usePodcastsQuery(searchedText, {
+    enabled: !!searchedText,
+  });
 
   return (
     <Container className='d-flex podcasts-container p-0 m-0 flex-nowrap'>

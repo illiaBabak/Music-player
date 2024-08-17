@@ -124,7 +124,7 @@ export const PlayListTracks = ({ playlistId, isOwnPlaylist, showDeleteWindow }: 
 
         {isOwnPlaylist && (
           <img
-            src={isLightTheme ? '/src/images/trash.png' : '/src/images/dark-trash-icon.png'}
+            src={isLightTheme ? '/src/images/trash-icon-light.png' : '/src/images/trash-icon.png'}
             className='dlt-icon'
             onClick={showDeleteWindow}
           />

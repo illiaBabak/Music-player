@@ -10,9 +10,9 @@ import { Player } from 'src/components/Player';
 import { DeletePlaylistWindow } from 'src/components/DeletePlaylistWindow';
 
 export const PlaylistsPage = (): JSX.Element => {
-  const location = useLocation();
   const { currentUriTrack } = useContext(GlobalContext);
   const [searchParams] = useSearchParams();
+  const location = useLocation();
 
   const [shouldShowModal, setShouldShowModal] = useState(false);
 

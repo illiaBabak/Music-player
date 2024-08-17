@@ -6,17 +6,16 @@ import { PlaylistsPage } from 'src/pages/PlaylistsPage';
 import { LoginPage } from 'src/pages/LoginPage';
 import { ArtistPage } from 'src/pages/ArtistPage';
 import { AlbumPage } from 'src/pages/AlbumPage';
-import { AlertProps, ArtistType } from 'src/types/types';
+import { AlertProps } from 'src/types/types';
 import { PodcastsPage } from 'src/pages/PodcastsPage';
 import { Alert } from 'src/components/Alert';
+import { DISABLED_DELAY } from 'src/utils/constants';
 
 type GlobalContextType = {
   currentUriTrack: string | null;
   setCurrentUriTrack: React.Dispatch<React.SetStateAction<string | null>>;
   isLightTheme: boolean;
   setIsLightTheme: React.Dispatch<React.SetStateAction<boolean>>;
-  selectedArtist: ArtistType | null;
-  setSelectedArtist: React.Dispatch<React.SetStateAction<ArtistType | null>>;
   setAlertProps: React.Dispatch<React.SetStateAction<AlertProps | null>>;
   shouldShowPlaylists: boolean;
   setShouldShowPlaylists: React.Dispatch<React.SetStateAction<boolean>>;
@@ -33,10 +32,7 @@ export const GlobalContext = createContext<GlobalContextType>({
   setIsLightTheme: () => {
     throw new Error('Global context is not initialized');
   },
-  selectedArtist: null,
-  setSelectedArtist: () => {
-    throw new Error('Global context is not initialized');
-  },
+
   setAlertProps: () => {
     throw new Error('Global context is not initialized');
   },
@@ -52,7 +48,6 @@ export const GlobalContext = createContext<GlobalContextType>({
 
 export const App = (): JSX.Element => {
   const [currentUriTrack, setCurrentUriTrack] = useState<string | null>(null);
-  const [selectedArtist, setSelectedArtist] = useState<ArtistType | null>(null);
   const [isLightTheme, setIsLightTheme] = useState(
     JSON.parse(localStorage.getItem('is_light_theme') ?? '') === 'light' ? true : false
   );
@@ -67,7 +62,7 @@ export const App = (): JSX.Element => {
 
     setTimeout(() => {
       setDisabledPlaylists((prev) => prev.filter((id) => id !== playlistId));
-    }, 20000);
+    }, DISABLED_DELAY);
   };
 
   useEffect(() => {
@@ -114,8 +109,7 @@ export const App = (): JSX.Element => {
           setCurrentUriTrack,
           isLightTheme,
           setIsLightTheme,
-          selectedArtist,
-          setSelectedArtist,
+
           setAlertProps,
           setShouldShowPlaylists,
           shouldShowPlaylists,

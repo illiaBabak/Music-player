@@ -1,6 +1,7 @@
 import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useDeletePlaylist } from 'src/api/playlists';
+import { ModalWrapper } from '../ModalWrapper';
 
 type Props = {
   onClose: () => void;
@@ -21,13 +22,10 @@ export const DeletePlaylistWindow = ({ onClose, playlistId }: Props): JSX.Elemen
   };
 
   return (
-    <div className='wrapper d-flex justify-content-center align-items-center' onClick={onClose}>
+    <ModalWrapper onClose={onClose}>
       <div
         className='delete-window d-flex flex-column justify-content-between align-items-center text-white p-4'
-        onClick={(e) => {
-          e.stopPropagation();
-          e.preventDefault();
-        }}
+        onClick={(e) => e.stopPropagation()}
       >
         <h3>Are you sure you want to delete the playlist?</h3>
 
@@ -40,6 +38,6 @@ export const DeletePlaylistWindow = ({ onClose, playlistId }: Props): JSX.Elemen
           </Button>
         </div>
       </div>
-    </div>
+    </ModalWrapper>
   );
 };

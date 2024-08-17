@@ -8,7 +8,7 @@
     }
 
     .col-content.playing {
-      overflow: hidden scroll;
+      overflow: hidden auto;
       height: calc(100vh - 80px); // 80px = player height
     }
   }

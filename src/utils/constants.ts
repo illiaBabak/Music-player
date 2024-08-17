@@ -29,3 +29,17 @@ export const DIVIDE_FACTOR = 10;
 export const MULTIPLACTION_FACTOR = 4.1;
 
 export const BASE64_PATTERN = /^data:image\/(png|jpeg|jpg|gif);base64,/;
+
+export const SIDEBAR_LINKS = [
+  { route: 'home', imgPath: '/src/images/home-icon.png', imgPathLight: '/src/images/home-icon-light.png' },
+  { route: 'playlists', imgPath: '/src/images/disc-icon.png', imgPathLight: '/src/images/disc-icon-light.png' },
+  {
+    route: 'podcasts',
+    imgPath: '/src/images/micro-icon.png',
+    imgPathLight: '/src/images/micro-icon-light.png',
+  },
+] as const;
+
+export const PLAYLISTS_LINKS = ['recommended', 'my-playlists'] as const;
+
+export const DISABLED_DELAY = 20000;

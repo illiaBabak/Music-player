@@ -1,28 +1,26 @@
-.wrapper {
-  .delete-window {
-    width: 600px;
-    height: 210px;
-    background-color: var(--card-bg-color);
-    border-radius: 8px;
-    text-align: center;
-    cursor: default;
+.delete-window {
+  width: 600px;
+  height: 210px;
+  background-color: var(--card-bg-color);
+  border-radius: 8px;
+  text-align: center;
+  cursor: default;
 
-    .cancel-btn {
-      color: var(--text);
-      background-color: var(--main-page-color);
-      border: none;
+  .cancel-btn {
+    color: var(--text);
+    background-color: var(--main-page-color);
+    border: none;
 
-      &:hover {
-        transform: scale(1.08);
-        transition: 0.25s;
-      }
+    &:hover {
+      transform: scale(1.08);
+      transition: 0.25s;
     }
+  }
 
-    .delete-btn {
-      &:hover {
-        animation: shake 2s;
-        animation-iteration-count: infinite;
-      }
+  .delete-btn {
+    &:hover {
+      animation: shake 2s;
+      animation-iteration-count: infinite;
     }
   }
 }

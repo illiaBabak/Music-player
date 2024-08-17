@@ -10,10 +10,12 @@ type Props = {
 
 export const AlbumsList = ({ albums, isLine, isLoading }: Props): JSX.Element => (
   <div className={`content-container scroll-container albums-list ${isLine ? 'line' : ''}`}>
-    {isLoading && <Loader />}
-
-    {albums?.map((album, index) => (
-      <Album album={album} key={`${album.name}-${album.release_date}-${index}-album`} isLine={isLine} />
-    ))}
+    {isLoading ? (
+      <Loader />
+    ) : (
+      albums?.map((album, index) => (
+        <Album album={album} key={`${album.name}-${album.release_date}-${index}-album`} isLine={isLine} />
+      ))
+    )}
   </div>
 );
