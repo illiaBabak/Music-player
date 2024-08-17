@@ -14,6 +14,7 @@ import {
   PLAYLIST_ADD,
   PLAYLIST_ADD_ITEMS,
   PLAYLIST_DELETE,
+  PLAYLIST_DELETE_TRACK,
   PLAYLIST_EDIT,
   PLAYLIST_IMAGE_UPLOAD,
   PLAYLIST_ITEMS_QUERY,
@@ -143,6 +144,22 @@ const addTracksToPlaylist = async ({ playlistId, uris }: { playlistId: string; u
   });
 
   if (!response.ok) throw new Error('Failed to add items to playlist using Spotify API');
+};
+
+const deletePlaylistTrack = async ({ playlistId, uri }: { playlistId: string; uri: string }): Promise<void> => {
+  const response = await fetch(`${BASE_URL}/playlists/${playlistId}/tracks`, {
+    headers: getHeaders(),
+    method: 'DELETE',
+    body: JSON.stringify({
+      tracks: [
+        {
+          uri,
+        },
+      ],
+    }),
+  });
+
+  if (!response.ok) throw new Error('Failed to delete track from playlist using Spotify API');
 };
 
 export const usePlaylistsQuery = (
@@ -372,6 +389,46 @@ export const useAddItemsPlaylist = (): UseMutationResult<
 
     onError: (_, __, context) => {
       setAlertProps({ text: 'Error', type: 'error', position: 'top' });
+      queryClient.setQueryData([PLAYLIST_ITEMS_QUERY], context?.prevVal);
+    },
+  });
+};
+
+export const useDeletePlaylistTrack = (): UseMutationResult<
+  void,
+  Error,
+  {
+    playlistId: string;
+    uri: string;
+  },
+  { prevVal: PlaylistItemsResponse | undefined }
+> => {
+  const queryClient = useQueryClient();
+  const { setAlertProps } = useContext(GlobalContext);
+
+  return useMutation({
+    mutationKey: [PLAYLIST_MUTATION, PLAYLIST_DELETE_TRACK],
+    mutationFn: deletePlaylistTrack,
+    onMutate: async ({ playlistId, uri }) => {
+      await queryClient.cancelQueries({ queryKey: [PLAYLIST_ITEMS_QUERY, playlistId] });
+
+      const prevVal = queryClient.getQueryData<PlaylistItemsResponse | undefined>([PLAYLIST_ITEMS_QUERY, playlistId]);
+
+      queryClient.setQueryData([PLAYLIST_ITEMS_QUERY, playlistId], (prev: PlaylistItemsResponse | undefined) => ({
+        ...prev,
+        items: prev?.items.filter((item) => item.track.uri !== uri),
+      }));
+
+      return { prevVal };
+    },
+
+    onSuccess: () => {
+      setAlertProps({ text: 'Success', position: 'top', type: 'success' });
+      queryClient.invalidateQueries({ queryKey: [PLAYLIST_ITEMS_QUERY] });
+    },
+
+    onError: (_, __, context) => {
+      setAlertProps({ text: 'Error', position: 'top', type: 'error' });
       queryClient.setQueryData([PLAYLIST_ITEMS_QUERY], context?.prevVal);
     },
   });

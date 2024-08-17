@@ -177,7 +177,13 @@ export const PlayListTracks = ({ playlistId, isOwnPlaylist, showDeleteWindow }: 
       </div>
 
       {tracks?.length ? (
-        <TracksList tracks={tracks} isLine={false} isLoading={isFetchingTracks} isTracksInPlaylist={true} />
+        <TracksList
+          tracks={tracks}
+          isLine={false}
+          isLoading={isFetchingTracks}
+          isTracksInPlaylist={true}
+          playlistId={playlistId}
+        />
       ) : (
         <div className='fs-2 mt-4'>No tracks :(</div>
       )}
