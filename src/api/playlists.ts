@@ -335,7 +335,9 @@ export const useCustomImagePlaylist = (): UseMutationResult<
       const prevVal = queryClient.getQueryData<PlaylistType[] | undefined>([PLAYLISTS_QUERY]);
 
       queryClient.setQueryData([PLAYLISTS_QUERY], (prev: PlaylistType[]) =>
-        prev.map((playlist) => (playlist.id === playlistId ? { ...playlist, images: [{ url: image }] } : playlist))
+        prev
+          ? prev.map((playlist) => (playlist.id === playlistId ? { ...playlist, images: [{ url: image }] } : playlist))
+          : []
       );
 
       return { prevVal };

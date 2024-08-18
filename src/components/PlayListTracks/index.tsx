@@ -7,6 +7,7 @@ import { TracksList } from '../TracksList';
 import { PlaylistType } from 'src/types/types';
 import { isString } from 'src/utils/guards';
 import { useRecommendationTracksQuery } from 'src/api/tracks';
+import { MAX_IMG_SIZE } from 'src/utils/constants';
 
 type Props = {
   playlistId: string;
@@ -60,9 +61,6 @@ export const PlayListTracks = ({ playlistId, isOwnPlaylist, showDeleteWindow }: 
 
     editPlaylist({ editedPlaylist: editingPlaylist, playlistId: playlistData?.id ?? '' });
 
-    if (!editingPlaylist.images?.[0].url)
-      addCustomImagePlaylist({ playlistId: playlistData?.id ?? '', image: editingPlaylist.images?.[0].url ?? '' });
-
     disablePlaylist(playlistData?.id ?? '');
 
     setSearchParams((prev) => {
@@ -83,13 +81,25 @@ export const PlayListTracks = ({ playlistId, isOwnPlaylist, showDeleteWindow }: 
 
     const reader = new FileReader();
 
+    const file = files[0];
+    const fileSize = file.size / 1024;
+
+    if (fileSize >= MAX_IMG_SIZE) {
+      setAlertProps({ text: 'Image is to large!', type: 'error', position: 'top' });
+      return;
+    }
+
     reader.onload = (e) => {
       const base64String = e.target?.result;
 
-      if (isString(base64String)) setEditingPlaylist((prev) => ({ ...prev, images: [{ url: base64String }] }));
+      if (isString(base64String)) {
+        setEditingPlaylist((prev) => ({ ...prev, images: [{ url: base64String }] }));
+
+        addCustomImagePlaylist({ playlistId: playlistData?.id ?? '', image: base64String });
+      }
     };
 
-    if (files[0]) reader.readAsDataURL(files[0]);
+    if (file) reader.readAsDataURL(file);
   };
 
   return (

@@ -43,3 +43,5 @@ export const SIDEBAR_LINKS = [
 export const PLAYLISTS_LINKS = ['recommended', 'my-playlists'] as const;
 
 export const DISABLED_DELAY = 20000;
+
+export const MAX_IMG_SIZE = 256;
