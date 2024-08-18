@@ -343,10 +343,11 @@ export const useCustomImagePlaylist = (): UseMutationResult<
       return { prevVal };
     },
 
-    onSuccess: () => {
+    onSuccess: (_, { playlistId }) => {
       setAlertProps({ text: 'Success', type: 'success', position: 'top' });
 
       queryClient.invalidateQueries({ queryKey: [PLAYLISTS_QUERY] });
+      queryClient.invalidateQueries({ queryKey: [PLAYLIST_QUERY, playlistId] });
     },
 
     onError: (_, __, context) => {

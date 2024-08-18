@@ -8,9 +8,11 @@ import { SideBarMenu } from 'src/components/SideBarMenu';
 import { GlobalContext } from 'src/root';
 import { Player } from 'src/components/Player';
 import { DeletePlaylistWindow } from 'src/components/DeletePlaylistWindow';
+import { ModalWrapper } from 'src/components/ModalWrapper';
+import { ImageEditor } from 'src/components/ImageEditor';
 
 export const PlaylistsPage = (): JSX.Element => {
-  const { currentUriTrack } = useContext(GlobalContext);
+  const { currentUriTrack, imageToEdit, setImageToEdit } = useContext(GlobalContext);
   const [searchParams] = useSearchParams();
   const location = useLocation();
 
@@ -27,6 +29,16 @@ export const PlaylistsPage = (): JSX.Element => {
 
         {shouldShowModal && (
           <DeletePlaylistWindow onClose={() => setShouldShowModal(false)} playlistId={currentPlaylistId} />
+        )}
+
+        {!!imageToEdit && (
+          <ModalWrapper onClose={() => setImageToEdit(null)}>
+            <ImageEditor
+              imageToEdit={imageToEdit ?? ''}
+              playlistId={currentPlaylistId}
+              onClose={() => setImageToEdit(null)}
+            />
+          </ModalWrapper>
         )}
 
         <Col className={`col-content m-0 p-0 scroll-container ${currentUriTrack ? 'playing' : ''}`}>

@@ -1,0 +1,43 @@
+.editor-container {
+  width: 340px;
+  background-color: var(--card-bg-color);
+  cursor: default;
+
+  .field {
+    .field-input {
+      width: 140px;
+    }
+
+    .field-input[type='range'] {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 6px;
+    }
+
+    .field-input[type='range']::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--accent);
+      cursor: pointer;
+      box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+      transition: transform 0.15s ease-in-out;
+    }
+
+    .field-input[type='range']:hover::-webkit-slider-thumb {
+      transform: scale(1.1);
+    }
+  }
+
+  .btn {
+    border: none;
+    background-color: var(--accent);
+
+    &:hover {
+      transform: scale(1.05);
+      transition: 0.25s;
+    }
+  }
+}

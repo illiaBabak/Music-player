@@ -21,6 +21,8 @@ type GlobalContextType = {
   setShouldShowPlaylists: React.Dispatch<React.SetStateAction<boolean>>;
   disabledPlaylists: string[];
   disablePlaylist: (playlistId: string) => void;
+  imageToEdit: File | null;
+  setImageToEdit: React.Dispatch<React.SetStateAction<File | null>>;
 };
 
 export const GlobalContext = createContext<GlobalContextType>({
@@ -44,6 +46,10 @@ export const GlobalContext = createContext<GlobalContextType>({
   disablePlaylist: () => {
     throw new Error('Global context is not initialized');
   },
+  imageToEdit: null,
+  setImageToEdit: () => {
+    throw new Error('Global context is not initialized');
+  },
 });
 
 export const App = (): JSX.Element => {
@@ -56,6 +62,7 @@ export const App = (): JSX.Element => {
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const [shouldShowPlaylists, setShouldShowPlaylists] = useState(false);
   const [disabledPlaylists, setDisabledPlaylists] = useState<string[]>([]);
+  const [imageToEdit, setImageToEdit] = useState<File | null>(null);
 
   const disablePlaylist = (playlistId: string) => {
     setDisabledPlaylists((prev) => [...prev, playlistId]);
@@ -109,12 +116,13 @@ export const App = (): JSX.Element => {
           setCurrentUriTrack,
           isLightTheme,
           setIsLightTheme,
-
           setAlertProps,
           setShouldShowPlaylists,
           shouldShowPlaylists,
           disabledPlaylists,
           disablePlaylist,
+          setImageToEdit,
+          imageToEdit,
         }}
       >
         <BrowserRouter>

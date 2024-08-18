@@ -1,10 +1,9 @@
 import { useState, useRef, useEffect, useContext } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { usePlaylistQuery, useEditPlaylist, useCustomImagePlaylist } from 'src/api/playlists';
+import { usePlaylistQuery, useEditPlaylist } from 'src/api/playlists';
 import { GlobalContext } from 'src/root';
 import { PlaylistType } from 'src/types/types';
 import { MAX_IMG_SIZE } from 'src/utils/constants';
-import { isString } from 'src/utils/guards';
 
 type Props = {
   playlistId: string;
@@ -13,13 +12,12 @@ type Props = {
 };
 
 export const PlaylistInfo = ({ playlistId, isOwnPlaylist, showDeleteWindow }: Props): JSX.Element => {
-  const { setAlertProps, isLightTheme, disablePlaylist } = useContext(GlobalContext);
+  const { setAlertProps, isLightTheme, disablePlaylist, setImageToEdit } = useContext(GlobalContext);
   const [, setSearchParams] = useSearchParams();
 
   const { data: playlistData } = usePlaylistQuery(playlistId);
 
   const { mutateAsync: editPlaylist } = useEditPlaylist();
-  const { mutateAsync: addCustomImagePlaylist } = useCustomImagePlaylist();
 
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingDescription, setIsEditingDescription] = useState(false);
@@ -72,8 +70,6 @@ export const PlaylistInfo = ({ playlistId, isOwnPlaylist, showDeleteWindow }: Pr
   const handleImageUpload = ({ currentTarget: { files } }: React.ChangeEvent<HTMLInputElement>) => {
     if (!files) return;
 
-    const reader = new FileReader();
-
     const file = files[0];
     const fileSize = file.size / 1024;
 
@@ -82,17 +78,7 @@ export const PlaylistInfo = ({ playlistId, isOwnPlaylist, showDeleteWindow }: Pr
       return;
     }
 
-    reader.onload = (e) => {
-      const base64String = e.target?.result;
-
-      if (isString(base64String)) {
-        setEditingPlaylist((prev) => ({ ...prev, images: [{ url: base64String }] }));
-
-        addCustomImagePlaylist({ playlistId: playlistData?.id ?? '', image: base64String });
-      }
-    };
-
-    if (file) reader.readAsDataURL(file);
+    setImageToEdit(file);
   };
 
   return (
