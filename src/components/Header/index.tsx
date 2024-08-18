@@ -9,7 +9,7 @@ export const Header = (): JSX.Element => {
 
   return (
     <Navbar className='p-3 header' data-bs-theme='dark'>
-      <Form className='header-form d-flex flex-row justify-content-between w-100'>
+      <Form className='header-form d-flex flex-row justify-content-between align-items-center w-100'>
         <Form.Control
           type='search'
           placeholder='Search'
