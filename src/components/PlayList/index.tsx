@@ -37,7 +37,7 @@ export const PlayList = ({ playlist, selectedPlaylistsId, setSelectedPlaylistsId
     >
       <Card.Img
         src={playlist.images ? playlist.images[0].url : '/src/images/not-found.jpg'}
-        className='playlist-icon mt-2'
+        className='playlist-icon mt-3'
       />
       <span className='fs-5 mb-2'>{isDisabledPlaylist ? 'Updating...' : playlist.name}</span>
       {isSelectedPlaylist && <span className='fs-1 mb-2 selected-text'>Selected</span>}

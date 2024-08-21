@@ -32,7 +32,12 @@ export const BASE64_PATTERN = /^data:image\/(png|jpeg|jpg|gif);base64,/;
 
 export const SIDEBAR_LINKS = [
   { route: 'home', imgPath: '/src/images/home-icon.png', imgPathLight: '/src/images/home-icon-light.png' },
-  { route: 'playlists', imgPath: '/src/images/disc-icon.png', imgPathLight: '/src/images/disc-icon-light.png' },
+  {
+    route: 'playlists',
+      
+    imgPath: '/src/images/disc-icon.png',
+    imgPathLight: '/src/images/disc-icon-light.png',
+  },
   {
     route: 'podcasts',
     imgPath: '/src/images/micro-icon.png',

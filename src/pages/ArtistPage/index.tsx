@@ -48,7 +48,7 @@ export const ArtistPage = (): JSX.Element => {
 
             <div className='details d-flex flex-column m-3'>
               <span className='fs-2'>{artist?.name}</span>
-              <div className='fs-5'>
+              <div className='fs-5 mt-2'>
                 Genres:
                 {artist?.genres.map((genre, index) => (
                   <span className='fs-6 ms-2' key={genre}>
@@ -57,7 +57,7 @@ export const ArtistPage = (): JSX.Element => {
                   </span>
                 ))}
               </div>
-              <span className='fs-6'>Followers: {artist?.followers.total}</span>
+              <span className='fs-6 mt-1'>Followers: {artist?.followers.total}</span>
             </div>
           </div>
 

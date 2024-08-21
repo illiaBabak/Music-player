@@ -50,7 +50,10 @@ export const Track = ({ track, isLine, isTracksInPlaylist, playlistId }: Props):
       />
 
       <Card.Body className='track-info d-flex flex-row justify-content-start align-items-center'>
-        <span className='fs-6 track-name text-white' style={{ animationDuration: `${calcDuration(track.name)}s` }}>
+        <span
+          className={`fs-6 track-name text-white ${isLine ? 'mb-2' : ''}`}
+          style={{ animationDuration: `${calcDuration(track.name)}s` }}
+        >
           {track.name}
         </span>
 

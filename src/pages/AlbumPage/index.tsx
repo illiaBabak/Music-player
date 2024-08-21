@@ -43,10 +43,10 @@ export const AlbumPage = (): JSX.Element => {
             <img src={selectedAlbum?.images[0].url ?? ''} className='album-icon' />
             <div className='details d-flex flex-column ms-2 w-100'>
               <div className='fs-1 w-100'>{selectedAlbum?.name}</div>
-              <span className='fs-6 mt-1'>Tracks: {selectedAlbum?.total_tracks}</span>
-              <span className='fs-6 mt-1'>Release date: {formatDate(selectedAlbum?.release_date ?? '')}</span>
+              <span className='fs-6 mt-2'>Tracks: {selectedAlbum?.total_tracks}</span>
+              <span className='fs-6 mt-2'>Release date: {formatDate(selectedAlbum?.release_date ?? '')}</span>
               <div
-                className='artist-info d-flex flex-row justify-content-start align-items-center mt-4'
+                className='artist-info d-flex flex-row justify-content-start align-items-center mt-3'
                 onClick={() => navigate(`/artist?artist-id=${artist?.id}`)}
               >
                 <img className='artist-icon' src={artist?.images[0].url} />
