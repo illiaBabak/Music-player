@@ -1,7 +1,8 @@
-import { useState, useRef, useContext } from 'react';
+import { useRef, useContext } from 'react';
 import { usePlaylistQuery, useEditPlaylist } from 'src/api/playlists';
 import { GlobalContext } from 'src/root';
 import { MAX_IMG_SIZE } from 'src/utils/constants';
+import { ChangedField } from '../ChangedField';
 
 type Props = {
   playlistId: string;
@@ -15,22 +16,16 @@ export const PlaylistInfo = ({ playlistId, isOwnPlaylist, showDeleteWindow }: Pr
   const { data: playlistData } = usePlaylistQuery(playlistId);
   const { mutateAsync: editPlaylist } = useEditPlaylist();
 
-  const [isEditingName, setIsEditingName] = useState(false);
-  const [isEditingDescription, setIsEditingDescription] = useState(false);
-
   const inputFileRef = useRef<HTMLInputElement | null>(null);
 
   const handleBlur = ({ currentTarget: { value, name } }: React.FocusEvent<HTMLInputElement, Element>) => {
-    setIsEditingName(false);
-    setIsEditingDescription(false);
-
     if (!playlistData?.name) {
       setAlertProps({ position: 'top', text: 'Name required', type: 'error' });
 
       return;
     }
 
-    editPlaylist({ editedPlaylist: { [name]: value }, playlistId: playlistData?.id ?? '' });
+    editPlaylist({ editedField: { [name]: value }, playlistId: playlistData?.id ?? '' });
 
     disablePlaylist(playlistData?.id ?? '');
   };
@@ -75,49 +70,19 @@ export const PlaylistInfo = ({ playlistId, isOwnPlaylist, showDeleteWindow }: Pr
         />
       )}
       <div className='d-flex flex-column w-100 h-100'>
-        {isEditingName ? (
-          <input
-            key={playlistData?.name}
-            className='info-field m-2 p-1'
-            type='text'
-            defaultValue={playlistData?.name}
-            onBlur={handleBlur}
-            onKeyDown={({ key, currentTarget }) => {
-              if (key === 'Enter') currentTarget.blur();
-            }}
-            name='name'
-            autoFocus
-          />
-        ) : (
-          <span className={`fs-4 m-2 ${isOwnPlaylist ? '' : 'not-own'}`} onClick={() => setIsEditingName(true)}>
-            {playlistData?.name ? playlistData?.name : 'Add name'}
-          </span>
-        )}
+        <ChangedField
+          handleBlur={handleBlur}
+          isOwnPlaylist={isOwnPlaylist}
+          data={playlistData?.name ?? ''}
+          name='name'
+        />
 
-        {isEditingDescription ? (
-          <input
-            key={playlistData?.description}
-            className='info-field m-2 p-1'
-            type='text'
-            defaultValue={playlistData?.description}
-            onBlur={handleBlur}
-            onKeyDown={({ key, currentTarget }) => {
-              if (key === 'Enter') currentTarget.blur();
-            }}
-            name='description'
-            autoFocus
-            placeholder='Add description...'
-          />
-        ) : (
-          <span
-            className={`fs-6 m-2 ${isOwnPlaylist ? '' : 'not-own'}`}
-            onClick={() => {
-              setIsEditingDescription(true);
-            }}
-          >
-            {playlistData?.description ? playlistData.description : 'Add description'}
-          </span>
-        )}
+        <ChangedField
+          handleBlur={handleBlur}
+          isOwnPlaylist={isOwnPlaylist}
+          data={playlistData?.description ?? ''}
+          name='description'
+        />
       </div>
     </div>
   );

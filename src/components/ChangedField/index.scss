@@ -1,0 +1,17 @@
+.info-field {
+  width: 450px;
+  background-color: var(--accent);
+  color: #ffffff;
+  outline: none;
+  border: 2px solid var(--sidebar-color);
+  border-radius: 2px;
+}
+
+.not-own {
+  pointer-events: none;
+}
+
+.add {
+  color: gray;
+  font-style: italic;
+}

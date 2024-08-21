@@ -101,16 +101,16 @@ const deletePlaylist = async (playlistId: string): Promise<void> => {
 };
 
 const editPlaylist = async ({
-  editedPlaylist,
+  editedField,
   playlistId,
 }: {
-  editedPlaylist: Partial<PlaylistType>;
+  editedField: Partial<PlaylistType>;
   playlistId: string;
 }): Promise<void> => {
   const response = await fetch(`${BASE_URL}/playlists/${playlistId}`, {
     headers: getHeaders(),
     method: 'PUT',
-    body: JSON.stringify(editedPlaylist),
+    body: JSON.stringify(editedField),
   });
 
   if (!response.ok) throw new Error('Failed to edit a playlist using Spotify API');
@@ -278,7 +278,7 @@ export const useEditPlaylist = (): UseMutationResult<
   void,
   Error,
   {
-    editedPlaylist: Partial<PlaylistType>;
+    editedField: Partial<PlaylistType>;
     playlistId: string;
   },
   {
@@ -292,7 +292,7 @@ export const useEditPlaylist = (): UseMutationResult<
   return useMutation({
     mutationFn: editPlaylist,
     mutationKey: [PLAYLIST_MUTATION, PLAYLIST_EDIT],
-    onMutate: async ({ editedPlaylist, playlistId }) => {
+    onMutate: async ({ editedField, playlistId }) => {
       await queryClient.cancelQueries({ queryKey: [PLAYLISTS_QUERY] });
       await queryClient.cancelQueries({ queryKey: [PLAYLIST_QUERY, playlistId] });
 
@@ -300,11 +300,11 @@ export const useEditPlaylist = (): UseMutationResult<
       const prevValSingle = queryClient.getQueryData<PlaylistType | undefined>([PLAYLIST_QUERY, playlistId]);
 
       queryClient.setQueryData([PLAYLISTS_QUERY], (prev: PlaylistType[] | undefined) =>
-        prev ? prev.map((playlist) => (playlist.id === playlistId ? { ...playlist, ...editedPlaylist } : playlist)) : []
+        prev ? prev.map((playlist) => (playlist.id === playlistId ? { ...playlist, ...editedField } : playlist)) : []
       );
 
       queryClient.setQueryData([PLAYLIST_QUERY, playlistId], (prev: PlaylistType | undefined) =>
-        prev ? { ...prev, ...editedPlaylist } : undefined
+        prev ? { ...prev, ...editedField } : undefined
       );
 
       return { prevValList, prevValSingle };
