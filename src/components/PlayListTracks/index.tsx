@@ -78,7 +78,7 @@ export const PlayListTracks = ({ playlistId, isOwnPlaylist, showDeleteWindow }: 
 
       {!!searchedTracks?.length && isOwnPlaylist && (
         <>
-          <h5 className='mt-4'>Searhed tracks</h5>
+          <h5 className='mt-4'>Searched tracks</h5>
           <TracksList tracks={searchedTracks} isLine={true} isLoading={isFetchingSearch} playlistId={playlistId} />
         </>
       )}

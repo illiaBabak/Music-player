@@ -1,8 +1,6 @@
-import { useState, useRef, useEffect, useContext } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useState, useRef, useContext } from 'react';
 import { usePlaylistQuery, useEditPlaylist } from 'src/api/playlists';
 import { GlobalContext } from 'src/root';
-import { PlaylistType } from 'src/types/types';
 import { MAX_IMG_SIZE } from 'src/utils/constants';
 
 type Props = {
@@ -13,52 +11,28 @@ type Props = {
 
 export const PlaylistInfo = ({ playlistId, isOwnPlaylist, showDeleteWindow }: Props): JSX.Element => {
   const { setAlertProps, isLightTheme, disablePlaylist, setImageToEdit } = useContext(GlobalContext);
-  const [, setSearchParams] = useSearchParams();
 
   const { data: playlistData } = usePlaylistQuery(playlistId);
-
   const { mutateAsync: editPlaylist } = useEditPlaylist();
 
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingDescription, setIsEditingDescription] = useState(false);
-  const [editingPlaylist, setEditingPlaylist] = useState<Partial<PlaylistType>>({
-    name: playlistData?.name,
-    description: playlistData?.description,
-    images: playlistData?.images,
-  });
 
   const inputFileRef = useRef<HTMLInputElement | null>(null);
 
-  useEffect(() => {
-    setEditingPlaylist({ ...playlistData });
-  }, [playlistData]);
-
-  const handleInputChange = ({ currentTarget: { value, name } }: React.ChangeEvent<HTMLInputElement>) => {
-    setEditingPlaylist((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleBlur = () => {
+  const handleBlur = ({ currentTarget: { value, name } }: React.FocusEvent<HTMLInputElement, Element>) => {
     setIsEditingName(false);
     setIsEditingDescription(false);
 
-    if (!editingPlaylist.name) {
+    if (!playlistData?.name) {
       setAlertProps({ position: 'top', text: 'Name required', type: 'error' });
 
       return;
     }
 
-    editPlaylist({ editedPlaylist: editingPlaylist, playlistId: playlistData?.id ?? '' });
+    editPlaylist({ editedPlaylist: { [name]: value }, playlistId: playlistData?.id ?? '' });
 
     disablePlaylist(playlistData?.id ?? '');
-
-    setSearchParams((prev) => {
-      prev.delete('playlist-id');
-
-      return prev;
-    });
   };
 
   const handleImageClick = () => {
@@ -85,7 +59,7 @@ export const PlaylistInfo = ({ playlistId, isOwnPlaylist, showDeleteWindow }: Pr
     <div className='playlist-info p-2 d-flex flex-row justify-content-center align-items-center w-100'>
       <div className='d-flex justify-content-center align-items-end'>
         <img
-          src={editingPlaylist.images?.length ? editingPlaylist.images[0].url : '/src/images/not-found.jpg'}
+          src={playlistData?.images?.length ? playlistData.images[0].url : '/src/images/not-found.jpg'}
           className='playlist-icon mx-2'
           onClick={handleImageClick}
         />
@@ -103,10 +77,10 @@ export const PlaylistInfo = ({ playlistId, isOwnPlaylist, showDeleteWindow }: Pr
       <div className='d-flex flex-column w-100 h-100'>
         {isEditingName ? (
           <input
+            key={playlistData?.name}
             className='info-field m-2 p-1'
             type='text'
-            value={editingPlaylist?.name}
-            onChange={handleInputChange}
+            defaultValue={playlistData?.name}
             onBlur={handleBlur}
             onKeyDown={({ key, currentTarget }) => {
               if (key === 'Enter') currentTarget.blur();
@@ -116,16 +90,16 @@ export const PlaylistInfo = ({ playlistId, isOwnPlaylist, showDeleteWindow }: Pr
           />
         ) : (
           <span className={`fs-4 m-2 ${isOwnPlaylist ? '' : 'not-own'}`} onClick={() => setIsEditingName(true)}>
-            {editingPlaylist?.name ? editingPlaylist.name : 'Add name'}
+            {playlistData?.name ? playlistData?.name : 'Add name'}
           </span>
         )}
 
         {isEditingDescription ? (
           <input
+            key={playlistData?.description}
             className='info-field m-2 p-1'
             type='text'
-            value={editingPlaylist?.description}
-            onChange={handleInputChange}
+            defaultValue={playlistData?.description}
             onBlur={handleBlur}
             onKeyDown={({ key, currentTarget }) => {
               if (key === 'Enter') currentTarget.blur();
@@ -141,7 +115,7 @@ export const PlaylistInfo = ({ playlistId, isOwnPlaylist, showDeleteWindow }: Pr
               setIsEditingDescription(true);
             }}
           >
-            {editingPlaylist.description ? editingPlaylist?.description : 'Add description'}
+            {playlistData?.description ? playlistData.description : 'Add description'}
           </span>
         )}
       </div>

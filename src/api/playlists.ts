@@ -282,7 +282,8 @@ export const useEditPlaylist = (): UseMutationResult<
     playlistId: string;
   },
   {
-    prevVal: PlaylistType[] | undefined;
+    prevValList: PlaylistType[] | undefined;
+    prevValSingle: PlaylistType | undefined;
   }
 > => {
   const queryClient = useQueryClient();
@@ -293,26 +294,36 @@ export const useEditPlaylist = (): UseMutationResult<
     mutationKey: [PLAYLIST_MUTATION, PLAYLIST_EDIT],
     onMutate: async ({ editedPlaylist, playlistId }) => {
       await queryClient.cancelQueries({ queryKey: [PLAYLISTS_QUERY] });
+      await queryClient.cancelQueries({ queryKey: [PLAYLIST_QUERY, playlistId] });
 
-      const prevVal = queryClient.getQueryData<PlaylistType[] | undefined>([PLAYLISTS_QUERY]);
+      const prevValList = queryClient.getQueryData<PlaylistType[] | undefined>([PLAYLISTS_QUERY]);
+      const prevValSingle = queryClient.getQueryData<PlaylistType | undefined>([PLAYLIST_QUERY, playlistId]);
 
-      queryClient.setQueryData([PLAYLISTS_QUERY, playlistId], (prev: PlaylistType[]) =>
+      queryClient.setQueryData([PLAYLISTS_QUERY], (prev: PlaylistType[] | undefined) =>
         prev ? prev.map((playlist) => (playlist.id === playlistId ? { ...playlist, ...editedPlaylist } : playlist)) : []
       );
 
-      return { prevVal };
+      queryClient.setQueryData([PLAYLIST_QUERY, playlistId], (prev: PlaylistType | undefined) =>
+        prev ? { ...prev, ...editedPlaylist } : undefined
+      );
+
+      return { prevValList, prevValSingle };
+    },
+
+    onSettled: (_, __, context) => {
+      queryClient.invalidateQueries({ queryKey: [PLAYLISTS_QUERY] });
+      queryClient.invalidateQueries({ queryKey: [PLAYLIST_QUERY, context.playlistId] });
     },
 
     onSuccess: () => {
       setAlertProps({ text: 'Success', type: 'success', position: 'top' });
-
-      queryClient.invalidateQueries({ queryKey: [PLAYLISTS_QUERY] });
     },
 
     onError: (_, __, context) => {
       setAlertProps({ text: 'Error', type: 'error', position: 'top' });
 
-      queryClient.setQueryData([PLAYLISTS_QUERY], context?.prevVal);
+      queryClient.setQueryData([PLAYLISTS_QUERY], context?.prevValList);
+      queryClient.setQueryData([PLAYLISTS_QUERY, context?.prevValSingle?.id], context?.prevValSingle);
     },
   });
 };
