@@ -35,9 +35,10 @@ export const ArtistPage = (): JSX.Element => {
         <Col className='col-content m-0 p-0 scroll-container'>
           <div className='artist-header d-flex flex-row justify-content-between align-items-center p-3 w-100'>
             <div
-              className='return-btn p-3 m-0 d-flex justify-content-center align-items-center'
+              className='return-btn p-3 m-0 d-flex justify-content-between align-items-center'
               onClick={() => navigate('/home')}
             >
+              <span className='fs-1'>&lt;</span>
               Back
             </div>
             <ThemeBtn />

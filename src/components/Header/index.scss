@@ -1,15 +1,36 @@
 .header {
   .header-form {
-    .search-input {
-      width: 420px;
-      height: 45px;
-      border: none;
-      background-color: var(--sidebar-color);
+    .input-wrapper {
+      position: relative;
 
-      &:focus,
-      &:active {
-        outline: none;
-        box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1);
+      .search-input {
+        width: 420px;
+        height: 45px;
+        border: none;
+        background-color: var(--sidebar-color);
+
+        &:focus,
+        &:active {
+          outline: none;
+          box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1);
+        }
+      }
+
+      .search-input::-webkit-search-cancel-button {
+        -webkit-appearance: none;
+        appearance: none;
+      }
+
+      .clear-input-btn {
+        font-weight: bolder;
+        position: absolute;
+        right: 16px;
+        cursor: pointer;
+
+        &:hover {
+          transform: scale(1.05);
+          transition: 0.25s;
+        }
       }
     }
   }

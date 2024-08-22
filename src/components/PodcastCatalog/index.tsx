@@ -19,7 +19,7 @@ export const PodcastCatalog = ({ podcastId }: Props): JSX.Element => {
     <div className='podcast-catalog h-100'>
       <div className='header d-flex flex-row justify-content-between p-3 w-100 align-items-center'>
         <div
-          className='return-btn p-3 m-0 d-flex justify-content-center align-items-center'
+          className='return-btn p-3 m-0 d-flex justify-content-between align-items-center'
           onClick={() => {
             setSearchParams((prev) => {
               prev.delete('podcast-id');
@@ -27,6 +27,7 @@ export const PodcastCatalog = ({ podcastId }: Props): JSX.Element => {
             });
           }}
         >
+          <span className='fs-1'>&lt;</span>
           Back
         </div>
         <ThemeBtn />
