@@ -1,13 +1,16 @@
 .custom-alert {
-  width: 220px;
+  min-width: 220px;
+  max-width: 90vw;
+  width: auto;
   height: 60px;
-  border-radius: 16px;
+  border-radius: 8px;
   background-color: white;
+  text-align: center;
+  color: #6a6a6a;
   position: fixed;
   left: 50%;
   transform: translate(-50%, 0);
   animation: showAndHide 1.5s ease-in-out forwards;
-  text-align: center;
 
   .alert-img {
     min-width: 40px;
@@ -19,7 +22,10 @@
   }
 
   .close-alert-btn {
-    font-size: 32px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 24px;
     width: 18px;
     height: 18px;
     font-weight: bolder;
@@ -33,8 +39,7 @@
 }
 
 .success {
-  color: #2ecc71;
-  border: 4px solid #2ecc71;
+  border: 4px solid #77bf8e;
 
   .alert-img {
     background-image: url('https://static-00.iconduck.com/assets.00/success-icon-512x512-qdg1isa0.png');
@@ -42,8 +47,7 @@
 }
 
 .error {
-  color: #c74242;
-  border: 4px solid #c74242;
+  border: 4px solid #cf4b4b;
 
   .alert-img {
     background-image: url('https://www.freeiconspng.com/thumbs/error-icon/error-icon-4.png');

@@ -19,9 +19,9 @@ export const Alert = ({
     onMouseLeave={onMouseLeave}
     onMouseEnter={onMouseEnter}
   >
-    <div className='alert-img ms-2' />
-    <h4 className='m-0'>{text}</h4>
-    <div className='close-alert-btn d-flex align-items-center justify-conten-center mx-2' onClick={onClose}>
+    <div className='alert-img ms-1' />
+    <h4 className='m-4'>{text}</h4>
+    <div className='close-alert-btn d-flex align-items-center justify-conten-center m-0' onClick={onClose}>
       x
     </div>
   </div>
