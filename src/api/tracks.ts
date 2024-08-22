@@ -10,11 +10,14 @@ import {
   TRACKS_QUERY,
 } from './constants';
 import { getHeaders } from '.';
+import { redirectToLogin } from 'src/utils/redirect';
 
 const getTracks = async (searchedText: string): Promise<TrackType[]> => {
   const response = await fetch(`${BASE_URL}/search?q=${encodeURIComponent(searchedText)}&type=track`, {
     headers: getHeaders(),
   });
+
+  if (response.status === 401) redirectToLogin();
 
   if (!response.ok) throw new Error('Failed to fetch tracks from Spotify API');
 
@@ -28,6 +31,8 @@ const getRecommendationTracks = async (): Promise<TrackType[]> => {
     headers: getHeaders(),
   });
 
+  if (response.status === 401) redirectToLogin();
+
   if (!response.ok) throw new Error('Failed to fetch recommendation tracks from Spotify API');
 
   const responseJson: unknown = await response.json();
@@ -40,6 +45,8 @@ const getTrack = async (id: string): Promise<TrackType | null> => {
     headers: getHeaders(),
   });
 
+  if (response.status === 401) redirectToLogin();
+
   if (!response.ok) throw new Error('Failed to fetch track from Spotify API');
 
   const responseJson: unknown = await response.json();
@@ -51,6 +58,8 @@ const getAlbumTracks = async (id: string): Promise<TrackType[] | null> => {
   const response = await fetch(`${BASE_URL}/albums/${id}/tracks`, {
     headers: getHeaders(),
   });
+
+  if (response.status === 401) redirectToLogin();
 
   if (!response.ok) throw new Error('Failed to fetch album tracks from Spotify API');
 
@@ -72,6 +81,8 @@ const getArtistTopTracks = async (id: string): Promise<TrackType[]> => {
     headers: getHeaders(),
   });
 
+  if (response.status === 401) redirectToLogin();
+
   if (!response.ok) throw new Error('Failed to fetch top tracks from Spotify API');
 
   const responseJson: unknown = await response.json();
@@ -83,6 +94,8 @@ const getTopUserTracks = async (): Promise<TrackType[]> => {
   const response = await fetch(`${BASE_URL}/me/top/tracks`, {
     headers: getHeaders(),
   });
+
+  if (response.status === 401) redirectToLogin();
 
   if (!response.ok) throw new Error('Failed to fetch top user tracks from Spotify API');
 

@@ -26,11 +26,14 @@ import { getHeaders } from '.';
 import { useContext } from 'react';
 import { GlobalContext } from 'src/root';
 import { BASE64_PATTERN } from 'src/utils/constants';
+import { redirectToLogin } from 'src/utils/redirect';
 
 const getPlaylist = async (playlistId: string): Promise<PlaylistType | null> => {
   const response = await fetch(`${BASE_URL}/playlists/${playlistId}`, {
     headers: getHeaders(),
   });
+
+  if (response.status === 401) redirectToLogin();
 
   if (!response.ok) throw new Error('Failed to fetch playlist');
 
@@ -44,6 +47,8 @@ const getPlaylists = async (): Promise<PlaylistType[]> => {
     headers: getHeaders(),
   });
 
+  if (response.status === 401) redirectToLogin();
+
   if (!response.ok) throw new Error('Failed to fetch playlists');
 
   const responseJson: unknown = await response.json();
@@ -56,6 +61,8 @@ const getPlaylistItems = async (playlistId: string): Promise<PlaylistItemsRespon
     headers: getHeaders(),
   });
 
+  if (response.status === 401) redirectToLogin();
+
   if (!response.ok) throw new Error('Failed to fetch playlist items');
 
   const responseJson: unknown = await response.json();
@@ -67,6 +74,8 @@ const getFeaturedPlaylists = async (): Promise<PlaylistType[]> => {
   const response = await fetch(`${BASE_URL}/browse/featured-playlists`, {
     headers: getHeaders(),
   });
+
+  if (response.status === 401) redirectToLogin();
 
   if (!response.ok) throw new Error('Failed to fetch featured playlists from Spotify API');
 
@@ -88,6 +97,8 @@ const addPlaylist = async ({
     body: JSON.stringify(playlistToCreate),
   });
 
+  if (response.status === 401) redirectToLogin();
+
   if (!response.ok) throw new Error('Failed to add a new playlist using Spotify API');
 };
 
@@ -96,6 +107,8 @@ const deletePlaylist = async (playlistId: string): Promise<void> => {
     headers: getHeaders(),
     method: 'DELETE',
   });
+
+  if (response.status === 401) redirectToLogin();
 
   if (!response.ok) throw new Error('Failed to delete a playlist using Spotify API');
 };
@@ -112,6 +125,8 @@ const editPlaylist = async ({
     method: 'PUT',
     body: JSON.stringify(editedField),
   });
+
+  if (response.status === 401) redirectToLogin();
 
   if (!response.ok) throw new Error('Failed to edit a playlist using Spotify API');
 };
@@ -130,6 +145,8 @@ const addCustomPlaylistImage = async ({ playlistId, image }: { playlistId: strin
     body: base64Data,
   });
 
+  if (response.status === 401) redirectToLogin();
+
   if (!response.ok) throw new Error('Failed to add custom img to playlist using Spotify API');
 };
 
@@ -142,6 +159,8 @@ const addTracksToPlaylist = async ({ playlistId, uris }: { playlistId: string; u
       position: 0,
     }),
   });
+
+  if (response.status === 401) redirectToLogin();
 
   if (!response.ok) throw new Error('Failed to add items to playlist using Spotify API');
 };
@@ -158,6 +177,8 @@ const deletePlaylistTrack = async ({ playlistId, uri }: { playlistId: string; ur
       ],
     }),
   });
+
+  if (response.status === 401) redirectToLogin();
 
   if (!response.ok) throw new Error('Failed to delete track from playlist using Spotify API');
 };
@@ -215,7 +236,9 @@ export const useAddPlaylist = (): UseMutationResult<
 
       const prevVal = queryClient.getQueryData<PlaylistType[] | undefined>([PLAYLISTS_QUERY]);
 
-      queryClient.setQueryData([PLAYLISTS_QUERY], (prev: PlaylistType[]) => [playlistToCreate, ...prev]);
+      queryClient.setQueryData([PLAYLISTS_QUERY], (prev: PlaylistType[]) =>
+        prev ? [playlistToCreate, ...prev] : prev
+      );
 
       return { prevVal };
     },

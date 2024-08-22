@@ -10,11 +10,14 @@ import {
   TOP_USER_ARTISTS_QUERY,
 } from './constants';
 import { getHeaders } from '.';
+import { redirectToLogin } from 'src/utils/redirect';
 
 const getArtists = async (searchedText: string): Promise<ArtistType[]> => {
   const response = await fetch(`${BASE_URL}/search?q=${encodeURIComponent(searchedText)}&type=artist`, {
     headers: getHeaders(),
   });
+
+  if (response.status === 401) redirectToLogin();
 
   if (!response.ok) throw new Error('Failed to fetch artists from Spotify API');
 
@@ -28,6 +31,8 @@ const getArtist = async (id: string): Promise<ArtistType | null> => {
     headers: getHeaders(),
   });
 
+  if (response.status === 401) redirectToLogin();
+
   if (!response.ok) throw new Error('Failed to fetch artist from Spotify API');
 
   const responseJson: unknown = await response.json();
@@ -39,6 +44,8 @@ const getRelatedArtists = async (id: string): Promise<ArtistType[]> => {
   const response = await fetch(`${BASE_URL}/artists/${id}/related-artists`, {
     headers: getHeaders(),
   });
+
+  if (response.status === 401) redirectToLogin();
 
   if (!response.ok) throw new Error('Failed to fetch related artists from Spotify API');
 
@@ -52,6 +59,8 @@ const getArtistAlbums = async (id: string): Promise<AlbumType[]> => {
     headers: getHeaders(),
   });
 
+  if (response.status === 401) redirectToLogin();
+
   if (!response.ok) throw new Error('Failed to fetch artist albums from Spotify API');
 
   const responseJson: unknown = await response.json();
@@ -63,6 +72,8 @@ const getTopUserArtists = async (): Promise<ArtistType[]> => {
   const response = await fetch(`${BASE_URL}/me/top/artists`, {
     headers: getHeaders(),
   });
+
+  if (response.status === 401) redirectToLogin();
 
   if (!response.ok) throw new Error('Failed to fetch top user artists from Spotify API');
 

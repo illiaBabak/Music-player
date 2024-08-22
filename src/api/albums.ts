@@ -3,11 +3,14 @@ import { AlbumType } from 'src/types/types';
 import { isAlbum, isAlbumResponse } from 'src/utils/guards';
 import { ALBUM_QUERY, ALBUMS_QUERY, BASE_URL, REALEASES_QUERY } from './constants';
 import { getHeaders } from '.';
+import { redirectToLogin } from 'src/utils/redirect';
 
 const getAlbums = async (searchedText: string): Promise<AlbumType[]> => {
   const response = await fetch(`${BASE_URL}/search?q=${encodeURIComponent(searchedText)}&type=album`, {
     headers: getHeaders(),
   });
+
+  if (response.status === 401) redirectToLogin();
 
   if (!response.ok) throw new Error('Failed to fetch albums from Spotify API');
 
@@ -21,6 +24,8 @@ const getReleasesAlbums = async (): Promise<AlbumType[]> => {
     headers: getHeaders(),
   });
 
+  if (response.status === 401) redirectToLogin();
+
   if (!response.ok) throw new Error('Failed to fetch releases albums from Spotify API');
 
   const responseJson: unknown = await response.json();
@@ -32,6 +37,8 @@ const getAlbum = async (id: string): Promise<AlbumType | null> => {
   const response = await fetch(`${BASE_URL}/albums/${id}`, {
     headers: getHeaders(),
   });
+
+  if (response.status === 401) redirectToLogin();
 
   if (!response.ok) throw new Error('Failed to fetch album from Spotify API');
 

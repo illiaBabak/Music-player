@@ -3,11 +3,14 @@ import { getHeaders } from '.';
 import { BASE_URL, PODCAST_EPISODES_QUERY, PODCAST_QUERY, PODCASTS_QUERY } from './constants';
 import { EpisodeType, PodcastType } from 'src/types/types';
 import { useQuery, UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
+import { redirectToLogin } from 'src/utils/redirect';
 
 const getPodcasts = async (searchedText: string): Promise<PodcastType[]> => {
   const response = await fetch(`${BASE_URL}/search?q=${encodeURIComponent(searchedText)}&type=show`, {
     headers: getHeaders(),
   });
+
+  if (response.status === 401) redirectToLogin();
 
   if (!response.ok) throw new Error('Failed to fetch podcasts from Spotify API');
 
@@ -21,6 +24,8 @@ const getPodcast = async (id: string): Promise<PodcastType | null> => {
     headers: getHeaders(),
   });
 
+  if (response.status === 401) redirectToLogin();
+
   if (!response.ok) throw new Error('Failed to fetch podcast from Spotify API');
 
   const responseJson: unknown = await response.json();
@@ -32,6 +37,8 @@ const getPodcastEpisodes = async (id: string): Promise<EpisodeType[]> => {
   const response = await fetch(`${BASE_URL}/shows/${id}/episodes`, {
     headers: getHeaders(),
   });
+
+  if (response.status === 401) redirectToLogin();
 
   if (!response.ok) throw new Error('Failed to fetch podcast episodes from Spotify API');
 
