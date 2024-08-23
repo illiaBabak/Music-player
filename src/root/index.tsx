@@ -81,6 +81,8 @@ export const App = (): JSX.Element => {
     body.style.setProperty('--sidebar-color', isLightTheme ? '#eb9031' : '#190b2e');
     body.style.setProperty('--main-page-color', isLightTheme ? '#fff7e8' : '#0e091a');
     body.style.setProperty('--link-text', isLightTheme ? '#cacaca' : '#8f9199');
+    body.style.setProperty('--skeleton-bg', isLightTheme ? '#808080' : '#413950');
+    body.style.setProperty('--skeleton-animate-bg', isLightTheme ? '#4e4e4e' : '#322b3f');
 
     localStorage.setItem('is_light_theme', JSON.stringify(isLightTheme ? 'light' : 'dark'));
   }, [isLightTheme]);

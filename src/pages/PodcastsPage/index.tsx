@@ -31,7 +31,7 @@ export const PodcastsPage = (): JSX.Element => {
           ) : (
             <>
               <Header />
-              {podcasts?.length ? (
+              {podcasts?.length && !isFetchingPodcasts ? (
                 <PodcastsList podcasts={podcasts ?? []} isLoading={isFetchingPodcasts} />
               ) : (
                 <span className='empty-text fs-4'>No podcasts found :(</span>

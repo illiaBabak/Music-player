@@ -34,7 +34,7 @@ export const PlayListTracks = ({ playlistId, isOwnPlaylist, showDeleteWindow }: 
     <div className='playlist-tracks d-flex flex-column w-100 h-100 justify-content-start align-items-center'>
       <div className='header-container d-flex flex-row justify-content-between p-3 w-100 align-items-center'>
         <div
-          className='return-btn p-3 m-0 d-flex justify-content-between align-items-center'
+          className='return-btn p-3 m-0 d-flex justify-content-between align-items-center text-white'
           onClick={() => {
             setCurrentUriTrack(null);
 
@@ -53,17 +53,13 @@ export const PlayListTracks = ({ playlistId, isOwnPlaylist, showDeleteWindow }: 
 
       <PlaylistInfo playlistId={playlistId} showDeleteWindow={showDeleteWindow} isOwnPlaylist={isOwnPlaylist} />
 
-      {tracks?.length ? (
-        <TracksList
-          tracks={tracks}
-          isLine={false}
-          isLoading={isFetchingTracks}
-          isTracksInPlaylist={true}
-          playlistId={playlistId}
-        />
-      ) : (
-        <div className='fs-2 mt-4'>No tracks :(</div>
-      )}
+      <TracksList
+        tracks={tracks ?? []}
+        isLine={false}
+        isLoading={isFetchingTracks}
+        isTracksInPlaylist={true}
+        playlistId={playlistId}
+      />
 
       {isOwnPlaylist && (!!searchedTracks?.length || !!recommendedTracks?.length) && (
         <>

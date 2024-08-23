@@ -29,7 +29,7 @@ export const AlbumPage = (): JSX.Element => {
       <Row className='row-album w-100 flex-nowrap'>
         <SideBarMenu />
         <Col className={`col-content m-0 p-0 scroll-container ${currentUriTrack ? 'playing' : ''}`}>
-          <div className='album-header d-flex flex-row justify-content-between align-items-center p-3 w-100'>
+          <div className='album-header d-flex flex-row justify-content-between align-items-center p-3 w-100 text-white'>
             <div
               className='return-btn p-3 m-0 d-flex justify-content-between align-items-center'
               onClick={() => navigate('/home')}

@@ -1,8 +1,8 @@
 import { useSearchParams } from 'react-router-dom';
 import { ThemeBtn } from 'src/components/ThemeBtn';
 import { usePodcastEpisodesQuery, usePodcastQuery } from 'src/api/podcasts';
-import { Loader } from 'src/components/Loader';
 import { EpisodesList } from '../EpisodesList';
+import { SkeletonLoader } from 'src/components/SkeletonLoader';
 
 type Props = {
   podcastId: string;
@@ -19,7 +19,7 @@ export const PodcastCatalog = ({ podcastId }: Props): JSX.Element => {
     <div className='podcast-catalog h-100'>
       <div className='header d-flex flex-row justify-content-between p-3 w-100 align-items-center'>
         <div
-          className='return-btn p-3 m-0 d-flex justify-content-between align-items-center'
+          className='return-btn p-3 m-0 d-flex justify-content-between align-items-center text-white'
           onClick={() => {
             setSearchParams((prev) => {
               prev.delete('podcast-id');
@@ -35,7 +35,14 @@ export const PodcastCatalog = ({ podcastId }: Props): JSX.Element => {
 
       <div className='podcast-info d-flex flex-row justify-content-start align-items-start w-100 p-3'>
         {isLoadingPodcast ? (
-          <Loader />
+          <>
+            <SkeletonLoader width='220px' height='220px' borderRadius='0' />
+            <div className='ms-3 d-flex flex-column w-100 h-100'>
+              <SkeletonLoader width='50%' height='42px' borderRadius='0' optionalClasses={['mb-2']} />
+              <SkeletonLoader width='100%' height='120px' borderRadius='0' />
+              <SkeletonLoader width='25%' height='32px' borderRadius='0' optionalClasses={['mt-3']} />
+            </div>
+          </>
         ) : (
           <>
             <img

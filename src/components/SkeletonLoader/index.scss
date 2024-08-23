@@ -1,0 +1,18 @@
+.skeleton-loader {
+  background-color: var(--skeleton-bg);
+  animation: animate-skeleton 1.8s linear infinite;
+}
+
+@keyframes animate-skeleton {
+  0% {
+    background-color: var(--skeleton-bg);
+  }
+
+  50% {
+    background-color: var(--skeleton-animate-bg);
+  }
+
+  100% {
+    background-color: var(--skeleton-bg);
+  }
+}

@@ -2,9 +2,9 @@ import { useFeaturedPlaylistsQuery, usePlaylistsQuery } from 'src/api/playlists'
 import { PlayList } from '../PlayList';
 import { useSearchParams } from 'react-router-dom';
 import { PlaylistType } from 'src/types/types';
-import { Loader } from '../Loader';
 import { useContext, useEffect } from 'react';
 import { GlobalContext } from 'src/root';
+import { SkeletonLoader } from '../SkeletonLoader';
 
 type Props = {
   showRecommendations: boolean;
@@ -48,18 +48,24 @@ export const PlayListsList = ({
 
   return (
     <div className='playlists-list scroll-container d-flex flex-row flex-wrap align-items-center justify-content-center w-100'>
-      {isFetchingPlaylists || isFetchinFeaturedPlaylists ? (
-        <Loader />
-      ) : (
-        filteredPlaylists?.map((playlist, index) => (
-          <PlayList
-            key={`${playlist.id ?? ''}-${index}`}
-            playlist={playlist}
-            setSelectedPlaylistsId={setSelectedPlaylistsId}
-            selectedPlaylistsId={selectedPlaylistsId}
-          />
-        ))
-      )}
+      {isFetchingPlaylists || isFetchinFeaturedPlaylists
+        ? Array.from({ length: 20 }).map((_, index) => (
+            <SkeletonLoader
+              key={`playlist-skeleton-${index}`}
+              width='220px'
+              height='240px'
+              borderRadius='4px'
+              optionalClasses={['p-1', 'm-3']}
+            />
+          ))
+        : filteredPlaylists?.map((playlist, index) => (
+            <PlayList
+              key={`${playlist.id ?? ''}-${index}`}
+              playlist={playlist}
+              setSelectedPlaylistsId={setSelectedPlaylistsId}
+              selectedPlaylistsId={selectedPlaylistsId}
+            />
+          ))}
     </div>
   );
 };

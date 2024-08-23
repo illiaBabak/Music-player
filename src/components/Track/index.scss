@@ -1,7 +1,8 @@
 .track {
   text-align: center;
   width: 98%;
-  height: 85px;
+  min-height: 85px;
+  max-height: 85px;
   background-color: var(--card-bg-color);
   position: relative;
   color: var(--text);

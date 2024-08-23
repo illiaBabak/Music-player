@@ -1,7 +1,7 @@
 import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useDeletePlaylist } from 'src/api/playlists';
-import { ModalWrapper } from '../ModalWrapper';
+import { ModalWrapper } from 'src/components/ModalWrapper';
 
 type Props = {
   onClose: () => void;

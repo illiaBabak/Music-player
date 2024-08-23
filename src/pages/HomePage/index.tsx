@@ -109,6 +109,7 @@ export const HomePage = (): JSX.Element => {
               {isRecommendationsSection && (
                 <>
                   <h4 className={sectionClassName}>Recommendations tracks</h4>
+
                   <TracksList
                     isLine={true}
                     isLoading={isFetchingRecommendations}
