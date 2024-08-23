@@ -3,13 +3,13 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { Header } from 'src/components/Header';
 import { PlayListsList } from 'src/components/PlayListsList';
-import { PlayListTracks } from 'src/components/PlayListTracks';
+import { PlayListTracks } from 'src/pages/PlaylistsPage/components/PlayListTracks';
 import { SideBarMenu } from 'src/components/SideBarMenu';
 import { GlobalContext } from 'src/root';
 import { Player } from 'src/components/Player';
-import { DeletePlaylistWindow } from 'src/components/DeletePlaylistWindow';
+import { DeletePlaylistWindow } from 'src/pages/PlaylistsPage/components/DeletePlaylistWindow';
 import { ModalWrapper } from 'src/components/ModalWrapper';
-import { ImageEditor } from 'src/components/ImageEditor';
+import { ImageEditor } from 'src/pages/PlaylistsPage/components/ImageEditor';
 
 export const PlaylistsPage = (): JSX.Element => {
   const { currentUriTrack, imageToEdit, setImageToEdit } = useContext(GlobalContext);

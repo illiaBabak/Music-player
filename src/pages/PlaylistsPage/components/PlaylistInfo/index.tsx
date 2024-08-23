@@ -2,7 +2,7 @@ import { useRef, useContext } from 'react';
 import { usePlaylistQuery, useEditPlaylist } from 'src/api/playlists';
 import { GlobalContext } from 'src/root';
 import { MAX_IMG_SIZE } from 'src/utils/constants';
-import { ChangedField } from '../ChangedField';
+import { ChangedField } from 'src/components/ChangedField';
 
 type Props = {
   playlistId: string;

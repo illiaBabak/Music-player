@@ -1,7 +1,7 @@
 import { useSearchParams } from 'react-router-dom';
-import { ThemeBtn } from '../ThemeBtn';
+import { ThemeBtn } from 'src/components/ThemeBtn';
 import { usePodcastEpisodesQuery, usePodcastQuery } from 'src/api/podcasts';
-import { Loader } from '../Loader';
+import { Loader } from 'src/components/Loader';
 import { EpisodesList } from '../EpisodesList';
 
 type Props = {

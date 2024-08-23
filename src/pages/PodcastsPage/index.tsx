@@ -4,8 +4,8 @@ import { useSearchParams } from 'react-router-dom';
 import { usePodcastsQuery } from 'src/api/podcasts';
 import { Header } from 'src/components/Header';
 import { Player } from 'src/components/Player';
-import { PodcastCatalog } from 'src/components/PodcastCatalog';
-import { PodcastsList } from 'src/components/PodcastsList';
+import { PodcastCatalog } from 'src/pages/PodcastsPage/components/PodcastCatalog';
+import { PodcastsList } from 'src/pages/PodcastsPage/components/PodcastsList';
 import { SideBarMenu } from 'src/components/SideBarMenu';
 import { GlobalContext } from 'src/root';
 

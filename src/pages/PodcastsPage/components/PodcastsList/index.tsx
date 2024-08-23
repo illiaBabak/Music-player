@@ -1,5 +1,5 @@
 import { PodcastType } from 'src/types/types';
-import { Loader } from '../Loader';
+import { Loader } from 'src/components/Loader';
 import { Podcast } from '../Podcast';
 
 type Props = {

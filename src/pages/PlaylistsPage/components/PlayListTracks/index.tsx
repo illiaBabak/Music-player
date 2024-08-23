@@ -2,11 +2,11 @@ import { useSearchParams } from 'react-router-dom';
 import { useContext } from 'react';
 import { GlobalContext } from 'src/root';
 import { usePlaylistsItemsQuery } from 'src/api/playlists';
-import { TracksList } from '../TracksList';
+import { TracksList } from 'src/components/TracksList';
 import { useRecommendationTracksQuery, useSearchTracksQuery } from 'src/api/tracks';
-import { PlaylistInfo } from '../PlaylistInfo';
-import { Header } from '../Header';
-import { ThemeBtn } from '../ThemeBtn';
+import { PlaylistInfo } from 'src/pages/PlaylistsPage/components/PlaylistInfo';
+import { Header } from 'src/components/Header';
+import { ThemeBtn } from 'src/components/ThemeBtn';
 
 type Props = {
   playlistId: string;
