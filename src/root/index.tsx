@@ -141,7 +141,11 @@ export const App = (): JSX.Element => {
             </Route>
             <Route path='/artist' element={<ArtistPage />} />
             <Route path='/album' element={<AlbumPage />} />
-            <Route path='/podcasts' element={<PodcastsPage />} />
+            <Route path='/podcasts'>
+              <Route index element={<Navigate to='searched-podcasts' />} />
+              <Route path='searched-podcasts' element={<PodcastsPage />} />
+              <Route path='my-podcasts' element={<PodcastsPage />} />
+            </Route>
           </Routes>
         </BrowserRouter>
       </GlobalContext.Provider>

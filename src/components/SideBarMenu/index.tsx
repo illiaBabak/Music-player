@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { GlobalContext } from 'src/root';
 import { capitalize } from 'src/utils/capitalize';
 import { CreatePlaylistWindow } from '../CreatePlaylistWindow';
-import { PLAYLISTS_LINKS, SIDEBAR_LINKS } from 'src/utils/constants';
+import { PLAYLISTS_LINKS, PODCASTS_LINKS, SIDEBAR_LINKS } from 'src/utils/constants';
 
 export const SideBarMenu = (): JSX.Element => {
   const { isLightTheme } = useContext(GlobalContext);
@@ -15,6 +15,7 @@ export const SideBarMenu = (): JSX.Element => {
 
   const currentLocationName = location.pathname.slice(1);
   const isPlaylistPage = currentLocationName.startsWith('playlists');
+  const isPodcastPage = currentLocationName.startsWith('podcasts');
 
   return (
     <>
@@ -52,6 +53,18 @@ export const SideBarMenu = (): JSX.Element => {
                     <Nav.Link
                       key={`sub-link-${subLink}-${subIndex}`}
                       onClick={() => navigate(`/playlists/${subLink}`)}
+                      className={`sub-link ms-4 m-1 ${currentLocationName.endsWith(subLink) ? 'selected-link' : ''}`}
+                    >
+                      -{capitalize(subLink)}
+                    </Nav.Link>
+                  ))}
+
+                {isPodcastPage &&
+                  link.route === 'podcasts' &&
+                  PODCASTS_LINKS.map((subLink, subIndex) => (
+                    <Nav.Link
+                      key={`sub-link-${subLink}-${subIndex}`}
+                      onClick={() => navigate(`/podcasts/${subLink}`)}
                       className={`sub-link ms-4 m-1 ${currentLocationName.endsWith(subLink) ? 'selected-link' : ''}`}
                     >
                       -{capitalize(subLink)}

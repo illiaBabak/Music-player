@@ -1,6 +1,6 @@
-import { isPodcast, isShowsEpisodesResponse, isPodcastsResponse } from 'src/utils/guards';
+import { isPodcast, isShowsEpisodesResponse, isPodcastsResponse, isUserPodcasts } from 'src/utils/guards';
 import { getHeaders } from '.';
-import { BASE_URL, PODCAST_EPISODES_QUERY, PODCAST_QUERY, PODCASTS_QUERY } from './constants';
+import { BASE_URL, PODCAST_EPISODES_QUERY, PODCAST_QUERY, PODCASTS_QUERY, USER_PODCASTS } from './constants';
 import { EpisodeType, PodcastType } from 'src/types/types';
 import { useQuery, UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
 import { redirectToLogin } from 'src/utils/redirect';
@@ -47,6 +47,20 @@ const getPodcastEpisodes = async (id: string): Promise<EpisodeType[]> => {
   return isShowsEpisodesResponse(responseJson) ? responseJson.items : [];
 };
 
+const getUserSavedPodcasts = async (): Promise<PodcastType[]> => {
+  const response = await fetch(`${BASE_URL}/me/shows`, {
+    headers: getHeaders(),
+  });
+
+  if (response.status === 401) redirectToLogin();
+
+  if (!response.ok) throw new Error('Failed to fetch user saved shows from Spotify API');
+
+  const responseJson: unknown = await response.json();
+
+  return isUserPodcasts(responseJson) ? responseJson.items.map((item) => item.show) : [];
+};
+
 export const usePodcastsQuery = (
   searchedText: string,
   options?: Partial<UseQueryOptions<PodcastType[]>>
@@ -73,4 +87,13 @@ export const usePodcastEpisodesQuery = (id: string): UseQueryResult<EpisodeType[
     queryFn: async () => {
       return await getPodcastEpisodes(id);
     },
+  });
+
+export const useUserSavedPodcasts = (
+  options?: Partial<UseQueryOptions<PodcastType[]>>
+): UseQueryResult<PodcastType[]> =>
+  useQuery({
+    queryKey: [USER_PODCASTS],
+    queryFn: getUserSavedPodcasts,
+    ...options,
   });

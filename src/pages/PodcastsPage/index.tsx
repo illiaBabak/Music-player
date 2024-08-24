@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { useSearchParams } from 'react-router-dom';
-import { usePodcastsQuery } from 'src/api/podcasts';
+import { usePodcastsQuery, useUserSavedPodcasts } from 'src/api/podcasts';
 import { Header } from 'src/components/Header';
 import { Player } from 'src/components/Player';
 import { PodcastCatalog } from 'src/pages/PodcastsPage/components/PodcastCatalog';
@@ -16,9 +16,19 @@ export const PodcastsPage = (): JSX.Element => {
   const searchedText = searchParams.get('query') ?? '';
   const podcastId = searchParams.get('podcast-id');
 
+  const isMyPodcastsRoute = location.pathname.endsWith('my-podcasts');
+
   const { data: podcasts, isFetching: isFetchingPodcasts } = usePodcastsQuery(searchedText, {
-    enabled: !!searchedText,
+    enabled: !!searchedText && !isMyPodcastsRoute,
   });
+
+  const { data: userPodcasts, isFetching: isFetchingUserPodcasts } = useUserSavedPodcasts({
+    enabled: isMyPodcastsRoute,
+  });
+
+  const shouldShowEmptyText = isMyPodcastsRoute
+    ? !userPodcasts?.length && !isFetchingUserPodcasts
+    : !podcasts?.length && !isFetchingPodcasts;
 
   return (
     <Container className='d-flex podcasts-container p-0 m-0 flex-nowrap'>
@@ -31,11 +41,11 @@ export const PodcastsPage = (): JSX.Element => {
           ) : (
             <>
               <Header />
-              {podcasts?.length && !isFetchingPodcasts ? (
-                <PodcastsList podcasts={podcasts ?? []} isLoading={isFetchingPodcasts} />
-              ) : (
-                <span className='empty-text fs-4'>No podcasts found :(</span>
-              )}
+              {shouldShowEmptyText && <span className='empty-text fs-4'>No podcasts :(</span>}
+              <PodcastsList
+                podcasts={isMyPodcastsRoute ? userPodcasts ?? [] : podcasts ?? []}
+                isLoading={isMyPodcastsRoute ? isFetchingUserPodcasts : isFetchingPodcasts}
+              />
             </>
           )}
         </Col>

@@ -21,6 +21,7 @@ import {
   EpisodeType,
   PodcastEpisodesResponse,
   UserType,
+  UserPodcasts,
 } from 'src/types/types';
 
 const isObj = (data: unknown): data is object => typeof data === 'object' && !!data;
@@ -198,3 +199,9 @@ export const isShowsEpisodesResponse = (data: unknown): data is PodcastEpisodesR
   isObj(data) && 'items' in data && Array.isArray(data.items) && data.items.every((el) => isEpisode(el));
 
 export const isUser = (data: unknown): data is UserType => isObj(data) && 'id' in data && isString(data.id);
+
+export const isUserPodcasts = (data: unknown): data is UserPodcasts =>
+  isObj(data) &&
+  'items' in data &&
+  Array.isArray(data.items) &&
+  data.items.every((el) => isObj(el) && 'show' in el && isPodcast(el.show));

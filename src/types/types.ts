@@ -139,6 +139,12 @@ export type PodcastEpisodesResponse = {
   items: EpisodeType[];
 };
 
+export type UserPodcasts = {
+  items: {
+    show: PodcastType;
+  }[];
+};
+
 export type UserType = {
   id: string;
 };
