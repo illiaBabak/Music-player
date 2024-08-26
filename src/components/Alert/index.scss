@@ -12,6 +12,12 @@
   transform: translate(-50%, 0);
   animation: showAndHide 1.5s ease-in-out forwards;
 
+  .alert-text {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+
   .alert-img {
     min-width: 40px;
     max-width: 40px;

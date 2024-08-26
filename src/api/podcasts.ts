@@ -3,6 +3,7 @@ import { getHeaders } from '.';
 import {
   BASE_URL,
   PODCAST_ADD,
+  PODCAST_DELETE,
   PODCAST_EPISODES_QUERY,
   PODCAST_MUTATION,
   PODCAST_QUERY,
@@ -90,6 +91,18 @@ const addPodcast = async (id: string): Promise<void> => {
   if (!response.ok) throw new Error('Failed to add podcast using Spotify API');
 };
 
+const deletePodcast = async (id: string): Promise<void> => {
+  const response = await fetch(`${BASE_URL}/me/shows`, {
+    headers: getHeaders(),
+    method: 'DELETE',
+    body: JSON.stringify([id]),
+  });
+
+  if (response.status === 401) redirectToLogin();
+
+  if (!response.ok) throw new Error('Failed to delete podcast using Spotify API');
+};
+
 export const usePodcastsQuery = (
   searchedText: string,
   options?: Partial<UseQueryOptions<PodcastType[]>>
@@ -155,6 +168,42 @@ export const useAddPodcast = (): UseMutationResult<void, Error, string, { prevVa
 
     onError: (_, __, context) => {
       setAlertProps({ type: 'error', text: 'Error', position: 'top' });
+
+      queryClient.setQueryData([USER_PODCASTS], context?.prevVal);
+    },
+  });
+};
+
+export const useDeletePodcast = (): UseMutationResult<void, Error, string, { prevVal: PodcastType[] | undefined }> => {
+  const queryClient = useQueryClient();
+  const { setAlertProps } = useContext(GlobalContext);
+
+  return useMutation({
+    mutationKey: [PODCAST_MUTATION, PODCAST_DELETE],
+    mutationFn: deletePodcast,
+    onMutate: async (id) => {
+      await queryClient.cancelQueries({ queryKey: [USER_PODCASTS] });
+
+      const prevVal = queryClient.getQueryData<PodcastType[] | undefined>([USER_PODCASTS]);
+
+      queryClient.setQueryData([USER_PODCASTS], (prev: PodcastType[]) =>
+        prev ? prev.filter((podcast) => podcast.id !== id) : []
+      );
+
+      return { prevVal };
+    },
+
+    onSettled: (_, __, id) => {
+      queryClient.invalidateQueries({ queryKey: [USER_PODCASTS] });
+      queryClient.invalidateQueries({ queryKey: [PODCAST_QUERY, id] });
+    },
+
+    onSuccess: () => {
+      setAlertProps({ type: 'success', text: 'Deleted podcast', position: 'top' });
+    },
+
+    onError: (_, __, context) => {
+      setAlertProps({ type: 'error', text: 'Error with delete', position: 'top' });
 
       queryClient.setQueryData([USER_PODCASTS], context?.prevVal);
     },

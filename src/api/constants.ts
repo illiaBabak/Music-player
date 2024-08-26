@@ -61,3 +61,5 @@ export const USER_PODCASTS = 'user_podcasts';
 export const PODCAST_MUTATION = 'podcast_mutation';
 
 export const PODCAST_ADD = 'podcast_add';
+
+export const PODCAST_DELETE = 'podcast_delete';

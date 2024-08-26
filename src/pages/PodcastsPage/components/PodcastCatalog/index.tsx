@@ -1,6 +1,6 @@
 import { useSearchParams } from 'react-router-dom';
 import { ThemeBtn } from 'src/components/ThemeBtn';
-import { useAddPodcast, usePodcastEpisodesQuery, usePodcastQuery } from 'src/api/podcasts';
+import { useAddPodcast, useDeletePodcast, usePodcastEpisodesQuery, usePodcastQuery } from 'src/api/podcasts';
 import { EpisodesList } from '../EpisodesList';
 import { SkeletonLoader } from 'src/components/SkeletonLoader';
 import { Image } from 'react-bootstrap';
@@ -21,6 +21,7 @@ export const PodcastCatalog = ({ podcastId, isSavedPodcast }: Props): JSX.Elemen
   const { data: episodes, isFetching: isLoadingEpisodes } = usePodcastEpisodesQuery(podcastId);
 
   const { mutateAsync: addPodcast } = useAddPodcast();
+  const { mutateAsync: deletePodcast } = useDeletePodcast();
 
   return (
     <div className='podcast-catalog h-100'>
@@ -60,7 +61,17 @@ export const PodcastCatalog = ({ podcastId, isSavedPodcast }: Props): JSX.Elemen
               <span className='fs-3'>{podcast?.name}</span>
               <span className='description scroll-container mt-3'>{podcast?.description}</span>
               <span className='fs-5 mt-4'>Publisher: {podcast?.publisher}</span>
-              {!isSavedPodcast && (
+              {isSavedPodcast ? (
+                <Image
+                  className='delete-icon'
+                  src={isLightTheme ? '/src/images/trash-icon-light.png' : '/src/images/trash-icon.png'}
+                  onClick={(e) => {
+                    e.stopPropagation();
+
+                    deletePodcast(podcast?.id ?? '');
+                  }}
+                />
+              ) : (
                 <Image
                   className='add-icon'
                   src={isLightTheme ? '/src/images/add-light-icon.png' : '/src/images/add-icon.png'}
