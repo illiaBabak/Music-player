@@ -16,7 +16,7 @@ export const EpisodesList = ({ episodes, isLoading }: Props): JSX.Element => (
             width='95%'
             height='180px'
             borderRadius='4px'
-            optionalClasses={['m-2', 'p-2']}
+            className='m-2 p-2'
           />
         ))
       : episodes.map((episode, index) => <Episode episode={episode} key={`episode-${index}-${episode.uri}`} />)}

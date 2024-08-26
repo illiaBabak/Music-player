@@ -17,7 +17,7 @@ export const ArtistsList = ({ artists, isLine, isLoading }: Props): JSX.Element 
             height={isLine ? '180px' : '300px'}
             width={isLine ? '180px' : '290px'}
             borderRadius='50%'
-            optionalClasses={['p-2', 'm-2', isLine ? 'mx-4' : '']}
+            className={`p-2 m-2 ${isLine ? 'mx-4' : ''}`}
           />
         ))
       : artists?.map((artist, index) => (

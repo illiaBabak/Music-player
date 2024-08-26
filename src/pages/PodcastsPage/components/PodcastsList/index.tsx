@@ -30,10 +30,10 @@ export const PodcastsList = ({
         ? Array.from({ length: 8 }).map((_, index) => (
             <SkeletonLoader
               key={`podcast-skeleton-${index}`}
-              width='98%'
+              width='100%'
               height='270px'
               borderRadius='4px'
-              optionalClasses={['m-2', 'p-2']}
+              className='m-2 p-2'
             />
           ))
         : filteredPodcasts.map((podcast, index) => (

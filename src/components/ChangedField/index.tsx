@@ -1,13 +1,13 @@
 import { useState } from 'react';
 
 type Props = {
-  isOwnPlaylist: boolean;
+  isReadOnly: boolean;
   data: string | undefined;
   name: string;
   handleBlur: ({ currentTarget: { value, name } }: React.FocusEvent<HTMLInputElement, Element>) => void;
 };
 
-export const ChangedField = ({ isOwnPlaylist, data, handleBlur, name }: Props): JSX.Element => {
+export const ChangedField = ({ isReadOnly, data, handleBlur, name }: Props): JSX.Element => {
   const [isEdit, setIsEdit] = useState(false);
 
   return isEdit ? (
@@ -29,7 +29,7 @@ export const ChangedField = ({ isOwnPlaylist, data, handleBlur, name }: Props): 
       autoFocus
     />
   ) : (
-    <span className={`fs-4 m-2 ${isOwnPlaylist ? '' : 'not-own'} ${data ? '' : 'add'}`} onClick={() => setIsEdit(true)}>
+    <span className={`fs-4 m-2 ${isReadOnly ? '' : 'readonly'} ${data ? '' : 'add'}`} onClick={() => setIsEdit(true)}>
       {data ? data : `Add ${name}`}
     </span>
   );

@@ -20,11 +20,11 @@ export const PlayListTracks = ({ playlistId, isOwnPlaylist, showDeleteWindow }: 
 
   const searchedText = searchParams.get('query') ?? '';
 
-  const { data: playlistItems, isFetching: isFetchingTracks } = usePlaylistsItemsQuery(playlistId);
+  const { data: playlistItems, isLoading: isLoadingTracks } = usePlaylistsItemsQuery(playlistId);
 
-  const { data: recommendedTracks, isFetching: isFetchingRecommendations } = useRecommendationTracksQuery();
+  const { data: recommendedTracks, isLoading: isLoadingRecommendations } = useRecommendationTracksQuery();
 
-  const { data: searchedTracks, isFetching: isFetchingSearch } = useSearchTracksQuery(searchedText, {
+  const { data: searchedTracks, isLoading: isLoadingSearch } = useSearchTracksQuery(searchedText, {
     enabled: !!searchedText,
   });
 
@@ -56,7 +56,7 @@ export const PlayListTracks = ({ playlistId, isOwnPlaylist, showDeleteWindow }: 
       <TracksList
         tracks={tracks ?? []}
         isLine={false}
-        isLoading={isFetchingTracks}
+        isLoading={isLoadingTracks}
         isTracksInPlaylist={true}
         playlistId={playlistId}
       />
@@ -67,7 +67,7 @@ export const PlayListTracks = ({ playlistId, isOwnPlaylist, showDeleteWindow }: 
           <TracksList
             tracks={searchedTracks ?? recommendedTracks ?? []}
             isLine={true}
-            isLoading={searchedText ? isFetchingSearch : isFetchingRecommendations}
+            isLoading={searchedText ? isLoadingSearch : isLoadingRecommendations}
             playlistId={playlistId}
           />
         </>

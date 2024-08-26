@@ -28,6 +28,8 @@ import { GlobalContext } from 'src/root';
 import { BASE64_PATTERN } from 'src/utils/constants';
 import { redirectToLogin } from 'src/utils/redirect';
 
+type PartialPlaylistWithId = Pick<PlaylistType, 'id'> & Partial<PlaylistType>;
+
 const getPlaylist = async (playlistId: string): Promise<PlaylistType | null> => {
   const response = await fetch(`${BASE_URL}/playlists/${playlistId}`, {
     headers: getHeaders(),
@@ -113,17 +115,11 @@ const deletePlaylist = async (playlistId: string): Promise<void> => {
   if (!response.ok) throw new Error('Failed to delete a playlist using Spotify API');
 };
 
-const editPlaylist = async ({
-  editedField,
-  playlistId,
-}: {
-  editedField: Partial<PlaylistType>;
-  playlistId: string;
-}): Promise<void> => {
-  const response = await fetch(`${BASE_URL}/playlists/${playlistId}`, {
+const editPlaylist = async (partialPlaylist: PartialPlaylistWithId): Promise<void> => {
+  const response = await fetch(`${BASE_URL}/playlists/${partialPlaylist.id}`, {
     headers: getHeaders(),
     method: 'PUT',
-    body: JSON.stringify(editedField),
+    body: JSON.stringify(partialPlaylist),
   });
 
   if (response.status === 401) redirectToLogin();
@@ -300,10 +296,7 @@ export const useDeletePlaylist = (): UseMutationResult<
 export const useEditPlaylist = (): UseMutationResult<
   void,
   Error,
-  {
-    editedField: Partial<PlaylistType>;
-    playlistId: string;
-  },
+  Pick<PlaylistType, 'id'> & Partial<PlaylistType>,
   {
     prevValList: PlaylistType[] | undefined;
     prevValSingle: PlaylistType | undefined;
@@ -315,19 +308,23 @@ export const useEditPlaylist = (): UseMutationResult<
   return useMutation({
     mutationFn: editPlaylist,
     mutationKey: [PLAYLIST_MUTATION, PLAYLIST_EDIT],
-    onMutate: async ({ editedField, playlistId }) => {
+    onMutate: async (updatedPlaylist) => {
       await queryClient.cancelQueries({ queryKey: [PLAYLISTS_QUERY] });
-      await queryClient.cancelQueries({ queryKey: [PLAYLIST_QUERY, playlistId] });
+      await queryClient.cancelQueries({ queryKey: [PLAYLIST_QUERY, updatedPlaylist.id] });
 
       const prevValList = queryClient.getQueryData<PlaylistType[] | undefined>([PLAYLISTS_QUERY]);
-      const prevValSingle = queryClient.getQueryData<PlaylistType | undefined>([PLAYLIST_QUERY, playlistId]);
+      const prevValSingle = queryClient.getQueryData<PlaylistType | undefined>([PLAYLIST_QUERY, updatedPlaylist.id]);
 
       queryClient.setQueryData([PLAYLISTS_QUERY], (prev: PlaylistType[] | undefined) =>
-        prev ? prev.map((playlist) => (playlist.id === playlistId ? { ...playlist, ...editedField } : playlist)) : []
+        prev
+          ? prev.map((playlist) =>
+              playlist.id === updatedPlaylist.id ? { ...playlist, ...updatedPlaylist } : playlist
+            )
+          : []
       );
 
-      queryClient.setQueryData([PLAYLIST_QUERY, playlistId], (prev: PlaylistType | undefined) =>
-        prev ? { ...prev, ...editedField } : undefined
+      queryClient.setQueryData([PLAYLIST_QUERY, updatedPlaylist.id], (prev: PlaylistType | undefined) =>
+        prev ? { ...prev, ...updatedPlaylist } : undefined
       );
 
       return { prevValList, prevValSingle };
@@ -335,7 +332,7 @@ export const useEditPlaylist = (): UseMutationResult<
 
     onSettled: (_, __, context) => {
       queryClient.invalidateQueries({ queryKey: [PLAYLISTS_QUERY] });
-      queryClient.invalidateQueries({ queryKey: [PLAYLIST_QUERY, context.playlistId] });
+      queryClient.invalidateQueries({ queryKey: [PLAYLIST_QUERY, context.id] });
     },
 
     onSuccess: () => {

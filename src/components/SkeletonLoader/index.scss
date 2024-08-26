@@ -1,4 +1,6 @@
 .skeleton-loader {
+  display: flex;
+  flex-shrink: 0;
   background-color: var(--skeleton-bg);
   animation: animate-skeleton 1.8s linear infinite;
 }

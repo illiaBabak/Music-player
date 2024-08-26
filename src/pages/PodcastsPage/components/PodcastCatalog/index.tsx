@@ -16,9 +16,9 @@ export const PodcastCatalog = ({ podcastId, isSavedPodcast }: Props): JSX.Elemen
   const { isLightTheme } = useContext(GlobalContext);
   const [, setSearchParams] = useSearchParams();
 
-  const { data: podcast, isFetching: isLoadingPodcast } = usePodcastQuery(podcastId);
+  const { data: podcast, isLoading: isLoadingPodcast } = usePodcastQuery(podcastId);
 
-  const { data: episodes, isFetching: isLoadingEpisodes } = usePodcastEpisodesQuery(podcastId);
+  const { data: episodes, isLoading: isLoadingEpisodes } = usePodcastEpisodesQuery(podcastId);
 
   const { mutateAsync: addPodcast } = useAddPodcast();
   const { mutateAsync: deletePodcast } = useDeletePodcast();
@@ -46,9 +46,9 @@ export const PodcastCatalog = ({ podcastId, isSavedPodcast }: Props): JSX.Elemen
           <>
             <SkeletonLoader width='220px' height='220px' borderRadius='0' />
             <div className='ms-3 d-flex flex-column w-100 h-100'>
-              <SkeletonLoader width='50%' height='42px' borderRadius='0' optionalClasses={['mb-2']} />
+              <SkeletonLoader width='50%' height='42px' borderRadius='0' className='mb-2' />
               <SkeletonLoader width='100%' height='120px' borderRadius='0' />
-              <SkeletonLoader width='25%' height='32px' borderRadius='0' optionalClasses={['mt-3']} />
+              <SkeletonLoader width='25%' height='32px' borderRadius='0' className='mt-3' />
             </div>
           </>
         ) : (

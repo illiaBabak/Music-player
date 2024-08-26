@@ -55,7 +55,7 @@ export const PlayListsList = ({
               width='220px'
               height='240px'
               borderRadius='4px'
-              optionalClasses={['p-1', 'm-3']}
+              className='p-1 m-3'
             />
           ))
         : filteredPlaylists?.map((playlist, index) => (

@@ -26,7 +26,7 @@ export const PlaylistInfo = ({ playlistId, isOwnPlaylist, showDeleteWindow }: Pr
       return;
     }
 
-    editPlaylist({ editedField: { [name]: value }, playlistId: playlistData?.id ?? '' });
+    editPlaylist({ [name]: value, id: playlistData.id ?? '' });
 
     disablePlaylist(playlistData?.id ?? '');
   };
@@ -55,7 +55,7 @@ export const PlaylistInfo = ({ playlistId, isOwnPlaylist, showDeleteWindow }: Pr
     <div className='playlist-info p-2 d-flex flex-row justify-content-center align-items-center w-100'>
       <div className='d-flex justify-content-center align-items-end'>
         {isLoadingPlaylist ? (
-          <SkeletonLoader width='140px' height='140px' borderRadius='50%' optionalClasses={['mx-2']} />
+          <SkeletonLoader width='140px' height='140px' borderRadius='50%' className='mx-2' />
         ) : (
           <img
             src={playlistData?.images?.length ? playlistData.images[0].url : '/src/images/not-found.jpg'}
@@ -77,22 +77,22 @@ export const PlaylistInfo = ({ playlistId, isOwnPlaylist, showDeleteWindow }: Pr
 
       <div className='d-flex flex-column w-100 h-100'>
         {isLoadingPlaylist ? (
-          <SkeletonLoader width='450px' height='32px' borderRadius='2px' optionalClasses={['m-2', 'p-1']} />
+          <SkeletonLoader width='450px' height='32px' borderRadius='2px' className='m-2 p-1' />
         ) : (
           <ChangedField
             handleBlur={handleBlur}
-            isOwnPlaylist={isOwnPlaylist}
+            isReadOnly={isOwnPlaylist}
             data={playlistData?.name ?? ''}
             name='name'
           />
         )}
 
         {isLoadingPlaylist ? (
-          <SkeletonLoader width='450px' height='32px' borderRadius='2px' optionalClasses={['m-2', 'p-1']} />
+          <SkeletonLoader width='450px' height='32px' borderRadius='2px' className='m-2 p-1' />
         ) : (
           <ChangedField
             handleBlur={handleBlur}
-            isOwnPlaylist={isOwnPlaylist}
+            isReadOnly={isOwnPlaylist}
             data={playlistData?.description ?? ''}
             name='description'
           />

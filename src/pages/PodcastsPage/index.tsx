@@ -18,15 +18,15 @@ export const PodcastsPage = (): JSX.Element => {
 
   const isMyPodcastsRoute = location.pathname.endsWith('my-podcasts');
 
-  const { data: podcasts, isFetching: isFetchingPodcasts } = usePodcastsQuery(searchedText, {
+  const { data: podcasts, isLoading: isLoadingPodcasts } = usePodcastsQuery(searchedText, {
     enabled: !!searchedText && !isMyPodcastsRoute,
   });
 
-  const { data: userPodcasts, isFetching: isFetchingUserPodcasts } = useUserSavedPodcasts();
+  const { data: userPodcasts, isLoading: isLoadingUserPodcasts } = useUserSavedPodcasts();
 
   const shouldShowEmptyText = isMyPodcastsRoute
-    ? !userPodcasts?.length && !isFetchingUserPodcasts
-    : !podcasts?.length && !isFetchingPodcasts;
+    ? !userPodcasts?.length && !isLoadingPodcasts
+    : !podcasts?.length && !isLoadingUserPodcasts;
 
   return (
     <Container className='d-flex podcasts-container p-0 m-0 flex-nowrap'>
@@ -47,7 +47,7 @@ export const PodcastsPage = (): JSX.Element => {
                 podcasts={isMyPodcastsRoute ? userPodcasts ?? [] : podcasts ?? []}
                 searchedText={searchedText}
                 isOwnPodcasts={isMyPodcastsRoute}
-                isLoading={isFetchingUserPodcasts || isFetchingPodcasts}
+                isLoading={isLoadingUserPodcasts || isLoadingPodcasts}
                 userPodcasts={userPodcasts ?? []}
               />
             </>
