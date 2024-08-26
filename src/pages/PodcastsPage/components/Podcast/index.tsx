@@ -1,16 +1,20 @@
 import { useContext } from 'react';
-import { Card } from 'react-bootstrap';
+import { Card, Image } from 'react-bootstrap';
 import { useSearchParams } from 'react-router-dom';
+import { useAddPodcast } from 'src/api/podcasts';
 import { GlobalContext } from 'src/root';
 import { PodcastType } from 'src/types/types';
 
 type Props = {
   podcast: PodcastType;
+  isSavedPodcast: boolean;
 };
 
-export const Podcast = ({ podcast }: Props): JSX.Element => {
+export const Podcast = ({ podcast, isSavedPodcast }: Props): JSX.Element => {
   const [, setSearchParams] = useSearchParams();
-  const { setCurrentUriTrack } = useContext(GlobalContext);
+  const { setCurrentUriTrack, isLightTheme } = useContext(GlobalContext);
+
+  const { mutateAsync: addPodcast } = useAddPodcast();
 
   return (
     <Card
@@ -32,6 +36,17 @@ export const Podcast = ({ podcast }: Props): JSX.Element => {
       <Card.Body className='d-flex flex-column justify-content-start align-items-center ms-1 w-100 h-100'>
         <span className='fs-4'>{podcast.name}</span>
         <span className='description mt-2 scroll-container'>{podcast.description}</span>
+        {!isSavedPodcast && (
+          <Image
+            className='add-icon'
+            src={isLightTheme ? '/src/images/add-light-icon.png' : '/src/images/add-icon.png'}
+            onClick={(e) => {
+              e.stopPropagation();
+
+              addPodcast(podcast.id);
+            }}
+          />
+        )}
       </Card.Body>
     </Card>
   );

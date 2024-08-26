@@ -22,9 +22,7 @@ export const PodcastsPage = (): JSX.Element => {
     enabled: !!searchedText && !isMyPodcastsRoute,
   });
 
-  const { data: userPodcasts, isFetching: isFetchingUserPodcasts } = useUserSavedPodcasts({
-    enabled: isMyPodcastsRoute,
-  });
+  const { data: userPodcasts, isFetching: isFetchingUserPodcasts } = useUserSavedPodcasts();
 
   const shouldShowEmptyText = isMyPodcastsRoute
     ? !userPodcasts?.length && !isFetchingUserPodcasts
@@ -37,14 +35,20 @@ export const PodcastsPage = (): JSX.Element => {
 
         <Col className={`col-content m-0 p-0 scroll-container ${currentUriTrack ? 'playing' : ''}`}>
           {podcastId ? (
-            <PodcastCatalog podcastId={podcastId} />
+            <PodcastCatalog
+              podcastId={podcastId}
+              isSavedPodcast={userPodcasts?.some((userPodcast) => userPodcast.id === podcastId) ?? false}
+            />
           ) : (
             <>
               <Header />
               {shouldShowEmptyText && <span className='empty-text fs-4'>No podcasts :(</span>}
               <PodcastsList
                 podcasts={isMyPodcastsRoute ? userPodcasts ?? [] : podcasts ?? []}
-                isLoading={isMyPodcastsRoute ? isFetchingUserPodcasts : isFetchingPodcasts}
+                searchedText={searchedText}
+                isOwnPodcasts={isMyPodcastsRoute}
+                isLoading={isFetchingUserPodcasts || isFetchingPodcasts}
+                userPodcasts={userPodcasts ?? []}
               />
             </>
           )}

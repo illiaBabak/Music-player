@@ -23,6 +23,7 @@ export const SCOPES = [
   'streaming',
   'ugc-image-upload',
   'user-library-read',
+  'user-library-modify',
 ];
 
 export const DIVIDE_FACTOR = 10;

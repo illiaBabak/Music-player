@@ -1,7 +1,7 @@
 import { Form, Navbar } from 'react-bootstrap';
 import { useSearchParams } from 'react-router-dom';
 import { ThemeBtn } from '../ThemeBtn';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const Header = (): JSX.Element => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -9,6 +9,10 @@ export const Header = (): JSX.Element => {
   const searchedText = searchParams.get('query') ?? '';
 
   const [inputVal, setInputVal] = useState(searchedText);
+
+  useEffect(() => {
+    setInputVal(searchedText);
+  }, [searchParams, searchedText]);
 
   return (
     <Navbar className='p-3 header' data-bs-theme='dark'>

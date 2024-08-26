@@ -57,3 +57,7 @@ export const PLAYLIST_ADD_ITEMS = 'playlist_add_items';
 export const PLAYLIST_DELETE_TRACK = 'playlist_delete_track';
 
 export const USER_PODCASTS = 'user_podcasts';
+
+export const PODCAST_MUTATION = 'podcast_mutation';
+
+export const PODCAST_ADD = 'podcast_add';

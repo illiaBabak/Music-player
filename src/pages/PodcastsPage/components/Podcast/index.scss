@@ -1,7 +1,8 @@
 .podcast {
   width: 98%;
-  height: 220px;
+  height: 270px;
   background-color: var(--card-bg-color);
+  position: relative;
   cursor: pointer;
 
   &:hover {
@@ -18,7 +19,16 @@
   .description {
     font-size: 14px;
     overflow: hidden auto;
-    max-height: 100px;
+    max-height: 90px;
     height: auto;
+  }
+
+  .add-icon {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
   }
 }

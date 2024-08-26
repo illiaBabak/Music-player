@@ -27,12 +27,23 @@
     }
 
     .podcast-details {
+      position: relative;
       color: var(--text);
 
       .description {
         height: 120px;
         overflow: hidden auto;
         font-size: 14px;
+      }
+
+      .add-icon {
+        width: 45px;
+        height: 45px;
+        object-fit: contain;
+        position: absolute;
+        right: 24px;
+        bottom: 24px;
+        cursor: pointer;
       }
     }
   }

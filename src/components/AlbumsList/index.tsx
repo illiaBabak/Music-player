@@ -10,7 +10,7 @@ type Props = {
 
 export const AlbumsList = ({ albums, isLine, isLoading }: Props): JSX.Element => (
   <div className={`content-container scroll-container albums-list ${isLine ? 'line' : ''}`}>
-    {isLoading || albums.length
+    {isLoading || !albums.length
       ? Array.from({ length: 10 }).map((_, index) => (
           <SkeletonLoader
             key={`album-skeleton-${index}`}

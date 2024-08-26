@@ -1,19 +1,26 @@
 import { useSearchParams } from 'react-router-dom';
 import { ThemeBtn } from 'src/components/ThemeBtn';
-import { usePodcastEpisodesQuery, usePodcastQuery } from 'src/api/podcasts';
+import { useAddPodcast, usePodcastEpisodesQuery, usePodcastQuery } from 'src/api/podcasts';
 import { EpisodesList } from '../EpisodesList';
 import { SkeletonLoader } from 'src/components/SkeletonLoader';
+import { Image } from 'react-bootstrap';
+import { useContext } from 'react';
+import { GlobalContext } from 'src/root';
 
 type Props = {
   podcastId: string;
+  isSavedPodcast: boolean;
 };
 
-export const PodcastCatalog = ({ podcastId }: Props): JSX.Element => {
+export const PodcastCatalog = ({ podcastId, isSavedPodcast }: Props): JSX.Element => {
+  const { isLightTheme } = useContext(GlobalContext);
   const [, setSearchParams] = useSearchParams();
 
   const { data: podcast, isFetching: isLoadingPodcast } = usePodcastQuery(podcastId);
 
   const { data: episodes, isFetching: isLoadingEpisodes } = usePodcastEpisodesQuery(podcastId);
+
+  const { mutateAsync: addPodcast } = useAddPodcast();
 
   return (
     <div className='podcast-catalog h-100'>
@@ -53,6 +60,17 @@ export const PodcastCatalog = ({ podcastId }: Props): JSX.Element => {
               <span className='fs-3'>{podcast?.name}</span>
               <span className='description scroll-container mt-3'>{podcast?.description}</span>
               <span className='fs-5 mt-4'>Publisher: {podcast?.publisher}</span>
+              {!isSavedPodcast && (
+                <Image
+                  className='add-icon'
+                  src={isLightTheme ? '/src/images/add-light-icon.png' : '/src/images/add-icon.png'}
+                  onClick={(e) => {
+                    e.stopPropagation();
+
+                    addPodcast(podcastId);
+                  }}
+                />
+              )}
             </div>
           </>
         )}
