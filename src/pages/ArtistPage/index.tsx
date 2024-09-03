@@ -10,6 +10,7 @@ import { SideBarMenu } from 'src/components/SideBarMenu';
 import { ThemeBtn } from 'src/components/ThemeBtn';
 import { TracksList } from 'src/components/TracksList';
 import { GlobalContext } from 'src/root';
+import { numToWords } from 'src/utils/numToWords';
 
 export const ArtistPage = (): JSX.Element => {
   const { currentUriTrack } = useContext(GlobalContext);
@@ -58,7 +59,7 @@ export const ArtistPage = (): JSX.Element => {
                   </span>
                 ))}
               </div>
-              <span className='fs-6 mt-1'>Followers: {artist?.followers.total}</span>
+              <span className='fs-6 mt-1'>Followers: {numToWords(artist?.followers.total ?? 0)}</span>
             </div>
           </div>
 
