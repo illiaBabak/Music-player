@@ -1,6 +1,5 @@
 .login-container {
   min-width: 100vw;
-  height: 100%;
   background-color: #0d1736;
 
   .login-content {
@@ -28,8 +27,6 @@
       box-shadow: rgba(151, 65, 252, 0.2) 0 10px 30px -5px;
 
       .btn-text {
-        width: 100%;
-        height: 100%;
         background-color: rgb(5, 6, 45);
         padding: 16px 8px;
         border-radius: 6px;

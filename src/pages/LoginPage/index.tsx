@@ -10,7 +10,7 @@ export const LoginPage = (): JSX.Element => {
   };
 
   return (
-    <Container className='text-center text-white d-flex flex-column align-items-center login-container m-0 p-0'>
+    <Container className='text-center text-white d-flex flex-column align-items-center login-container m-0 p-0 h-100'>
       <div className='login-content mt-4 d-flex flex-column align-items-center justify-content-center'>
         <img src='src/images/logo.png' alt='logo' className='logo' />
         <h2 className='mt-4'>Welcome!</h2>
@@ -19,7 +19,7 @@ export const LoginPage = (): JSX.Element => {
           className='btn mt-4 p-2 login-btn text-white d-flex align-items-center justify-content-center'
           onClick={handleClick}
         >
-          <span className='btn-text d-flex align-items-center justify-content-center'>Click to login</span>
+          <span className='btn-text d-flex align-items-center justify-content-center w-100 h-100'>Click to login</span>
         </button>
       </div>
       <AnimatedBg />

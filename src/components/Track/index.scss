@@ -1,6 +1,6 @@
 .track {
   text-align: center;
-  width: 98%;
+  width: 95%;
   min-height: 85px;
   max-height: 85px;
   background-color: var(--card-bg-color);
@@ -34,7 +34,7 @@
 
     .track-duration {
       position: absolute;
-      left: 50%;
+      left: 45%;
     }
 
     .icon {
@@ -57,11 +57,16 @@
     }
 
     .artists-track {
-      width: 300px;
+      max-width: 380px;
+      min-width: 200px;
+      width: auto;
       position: absolute;
-      left: 70%;
+      left: 60%;
+      overflow: hidden;
+      text-overflow: ellipsis;
 
       .artist-track {
+        white-space: nowrap;
         cursor: pointer;
 
         &:hover {

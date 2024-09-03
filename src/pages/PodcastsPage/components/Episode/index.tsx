@@ -10,7 +10,7 @@ type Props = {
 export const Episode = ({ episode }: Props): JSX.Element => (
   <Card className='d-flex flex-row justify-content-start align-items-center m-2 p-2 episode'>
     <Card.Img
-      className='episode-icon'
+      className='episode-icon ms-3'
       src={episode.images.length ? episode.images[0].url : '/src/images/not-found.jpg'}
     />
     <Card.Body className='d-flex flex-column justify-content-start align-items-start episode-body h-100'>

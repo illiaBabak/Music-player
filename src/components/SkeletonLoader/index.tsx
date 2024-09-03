@@ -6,5 +6,5 @@ type Props = {
 };
 
 export const SkeletonLoader = ({ width, height, borderRadius, className = '' }: Props): JSX.Element => (
-  <div className={`skeleton-loader ${className}`} style={{ width, height, borderRadius }} />
+  <div className={`skeleton-loader d-flex ${className}`} style={{ width, height, borderRadius }} />
 );

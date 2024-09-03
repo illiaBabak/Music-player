@@ -30,7 +30,7 @@ export const PodcastsList = ({
         ? Array.from({ length: 8 }).map((_, index) => (
             <SkeletonLoader
               key={`podcast-skeleton-${index}`}
-              width='100%'
+              width='95%'
               height='270px'
               borderRadius='4px'
               className='m-2 p-2'
