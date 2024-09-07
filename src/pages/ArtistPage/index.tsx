@@ -21,11 +21,11 @@ export const ArtistPage = (): JSX.Element => {
 
   const { data: artist } = useArtistQuery(selectedArtistId);
 
-  const { data: relatedArtists, isFetching: isFetchingRelatedArtists } = useRelatedArtistsQuery(selectedArtistId);
+  const { data: relatedArtists, isLoading: isLoadingRelatedArtists } = useRelatedArtistsQuery(selectedArtistId);
 
-  const { data: artistAlbums, isFetching: isFetchingArtistsAlbums } = useArtistAlbumsQuery(selectedArtistId);
+  const { data: artistAlbums, isLoading: isLoadingArtistsAlbums } = useArtistAlbumsQuery(selectedArtistId);
 
-  const { data: artistTopTracks, isFetching: isFetchingArtistsTopTracks } = useArtistTopTracksQuery(selectedArtistId);
+  const { data: artistTopTracks, isLoading: isLoadingArtistsTopTracks } = useArtistTopTracksQuery(selectedArtistId);
 
   const artistSectionClassName = 'white-text m-4 mt-4';
 
@@ -65,17 +65,17 @@ export const ArtistPage = (): JSX.Element => {
 
           <div className={artistSectionClassName}>
             <h4>Artist's top tracks</h4>
-            <TracksList tracks={artistTopTracks ?? []} isLine={true} isLoading={isFetchingArtistsTopTracks} />
+            <TracksList tracks={artistTopTracks ?? []} isLine={true} isLoading={isLoadingArtistsTopTracks} />
           </div>
 
           <div className={artistSectionClassName}>
             <h4>Artist's albums</h4>
-            <AlbumsList albums={artistAlbums ?? []} isLine={true} isLoading={isFetchingArtistsAlbums} />
+            <AlbumsList albums={artistAlbums ?? []} isLine={true} isLoading={isLoadingArtistsAlbums} />
           </div>
 
           <div className={artistSectionClassName}>
             <h4>Related artists</h4>
-            <ArtistsList artists={relatedArtists ?? []} isLine={true} isLoading={isFetchingRelatedArtists} />
+            <ArtistsList artists={relatedArtists ?? []} isLine={true} isLoading={isLoadingRelatedArtists} />
           </div>
         </Col>
 

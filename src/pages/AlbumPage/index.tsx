@@ -20,7 +20,7 @@ export const AlbumPage = (): JSX.Element => {
 
   const { data: selectedAlbum } = useAlbumQuery(selectedAlbumId);
 
-  const { data: albumTracks, isFetching: isFetchingAlbumTracks } = useAlbumTracksQuery(selectedAlbumId);
+  const { data: albumTracks, isLoading: isLoadingAlbumTracks } = useAlbumTracksQuery(selectedAlbumId);
 
   const { data: artist } = useArtistQuery(selectedAlbum?.artists[0].id ?? '', { enabled: !!selectedAlbum });
 
@@ -55,7 +55,7 @@ export const AlbumPage = (): JSX.Element => {
             </div>
           </div>
 
-          <TracksList tracks={albumTracks ?? []} isLine={false} isLoading={isFetchingAlbumTracks} />
+          <TracksList tracks={albumTracks ?? []} isLine={false} isLoading={isLoadingAlbumTracks} />
         </Col>
 
         {!!currentUriTrack && <Player />}

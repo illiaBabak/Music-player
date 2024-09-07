@@ -27,30 +27,30 @@ export const HomePage = (): JSX.Element => {
 
   const isTopSection = selectedSection === 'Top';
 
-  const { data: tracks, isFetching: isFetchingTracks } = useSearchTracksQuery(searchedText, {
+  const { data: tracks, isLoading: isLoadingTracks } = useSearchTracksQuery(searchedText, {
     enabled: !!searchedText,
   });
 
-  const { data: recommendationsTracks, isFetching: isFetchingRecommendations } = useRecommendationTracksQuery({
+  const { data: recommendationsTracks, isLoading: isLoadingRecommendations } = useRecommendationTracksQuery({
     enabled: isRecommendationsSection,
     refetchInterval: 90000,
   });
 
-  const { data: topTracks, isFetching: isFetchingTopTracks } = useTopUserTracksQuery({ enabled: isTopSection });
+  const { data: topTracks, isLoading: isLoadingTopTracks } = useTopUserTracksQuery({ enabled: isTopSection });
 
-  const { data: albums, isFetching: isFetchingAlbums } = useSearchAlbumsQuery(searchedText, {
+  const { data: albums, isLoading: isLoadingAlbums } = useSearchAlbumsQuery(searchedText, {
     enabled: !!searchedText,
   });
 
-  const { data: releasesAlbums, isFetching: isFetchingReleases } = useReleasesAlbumsQuery({
+  const { data: releasesAlbums, isLoading: isLoadingReleases } = useReleasesAlbumsQuery({
     enabled: isRecommendationsSection,
   });
 
-  const { data: artists, isFetching: isFetchingArtists } = useSearchArtistQuery(searchedText, {
+  const { data: artists, isLoading: isLoadingArtists } = useSearchArtistQuery(searchedText, {
     enabled: !!searchedText,
   });
 
-  const { data: topArtists, isFetching: isFetchingTopArtists } = useTopUserArtistsQuery({ enabled: isTopSection });
+  const { data: topArtists, isLoading: isLoadingTopArtists } = useTopUserArtistsQuery({ enabled: isTopSection });
 
   useEffect(() => {
     if ((!selectedSection || selectedSection === 'All') && !searchedText)
@@ -83,23 +83,23 @@ export const HomePage = (): JSX.Element => {
               {selectedSection === 'All' && (
                 <>
                   <h4 className={sectionClassName}>Tracks</h4>
-                  <TracksList isLine={true} tracks={tracks ?? []} isLoading={isFetchingTracks} />
+                  <TracksList isLine={true} tracks={tracks ?? []} isLoading={isLoadingTracks} />
 
                   <h4 className={sectionClassName}>Artists</h4>
-                  <ArtistsList artists={artists ?? []} isLine={true} isLoading={isFetchingArtists} />
+                  <ArtistsList artists={artists ?? []} isLine={true} isLoading={isLoadingArtists} />
 
                   <h4 className={sectionClassName}>Albums</h4>
-                  <AlbumsList isLine={true} isLoading={isFetchingAlbums} albums={albums ?? []} />
+                  <AlbumsList isLine={true} isLoading={isLoadingAlbums} albums={albums ?? []} />
                 </>
               )}
               {selectedSection === 'Tracks' && (
-                <TracksList isLine={false} tracks={tracks ?? []} isLoading={isFetchingTracks} />
+                <TracksList isLine={false} tracks={tracks ?? []} isLoading={isLoadingTracks} />
               )}
               {selectedSection === 'Artists' && (
-                <ArtistsList artists={artists ?? []} isLine={false} isLoading={isFetchingArtists} />
+                <ArtistsList artists={artists ?? []} isLine={false} isLoading={isLoadingArtists} />
               )}
               {selectedSection === 'Albums' && (
-                <AlbumsList isLine={false} isLoading={isFetchingAlbums} albums={albums ?? []} />
+                <AlbumsList isLine={false} isLoading={isLoadingAlbums} albums={albums ?? []} />
               )}
             </>
           )}
@@ -110,26 +110,22 @@ export const HomePage = (): JSX.Element => {
                 <>
                   <h4 className={sectionClassName}>Recommendations tracks</h4>
 
-                  <TracksList
-                    isLine={true}
-                    isLoading={isFetchingRecommendations}
-                    tracks={recommendationsTracks ?? []}
-                  />
+                  <TracksList isLine={true} isLoading={isLoadingRecommendations} tracks={recommendationsTracks ?? []} />
 
                   <h4 className={sectionClassName}>Releases albums</h4>
-                  <AlbumsList isLine={true} albums={releasesAlbums ?? []} isLoading={isFetchingReleases} />
+                  <AlbumsList isLine={true} albums={releasesAlbums ?? []} isLoading={isLoadingReleases} />
                 </>
               )}
 
               {isTopSection && (
                 <>
                   <h4 className={sectionClassName}>Your top tracks</h4>
-                  <TracksList isLine={true} isLoading={isFetchingTopTracks} tracks={topTracks ?? []} />
+                  <TracksList isLine={true} isLoading={isLoadingTopTracks} tracks={topTracks ?? []} />
 
                   {!!topArtists?.length && (
                     <>
                       <h4 className={sectionClassName}>Your top artists</h4>
-                      <ArtistsList isLine={true} artists={topArtists} isLoading={isFetchingTopArtists} />
+                      <ArtistsList isLine={true} artists={topArtists} isLoading={isLoadingTopArtists} />
                     </>
                   )}
                 </>

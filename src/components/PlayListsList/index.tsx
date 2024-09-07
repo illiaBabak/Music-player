@@ -27,10 +27,10 @@ export const PlayListsList = ({
 
   const {
     data: playlists,
-    isFetching: isFetchingPlaylists,
+    isLoading: isLoadingPlaylists,
     refetch,
   } = usePlaylistsQuery({ enabled: !showRecommendations });
-  const { data: featuredPlaylists, isFetching: isFetchinFeaturedPlaylists } = useFeaturedPlaylistsQuery({
+  const { data: featuredPlaylists, isLoading: isLoadingFeaturedPlaylists } = useFeaturedPlaylistsQuery({
     enabled: showRecommendations,
   });
 
@@ -48,7 +48,7 @@ export const PlayListsList = ({
 
   return (
     <div className='playlists-list scroll-container d-flex flex-row flex-wrap align-items-center justify-content-center w-100'>
-      {isFetchingPlaylists || isFetchinFeaturedPlaylists
+      {isLoadingPlaylists || isLoadingFeaturedPlaylists
         ? Array.from({ length: 20 }).map((_, index) => (
             <SkeletonLoader
               key={`playlist-skeleton-${index}`}
