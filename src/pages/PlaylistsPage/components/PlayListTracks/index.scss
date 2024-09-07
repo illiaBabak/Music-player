@@ -1,6 +1,16 @@
 .playlist-tracks {
   color: var(--text);
 
+  .empty-data {
+    height: 100%;
+
+    .empty-icon {
+      width: 200px;
+      height: 200px;
+      object-fit: contain;
+    }
+  }
+
   .header-container {
     height: 80px;
 

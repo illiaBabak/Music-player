@@ -54,7 +54,10 @@ export const PlayListTracks = ({ playlistId, isOwnPlaylist, showDeleteWindow }: 
       <PlaylistInfo playlistId={playlistId} showDeleteWindow={showDeleteWindow} isOwnPlaylist={isOwnPlaylist} />
 
       {!tracks?.length && !isLoadingTracks ? (
-        <div />
+        <div className='empty-data d-flex flex-column justify-content-start align-items-center w-100 h-100'>
+          <img className='empty-icon' src='/src/images/no-data.png' alt='empty' />
+          <p className='fs-3 m-1'>Oops, not found anything</p>
+        </div>
       ) : (
         <TracksList
           tracks={tracks ?? []}

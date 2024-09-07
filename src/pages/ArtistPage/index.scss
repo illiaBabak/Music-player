@@ -35,6 +35,14 @@
         }
       }
 
+      .empty-data {
+        .empty-icon {
+          height: 90px;
+          width: 90px;
+          object-fit: contain;
+        }
+      }
+
       .white-text {
         color: var(--text);
       }

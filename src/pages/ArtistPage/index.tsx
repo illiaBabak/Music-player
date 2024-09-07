@@ -46,7 +46,10 @@ export const ArtistPage = (): JSX.Element => {
           </div>
 
           <div className='artist-info d-flex flex-row m-2'>
-            <img src={artist?.images[0].url ?? ''} className='artist-icon' />
+            <img
+              src={artist?.images.length ? artist.images[0].url : '/src/images/not-found.jpg'}
+              className='artist-icon'
+            />
 
             <div className='details d-flex flex-column m-3'>
               <span className='fs-2'>{artist?.name}</span>
@@ -65,7 +68,14 @@ export const ArtistPage = (): JSX.Element => {
 
           <div className={artistSectionClassName}>
             <h4>Artist's top tracks</h4>
-            <TracksList tracks={artistTopTracks ?? []} isLine={true} isLoading={isLoadingArtistsTopTracks} />
+            {!isLoadingArtistsTopTracks && !artistTopTracks?.length ? (
+              <div className='empty-data d-flex flex-column justify-content-start align-items-center w-100 h-25'>
+                <img className='empty-icon' src='/src/images/no-data.png' alt='empty' />
+                <p className='fs-6 m-1'>Oops, not found anything</p>
+              </div>
+            ) : (
+              <TracksList tracks={artistTopTracks ?? []} isLine={true} isLoading={isLoadingArtistsTopTracks} />
+            )}
           </div>
 
           <div className={artistSectionClassName}>
@@ -75,7 +85,14 @@ export const ArtistPage = (): JSX.Element => {
 
           <div className={artistSectionClassName}>
             <h4>Related artists</h4>
-            <ArtistsList artists={relatedArtists ?? []} isLine={true} isLoading={isLoadingRelatedArtists} />
+            {!isLoadingRelatedArtists && !relatedArtists?.length ? (
+              <div className='empty-data d-flex flex-column justify-content-start align-items-center w-100 h-25'>
+                <img className='empty-icon' src='/src/images/no-data.png' alt='empty' />
+                <p className='fs-6 m-1'>Oops, not found anything</p>
+              </div>
+            ) : (
+              <ArtistsList artists={relatedArtists ?? []} isLine={true} isLoading={isLoadingRelatedArtists} />
+            )}
           </div>
         </Col>
 

@@ -53,7 +53,10 @@ export const HomePage = (): JSX.Element => {
   const { data: topArtists, isLoading: isLoadingTopArtists } = useTopUserArtistsQuery({ enabled: isTopSection });
 
   useEffect(() => {
-    if ((!selectedSection || selectedSection === 'All') && !searchedText)
+    if (
+      ((!selectedSection || selectedSection === 'All') && !searchedText) ||
+      (!searchedText && selectedSection !== 'All' && selectedSection !== 'Recommendations')
+    )
       setSearchParams((prev) => {
         prev.set('section', 'Top');
         return prev;
@@ -108,9 +111,17 @@ export const HomePage = (): JSX.Element => {
             <>
               {isRecommendationsSection && (
                 <>
-                  <h4 className={sectionClassName}>Recommendations tracks</h4>
+                  {!(!isLoadingRecommendations && !recommendationsTracks?.length) && (
+                    <>
+                      <h4 className={sectionClassName}>Recommendations tracks</h4>
 
-                  <TracksList isLine={true} isLoading={isLoadingRecommendations} tracks={recommendationsTracks ?? []} />
+                      <TracksList
+                        isLine={true}
+                        isLoading={isLoadingRecommendations}
+                        tracks={recommendationsTracks ?? []}
+                      />
+                    </>
+                  )}
 
                   <h4 className={sectionClassName}>Releases albums</h4>
                   <AlbumsList isLine={true} albums={releasesAlbums ?? []} isLoading={isLoadingReleases} />
