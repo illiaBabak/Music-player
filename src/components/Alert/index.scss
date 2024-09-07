@@ -18,6 +18,8 @@
     object-fit: cover;
     z-index: 4;
     background-size: contain;
+    position: absolute;
+    left: 0;
   }
 
   .close-alert-btn {

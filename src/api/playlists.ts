@@ -22,68 +22,43 @@ import {
   PLAYLIST_QUERY,
   PLAYLISTS_QUERY,
 } from './constants';
-import { getHeaders } from '.';
+import { fetchWithRedirects } from '.';
 import { useContext } from 'react';
 import { GlobalContext } from 'src/root';
 import { BASE64_PATTERN } from 'src/utils/constants';
-import { redirectToLogin } from 'src/utils/redirect';
 
 type PartialPlaylistWithId = Pick<PlaylistType, 'id'> & Partial<PlaylistType>;
 
 const getPlaylist = async (playlistId: string): Promise<PlaylistType | null> => {
-  const response = await fetch(`${BASE_URL}/playlists/${playlistId}`, {
-    headers: getHeaders(),
-  });
+  const result = await fetchWithRedirects(`${BASE_URL}/playlists/${playlistId}`, 'GET');
 
-  if (response.status === 401) redirectToLogin();
+  if (!result) throw new Error('Failed to fetch playlist');
 
-  if (!response.ok) throw new Error('Failed to fetch playlist');
-
-  const responseJson: unknown = await response.json();
-
-  return isPlaylist(responseJson) ? responseJson : null;
+  return isPlaylist(result) ? result : null;
 };
 
 const getPlaylists = async (): Promise<PlaylistType[]> => {
-  const response = await fetch(`${BASE_URL}/me/playlists`, {
-    headers: getHeaders(),
-  });
+  const result = await fetchWithRedirects(`${BASE_URL}/me/playlists`, 'GET');
 
-  if (response.status === 401) redirectToLogin();
+  if (!result) throw new Error('Failed to fetch playlists');
 
-  if (!response.ok) throw new Error('Failed to fetch playlists');
-
-  const responseJson: unknown = await response.json();
-
-  return isPlaylistsResponse(responseJson) ? responseJson.items : [];
+  return isPlaylistsResponse(result) ? result.items : [];
 };
 
 const getPlaylistItems = async (playlistId: string): Promise<PlaylistItemsResponse | null> => {
-  const response = await fetch(`${BASE_URL}/playlists/${playlistId}/tracks`, {
-    headers: getHeaders(),
-  });
+  const result = await fetchWithRedirects(`${BASE_URL}/playlists/${playlistId}/tracks`, 'GET');
 
-  if (response.status === 401) redirectToLogin();
+  if (!result) throw new Error('Failed to fetch playlist items');
 
-  if (!response.ok) throw new Error('Failed to fetch playlist items');
-
-  const responseJson: unknown = await response.json();
-
-  return isPlaylistItemsResponse(responseJson) ? responseJson : null;
+  return isPlaylistItemsResponse(result) ? result : null;
 };
 
 const getFeaturedPlaylists = async (): Promise<PlaylistType[]> => {
-  const response = await fetch(`${BASE_URL}/browse/featured-playlists`, {
-    headers: getHeaders(),
-  });
+  const result = await fetchWithRedirects(`${BASE_URL}/browse/featured-playlists`, 'GET');
 
-  if (response.status === 401) redirectToLogin();
+  if (!result) throw new Error('Failed to fetch featured playlists from Spotify API');
 
-  if (!response.ok) throw new Error('Failed to fetch featured playlists from Spotify API');
-
-  const responseJson: unknown = await response.json();
-
-  return isFeaturedPlaylists(responseJson) ? responseJson.playlists.items : [];
+  return isFeaturedPlaylists(result) ? result.playlists.items : [];
 };
 
 const addPlaylist = async ({
@@ -93,38 +68,29 @@ const addPlaylist = async ({
   playlistToCreate: Partial<PlaylistType>;
   userId: string;
 }): Promise<void> => {
-  const response = await fetch(`${BASE_URL}/users/${userId}/playlists`, {
-    headers: getHeaders(),
-    method: 'POST',
-    body: JSON.stringify(playlistToCreate),
-  });
+  const response = await fetchWithRedirects(
+    `${BASE_URL}/users/${userId}/playlists`,
+    'POST',
+    JSON.stringify(playlistToCreate)
+  );
 
-  if (response.status === 401) redirectToLogin();
-
-  if (!response.ok) throw new Error('Failed to add a new playlist using Spotify API');
+  if (!response) throw new Error('Failed to add a new playlist using Spotify API');
 };
 
 const deletePlaylist = async (playlistId: string): Promise<void> => {
-  const response = await fetch(`${BASE_URL}/playlists/${playlistId}/followers`, {
-    headers: getHeaders(),
-    method: 'DELETE',
-  });
+  const response = await fetchWithRedirects(`${BASE_URL}/playlists/${playlistId}/followers`, 'DELETE');
 
-  if (response.status === 401) redirectToLogin();
-
-  if (!response.ok) throw new Error('Failed to delete a playlist using Spotify API');
+  if (!response) throw new Error('Failed to delete a playlist using Spotify API');
 };
 
 const editPlaylist = async (partialPlaylist: PartialPlaylistWithId): Promise<void> => {
-  const response = await fetch(`${BASE_URL}/playlists/${partialPlaylist.id}`, {
-    headers: getHeaders(),
-    method: 'PUT',
-    body: JSON.stringify(partialPlaylist),
-  });
+  const response = await fetchWithRedirects(
+    `${BASE_URL}/playlists/${partialPlaylist.id}`,
+    'PUT',
+    JSON.stringify(partialPlaylist)
+  );
 
-  if (response.status === 401) redirectToLogin();
-
-  if (!response.ok) throw new Error('Failed to edit a playlist using Spotify API');
+  if (!response) throw new Error('Failed to edit a playlist using Spotify API');
 };
 
 const addCustomPlaylistImage = async ({ playlistId, image }: { playlistId: string; image: string }): Promise<void> => {
@@ -132,86 +98,115 @@ const addCustomPlaylistImage = async ({ playlistId, image }: { playlistId: strin
 
   if (!base64Data) return;
 
-  const response = await fetch(`${BASE_URL}/playlists/${playlistId}/images`, {
-    headers: {
-      ...getHeaders(),
-      'Content-Type': 'image/jpeg',
-    },
-    method: 'PUT',
-    body: base64Data,
+  const response = await fetchWithRedirects(`${BASE_URL}/playlists/${playlistId}/images`, 'PUT', base64Data, {
+    'Content-Type': 'image/jpeg',
   });
 
-  if (response.status === 401) redirectToLogin();
-
-  if (!response.ok) throw new Error('Failed to add custom img to playlist using Spotify API');
+  if (!response) throw new Error('Failed to add custom img to playlist using Spotify API');
 };
 
 const addTracksToPlaylist = async ({ playlistId, uris }: { playlistId: string; uris: string[] }): Promise<void> => {
-  const response = await fetch(`${BASE_URL}/playlists/${playlistId}/tracks`, {
-    headers: getHeaders(),
-    method: 'POST',
-    body: JSON.stringify({
+  const response = await fetchWithRedirects(
+    `${BASE_URL}/playlists/${playlistId}/tracks`,
+    'POST',
+    JSON.stringify({
       uris: [...uris],
       position: 0,
-    }),
-  });
+    })
+  );
 
-  if (response.status === 401) redirectToLogin();
-
-  if (!response.ok) throw new Error('Failed to add items to playlist using Spotify API');
+  if (!response) throw new Error('Failed to add items to playlist using Spotify API');
 };
 
 const deletePlaylistTrack = async ({ playlistId, uri }: { playlistId: string; uri: string }): Promise<void> => {
-  const response = await fetch(`${BASE_URL}/playlists/${playlistId}/tracks`, {
-    headers: getHeaders(),
-    method: 'DELETE',
-    body: JSON.stringify({
+  const response = await fetchWithRedirects(
+    `${BASE_URL}/playlists/${playlistId}/tracks`,
+    'DELETE',
+    JSON.stringify({
       tracks: [
         {
           uri,
         },
       ],
-    }),
-  });
+    })
+  );
 
-  if (response.status === 401) redirectToLogin();
-
-  if (!response.ok) throw new Error('Failed to delete track from playlist using Spotify API');
+  if (!response) throw new Error('Failed to delete track from playlist using Spotify API');
 };
 
 export const usePlaylistsQuery = (
   options?: Partial<UseQueryOptions<PlaylistType[]>>
-): UseQueryResult<PlaylistType[], Error> =>
-  useQuery({
+): UseQueryResult<PlaylistType[], Error> => {
+  const { setAlertProps } = useContext(GlobalContext);
+
+  return useQuery({
     queryKey: [PLAYLISTS_QUERY],
-    queryFn: getPlaylists,
+    queryFn: async () => {
+      try {
+        return await getPlaylists();
+      } catch {
+        setAlertProps({ type: 'error', position: 'top', text: 'Something went wrong with playlists :(' });
+        return [];
+      }
+    },
     ...options,
   });
+};
 
 export const usePlaylistsItemsQuery = (
   playlistId: string,
   options?: Partial<UseQueryOptions<PlaylistItemsResponse | null>>
-): UseQueryResult<PlaylistItemsResponse | null, Error> =>
-  useQuery({
+): UseQueryResult<PlaylistItemsResponse | null, Error> => {
+  const { setAlertProps } = useContext(GlobalContext);
+
+  return useQuery({
     queryKey: [PLAYLIST_ITEMS_QUERY, playlistId],
     queryFn: async (): Promise<PlaylistItemsResponse | null> => {
-      return await getPlaylistItems(playlistId);
+      try {
+        return await getPlaylistItems(playlistId);
+      } catch {
+        setAlertProps({ type: 'error', position: 'top', text: 'Something went wrong with playlist tracks :(' });
+        return null;
+      }
     },
     ...options,
   });
+};
 
-export const usePlaylistQuery = (playlistId: string): UseQueryResult<PlaylistType, Error> =>
-  useQuery({
+export const usePlaylistQuery = (playlistId: string): UseQueryResult<PlaylistType, Error> => {
+  const { setAlertProps } = useContext(GlobalContext);
+
+  return useQuery({
     queryKey: [PLAYLIST_QUERY, playlistId],
     queryFn: async () => {
-      return await getPlaylist(playlistId);
+      try {
+        return await getPlaylist(playlistId);
+      } catch {
+        setAlertProps({ type: 'error', position: 'top', text: 'Something went wrong with playlist :(' });
+        return null;
+      }
     },
   });
+};
 
 export const useFeaturedPlaylistsQuery = (
   options?: Partial<UseQueryOptions<PlaylistType[]>>
-): UseQueryResult<PlaylistType[], Error> =>
-  useQuery({ queryKey: [FEATURED_PLAYLISTS_QUERY], queryFn: getFeaturedPlaylists, ...options });
+): UseQueryResult<PlaylistType[], Error> => {
+  const { setAlertProps } = useContext(GlobalContext);
+
+  return useQuery({
+    queryKey: [FEATURED_PLAYLISTS_QUERY],
+    queryFn: async () => {
+      try {
+        return await getFeaturedPlaylists();
+      } catch {
+        setAlertProps({ text: 'Something went wrong with featured playlists :(', type: 'error', position: 'top' });
+        return [];
+      }
+    },
+    ...options,
+  });
+};
 
 export const useAddPlaylist = (): UseMutationResult<
   void,

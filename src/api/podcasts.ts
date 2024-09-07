@@ -1,5 +1,5 @@
 import { isPodcast, isShowsEpisodesResponse, isPodcastsResponse, isUserPodcasts } from 'src/utils/guards';
-import { getHeaders } from '.';
+import { fetchWithRedirects } from '.';
 import {
   BASE_URL,
   PODCAST_ADD,
@@ -19,126 +19,122 @@ import {
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
-import { redirectToLogin } from 'src/utils/redirect';
 import { useContext } from 'react';
 import { GlobalContext } from 'src/root';
 
 const getPodcasts = async (searchedText: string): Promise<PodcastType[]> => {
-  const response = await fetch(`${BASE_URL}/search?q=${encodeURIComponent(searchedText)}&type=show`, {
-    headers: getHeaders(),
-  });
+  const result = await fetchWithRedirects(`${BASE_URL}/search?q=${encodeURIComponent(searchedText)}&type=show`, 'GET');
 
-  if (response.status === 401) redirectToLogin();
+  if (!result) throw new Error('Failed to fetch podcasts from Spotify API');
 
-  if (!response.ok) throw new Error('Failed to fetch podcasts from Spotify API');
-
-  const responseJson: unknown = await response.json();
-
-  return isPodcastsResponse(responseJson) ? responseJson.shows.items : [];
+  return isPodcastsResponse(result) ? result.shows.items : [];
 };
 
 const getPodcast = async (id: string): Promise<PodcastType | null> => {
-  const response = await fetch(`${BASE_URL}/shows/${id}`, {
-    headers: getHeaders(),
-  });
+  const result = await fetchWithRedirects(`${BASE_URL}/shows/${id}`, 'GET');
 
-  if (response.status === 401) redirectToLogin();
+  if (!result) throw new Error('Failed to fetch podcast from Spotify API');
 
-  if (!response.ok) throw new Error('Failed to fetch podcast from Spotify API');
-
-  const responseJson: unknown = await response.json();
-
-  return isPodcast(responseJson) ? responseJson : null;
+  return isPodcast(result) ? result : null;
 };
 
 const getPodcastEpisodes = async (id: string): Promise<EpisodeType[]> => {
-  const response = await fetch(`${BASE_URL}/shows/${id}/episodes`, {
-    headers: getHeaders(),
-  });
+  const result = await fetchWithRedirects(`${BASE_URL}/shows/${id}/episodes`, 'GET');
 
-  if (response.status === 401) redirectToLogin();
+  if (!result) throw new Error('Failed to fetch podcast episodes from Spotify API');
 
-  if (!response.ok) throw new Error('Failed to fetch podcast episodes from Spotify API');
-
-  const responseJson: unknown = await response.json();
-
-  return isShowsEpisodesResponse(responseJson) ? responseJson.items : [];
+  return isShowsEpisodesResponse(result) ? result.items : [];
 };
 
 const getUserSavedPodcasts = async (): Promise<PodcastType[]> => {
-  const response = await fetch(`${BASE_URL}/me/shows`, {
-    headers: getHeaders(),
-  });
+  const result = await fetchWithRedirects(`${BASE_URL}/me/shows`, 'GET');
 
-  if (response.status === 401) redirectToLogin();
+  if (!result) throw new Error('Failed to fetch user saved shows from Spotify API');
 
-  if (!response.ok) throw new Error('Failed to fetch user saved shows from Spotify API');
-
-  const responseJson: unknown = await response.json();
-
-  return isUserPodcasts(responseJson) ? responseJson.items.map((item) => item.show) : [];
+  return isUserPodcasts(result) ? result.items.map((item) => item.show) : [];
 };
 
 const addPodcast = async (id: string): Promise<void> => {
-  const response = await fetch(`${BASE_URL}/me/shows`, {
-    headers: getHeaders(),
-    method: 'PUT',
-    body: JSON.stringify([id]),
-  });
+  const response = await fetchWithRedirects(`${BASE_URL}/me/shows`, 'PUT', JSON.stringify([id]));
 
-  if (response.status === 401) redirectToLogin();
-
-  if (!response.ok) throw new Error('Failed to add podcast using Spotify API');
+  if (!response) throw new Error('Failed to add podcast using Spotify API');
 };
 
 const deletePodcast = async (id: string): Promise<void> => {
-  const response = await fetch(`${BASE_URL}/me/shows`, {
-    headers: getHeaders(),
-    method: 'DELETE',
-    body: JSON.stringify([id]),
-  });
+  const response = await fetchWithRedirects(`${BASE_URL}/me/shows`, 'DELETE', JSON.stringify([id]));
 
-  if (response.status === 401) redirectToLogin();
-
-  if (!response.ok) throw new Error('Failed to delete podcast using Spotify API');
+  if (!response) throw new Error('Failed to delete podcast using Spotify API');
 };
 
 export const usePodcastsQuery = (
   searchedText: string,
   options?: Partial<UseQueryOptions<PodcastType[]>>
-): UseQueryResult<PodcastType[], Error> =>
-  useQuery({
+): UseQueryResult<PodcastType[], Error> => {
+  const { setAlertProps } = useContext(GlobalContext);
+
+  return useQuery({
     queryKey: [PODCASTS_QUERY, searchedText],
     queryFn: async () => {
-      return await getPodcasts(searchedText);
+      try {
+        return await getPodcasts(searchedText);
+      } catch {
+        setAlertProps({ text: 'Something went wrong with podcasts :(', type: 'error', position: 'top' });
+        return [];
+      }
     },
     ...options,
   });
+};
 
-export const usePodcastQuery = (id: string): UseQueryResult<PodcastType | null, Error> =>
-  useQuery({
+export const usePodcastQuery = (id: string): UseQueryResult<PodcastType | null, Error> => {
+  const { setAlertProps } = useContext(GlobalContext);
+
+  return useQuery({
     queryKey: [PODCAST_QUERY, id],
     queryFn: async () => {
-      return await getPodcast(id);
+      try {
+        return await getPodcast(id);
+      } catch {
+        setAlertProps({ text: 'Something went wrong with podcast :(', type: 'error', position: 'top' });
+      }
     },
   });
+};
 
-export const usePodcastEpisodesQuery = (id: string): UseQueryResult<EpisodeType[], Error> =>
-  useQuery({
+export const usePodcastEpisodesQuery = (id: string): UseQueryResult<EpisodeType[], Error> => {
+  const { setAlertProps } = useContext(GlobalContext);
+
+  return useQuery({
     queryKey: [PODCAST_EPISODES_QUERY, id],
     queryFn: async () => {
-      return await getPodcastEpisodes(id);
+      try {
+        return await getPodcastEpisodes(id);
+      } catch {
+        setAlertProps({ type: 'error', text: 'Something went wrong with episodes :(', position: 'top' });
+        return [];
+      }
     },
   });
+};
 
 export const useUserSavedPodcasts = (
   options?: Partial<UseQueryOptions<PodcastType[]>>
-): UseQueryResult<PodcastType[]> =>
-  useQuery({
+): UseQueryResult<PodcastType[]> => {
+  const { setAlertProps } = useContext(GlobalContext);
+
+  return useQuery({
     queryKey: [USER_PODCASTS],
-    queryFn: getUserSavedPodcasts,
+    queryFn: async () => {
+      try {
+        return await getUserSavedPodcasts();
+      } catch {
+        setAlertProps({ type: 'error', text: 'Something went wrong with your podcasts :(', position: 'top' });
+        return [];
+      }
+    },
     ...options,
   });
+};
 
 export const useAddPodcast = (): UseMutationResult<void, Error, string, { prevVal: PodcastType[] | undefined }> => {
   const queryClient = useQueryClient();

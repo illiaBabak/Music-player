@@ -10,11 +10,12 @@ import { useAddItemsPlaylist, useDeletePlaylistTrack, usePlaylistsItemsQuery } f
 type Props = {
   track: TrackType;
   isLine: boolean;
-  isTracksInPlaylist?: boolean;
+  isInPlaylist?: boolean;
   playlistId?: string;
+  isOwnPlaylist?: boolean;
 };
 
-export const Track = ({ track, isLine, isTracksInPlaylist, playlistId }: Props): JSX.Element => {
+export const Track = ({ track, isLine, isInPlaylist, playlistId, isOwnPlaylist }: Props): JSX.Element => {
   const { setCurrentUriTrack, isLightTheme, setShouldShowPlaylists } = useContext(GlobalContext);
   const navigate = useNavigate();
 
@@ -22,7 +23,7 @@ export const Track = ({ track, isLine, isTracksInPlaylist, playlistId }: Props):
   const { mutateAsync: deleteTrack } = useDeletePlaylistTrack();
 
   const { data: playlistTracks } = usePlaylistsItemsQuery(playlistId ?? '', {
-    enabled: !!playlistId && !isTracksInPlaylist,
+    enabled: !!playlistId && !isInPlaylist,
   });
 
   const artists = track.artists || [];
@@ -74,12 +75,12 @@ export const Track = ({ track, isLine, isTracksInPlaylist, playlistId }: Props):
           </>
         )}
 
-        {!isTrackInPlaylist && !isTracksInPlaylist && (
+        {(!isOwnPlaylist || (!isTrackInPlaylist && isOwnPlaylist)) && (
           <Image
-            className={`icon ${isLine ? 'line' : ''} `}
+            className={`icon ${isLine ? 'line' : ''}`}
             src={isLightTheme ? '/src/images/add-light-icon.png' : '/src/images/add-icon.png'}
             onClick={
-              playlistId //check if we are in playlist route
+              playlistId && isOwnPlaylist // check if we are in playlist route
                 ? () => handleAddTrack()
                 : () => {
                     setShouldShowPlaylists(true);
@@ -89,14 +90,13 @@ export const Track = ({ track, isLine, isTracksInPlaylist, playlistId }: Props):
           />
         )}
 
-        {(isTrackInPlaylist && !isTracksInPlaylist) ||
-          (isTracksInPlaylist && (
-            <Image
-              className={`icon ${isLine ? 'line' : ''} `}
-              src={isLightTheme ? '/src/images/trash-icon-light.png' : '/src/images/trash-icon.png'}
-              onClick={handleDeleteTrack}
-            />
-          ))}
+        {isInPlaylist && isOwnPlaylist && isTrackInPlaylist && (
+          <Image
+            className={`icon ${isLine ? 'line' : ''} `}
+            src={isLightTheme ? '/src/images/trash-icon-light.png' : '/src/images/trash-icon.png'}
+            onClick={handleDeleteTrack}
+          />
+        )}
       </Card.Body>
     </Card>
   );

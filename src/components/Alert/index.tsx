@@ -15,13 +15,13 @@ export const Alert = ({
   onMouseLeave,
 }: AlertComponentProps): JSX.Element => (
   <div
-    className={`custom-alert ${type} ${position} d-flex flex-row align-items-center justify-content-start`}
+    className={`custom-alert ${type} ${position} d-flex flex-row align-items-center justify-content-center`}
     onMouseLeave={onMouseLeave}
     onMouseEnter={onMouseEnter}
   >
     <div className='alert-img ms-1' />
-    <h4 className='m-1 me-4 text-white'>{text}</h4>
-    <div className='close-alert-btn d-flex align-items-center justify-conten-center m-0' onClick={onClose}>
+    <h4 className='m-1 text-white'>{text}</h4>
+    <div className='close-alert-btn d-flex align-items-center justify-content-center m-0' onClick={onClose}>
       x
     </div>
   </div>

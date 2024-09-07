@@ -53,13 +53,18 @@ export const PlayListTracks = ({ playlistId, isOwnPlaylist, showDeleteWindow }: 
 
       <PlaylistInfo playlistId={playlistId} showDeleteWindow={showDeleteWindow} isOwnPlaylist={isOwnPlaylist} />
 
-      <TracksList
-        tracks={tracks ?? []}
-        isLine={false}
-        isLoading={isLoadingTracks}
-        isTracksInPlaylist={true}
-        playlistId={playlistId}
-      />
+      {!tracks?.length && !isLoadingTracks ? (
+        <div />
+      ) : (
+        <TracksList
+          tracks={tracks ?? []}
+          isLine={false}
+          isLoading={isLoadingTracks}
+          isInPlaylist={true}
+          playlistId={playlistId}
+          isOwnPlaylist={isOwnPlaylist}
+        />
+      )}
 
       {isOwnPlaylist && (!!searchedTracks?.length || !!recommendedTracks?.length) && (
         <>
@@ -69,6 +74,8 @@ export const PlayListTracks = ({ playlistId, isOwnPlaylist, showDeleteWindow }: 
             isLine={true}
             isLoading={searchedText ? isLoadingSearch : isLoadingRecommendations}
             playlistId={playlistId}
+            isOwnPlaylist={isOwnPlaylist}
+            isInPlaylist={true}
           />
         </>
       )}

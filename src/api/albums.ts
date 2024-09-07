@@ -2,72 +2,84 @@ import { useQuery, UseQueryOptions, UseQueryResult } from '@tanstack/react-query
 import { AlbumType } from 'src/types/types';
 import { isAlbum, isAlbumResponse } from 'src/utils/guards';
 import { ALBUM_QUERY, ALBUMS_QUERY, BASE_URL, REALEASES_QUERY } from './constants';
-import { getHeaders } from '.';
-import { redirectToLogin } from 'src/utils/redirect';
+import { fetchWithRedirects } from '.';
+import { useContext } from 'react';
+import { GlobalContext } from 'src/root';
 
 const getAlbums = async (searchedText: string): Promise<AlbumType[]> => {
-  const response = await fetch(`${BASE_URL}/search?q=${encodeURIComponent(searchedText)}&type=album`, {
-    headers: getHeaders(),
-  });
+  const result = await fetchWithRedirects(`${BASE_URL}/search?q=${encodeURIComponent(searchedText)}&type=album`, 'GET');
 
-  if (response.status === 401) redirectToLogin();
+  if (!result) throw new Error('Failed to fetch albums from Spotify API');
 
-  if (!response.ok) throw new Error('Failed to fetch albums from Spotify API');
-
-  const responseJson: unknown = await response.json();
-
-  return isAlbumResponse(responseJson) ? responseJson.albums.items : [];
+  return isAlbumResponse(result) ? result.albums.items : [];
 };
 
 const getReleasesAlbums = async (): Promise<AlbumType[]> => {
-  const response = await fetch(`${BASE_URL}/browse/new-releases`, {
-    headers: getHeaders(),
-  });
+  const result = await fetchWithRedirects(`${BASE_URL}/browse/new-releases`, 'GET');
 
-  if (response.status === 401) redirectToLogin();
+  if (!result) throw new Error('Failed to fetch releases albums from Spotify API');
 
-  if (!response.ok) throw new Error('Failed to fetch releases albums from Spotify API');
-
-  const responseJson: unknown = await response.json();
-
-  return isAlbumResponse(responseJson) ? responseJson.albums.items : [];
+  return isAlbumResponse(result) ? result.albums.items : [];
 };
 
 const getAlbum = async (id: string): Promise<AlbumType | null> => {
-  const response = await fetch(`${BASE_URL}/albums/${id}`, {
-    headers: getHeaders(),
-  });
+  const result = await fetchWithRedirects(`${BASE_URL}/albums/${id}`, 'GET');
 
-  if (response.status === 401) redirectToLogin();
+  if (!result) throw new Error('Failed to fetch album from Spotify API');
 
-  if (!response.ok) throw new Error('Failed to fetch album from Spotify API');
-
-  const responseJson: unknown = await response.json();
-
-  return isAlbum(responseJson) ? responseJson : null;
+  return isAlbum(result) ? result : null;
 };
 
 export const useSearchAlbumsQuery = (
   searchedText: string,
   options?: Partial<UseQueryOptions<AlbumType[]>>
-): UseQueryResult<AlbumType[], Error> =>
-  useQuery({
+): UseQueryResult<AlbumType[], Error> => {
+  const { setAlertProps } = useContext(GlobalContext);
+
+  return useQuery({
     queryKey: [ALBUMS_QUERY, searchedText],
     queryFn: async () => {
-      return await getAlbums(searchedText);
+      try {
+        return await getAlbums(searchedText);
+      } catch {
+        setAlertProps({ type: 'error', position: 'top', text: 'Something went wrong with albums search :(' });
+        return [];
+      }
     },
     ...options,
   });
+};
 
 export const useReleasesAlbumsQuery = (
   options?: Partial<UseQueryOptions<AlbumType[]>>
-): UseQueryResult<AlbumType[], Error> =>
-  useQuery({ queryKey: [REALEASES_QUERY], queryFn: getReleasesAlbums, ...options });
+): UseQueryResult<AlbumType[], Error> => {
+  const { setAlertProps } = useContext(GlobalContext);
+  return useQuery({
+    queryKey: [REALEASES_QUERY],
+    queryFn: async () => {
+      try {
+        return await getReleasesAlbums();
+      } catch {
+        setAlertProps({ type: 'error', position: 'top', text: 'Something went wrong with releases albums :(' });
+        return [];
+      }
+    },
+    ...options,
+  });
+};
 
-export const useAlbumQuery = (id: string): UseQueryResult<AlbumType | null, Error> =>
-  useQuery({
+export const useAlbumQuery = (id: string): UseQueryResult<AlbumType | null, Error> => {
+  const { setAlertProps } = useContext(GlobalContext);
+
+  return useQuery({
     queryKey: [ALBUM_QUERY, id],
     queryFn: async () => {
-      return await getAlbum(id);
+      try {
+        return await getAlbum(id);
+      } catch {
+        setAlertProps({ position: 'top', type: 'error', text: 'Something went wrong with album :(' });
+        return null;
+      }
     },
   });
+};

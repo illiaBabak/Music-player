@@ -9,120 +9,140 @@ import {
   RELATED_ARTISTS_QUERY,
   TOP_USER_ARTISTS_QUERY,
 } from './constants';
-import { getHeaders } from '.';
-import { redirectToLogin } from 'src/utils/redirect';
+import { fetchWithRedirects } from '.';
+import { useContext } from 'react';
+import { GlobalContext } from 'src/root';
 
 const getArtists = async (searchedText: string): Promise<ArtistType[]> => {
-  const response = await fetch(`${BASE_URL}/search?q=${encodeURIComponent(searchedText)}&type=artist`, {
-    headers: getHeaders(),
-  });
+  const result = await fetchWithRedirects(
+    `${BASE_URL}/search?q=${encodeURIComponent(searchedText)}&type=artist`,
+    'GET'
+  );
 
-  if (response.status === 401) redirectToLogin();
+  if (!result) throw new Error('Failed to fetch artists from Spotify API');
 
-  if (!response.ok) throw new Error('Failed to fetch artists from Spotify API');
-
-  const responseJson: unknown = await response.json();
-
-  return isArtistsResponse(responseJson) ? responseJson.artists.items : [];
+  return isArtistsResponse(result) ? result.artists.items : [];
 };
 
 const getArtist = async (id: string): Promise<ArtistType | null> => {
-  const response = await fetch(`${BASE_URL}/artists/${id}`, {
-    headers: getHeaders(),
-  });
+  const result = await fetchWithRedirects(`${BASE_URL}/artists/${id}`, 'GET');
 
-  if (response.status === 401) redirectToLogin();
+  if (!result) throw new Error('Failed to fetch artist from Spotify API');
 
-  if (!response.ok) throw new Error('Failed to fetch artist from Spotify API');
-
-  const responseJson: unknown = await response.json();
-
-  return isArtist(responseJson) ? responseJson : null;
+  return isArtist(result) ? result : null;
 };
 
 const getRelatedArtists = async (id: string): Promise<ArtistType[]> => {
-  const response = await fetch(`${BASE_URL}/artists/${id}/related-artists`, {
-    headers: getHeaders(),
-  });
+  const result = await fetchWithRedirects(`${BASE_URL}/artists/${id}/related-artists`, 'GET');
 
-  if (response.status === 401) redirectToLogin();
+  if (!result) throw new Error('Failed to fetch related artists from Spotify API');
 
-  if (!response.ok) throw new Error('Failed to fetch related artists from Spotify API');
-
-  const responseJson: unknown = await response.json();
-
-  return isArtistsResponseObj(responseJson) ? responseJson.artists : [];
+  return isArtistsResponseObj(result) ? result.artists : [];
 };
 
 const getArtistAlbums = async (id: string): Promise<AlbumType[]> => {
-  const response = await fetch(`${BASE_URL}/artists/${id}/albums`, {
-    headers: getHeaders(),
-  });
+  const result = await fetchWithRedirects(`${BASE_URL}/artists/${id}/albums`, 'GET');
 
-  if (response.status === 401) redirectToLogin();
+  if (!result) throw new Error('Failed to fetch artist albums from Spotify API');
 
-  if (!response.ok) throw new Error('Failed to fetch artist albums from Spotify API');
-
-  const responseJson: unknown = await response.json();
-
-  return isAlbumResponseObj(responseJson) ? responseJson.items : [];
+  return isAlbumResponseObj(result) ? result.items : [];
 };
 
 const getTopUserArtists = async (): Promise<ArtistType[]> => {
-  const response = await fetch(`${BASE_URL}/me/top/artists`, {
-    headers: getHeaders(),
-  });
+  const result = await fetchWithRedirects(`${BASE_URL}/me/top/artists`, 'GET');
 
-  if (response.status === 401) redirectToLogin();
+  if (!result) throw new Error('Failed to fetch top user artists from Spotify API');
 
-  if (!response.ok) throw new Error('Failed to fetch top user artists from Spotify API');
-
-  const responseJson: unknown = await response.json();
-
-  return isTopArtists(responseJson) ? responseJson.items : [];
+  return isTopArtists(result) ? result.items : [];
 };
 
 export const useSearchArtistQuery = (
   searchedText: string,
   options?: Partial<UseQueryOptions<ArtistType[]>>
-): UseQueryResult<ArtistType[], Error> =>
-  useQuery({
+): UseQueryResult<ArtistType[], Error> => {
+  const { setAlertProps } = useContext(GlobalContext);
+
+  return useQuery({
     queryKey: [ARTISTS_QUERY, searchedText],
     queryFn: async () => {
-      return await getArtists(searchedText);
+      try {
+        return await getArtists(searchedText);
+      } catch {
+        setAlertProps({ type: 'error', position: 'top', text: 'Something went wrong with search artists :(' });
+        return [];
+      }
     },
     ...options,
   });
+};
 
 export const useArtistQuery = (
   id: string,
   options?: Partial<UseQueryOptions<ArtistType | null>>
-): UseQueryResult<ArtistType | null, Error> =>
-  useQuery({
+): UseQueryResult<ArtistType | null, Error> => {
+  const { setAlertProps } = useContext(GlobalContext);
+
+  return useQuery({
     queryKey: [ARTIST_QUERY, id],
     queryFn: async () => {
-      return await getArtist(id);
+      try {
+        return await getArtist(id);
+      } catch {
+        setAlertProps({ text: 'Something went wrong with artist :(', position: 'top', type: 'error' });
+        return null;
+      }
     },
     ...options,
   });
+};
 
-export const useRelatedArtistsQuery = (id: string): UseQueryResult<ArtistType[], Error> =>
-  useQuery({
+export const useRelatedArtistsQuery = (id: string): UseQueryResult<ArtistType[], Error> => {
+  const { setAlertProps } = useContext(GlobalContext);
+
+  return useQuery({
     queryKey: [RELATED_ARTISTS_QUERY, id],
     queryFn: async () => {
-      return await getRelatedArtists(id);
+      try {
+        return await getRelatedArtists(id);
+      } catch {
+        setAlertProps({ position: 'top', text: 'Something went wrong with related artsits :(', type: 'error' });
+        return [];
+      }
     },
   });
+};
 
-export const useArtistAlbumsQuery = (id: string): UseQueryResult<AlbumType[], Error> =>
-  useQuery({
+export const useArtistAlbumsQuery = (id: string): UseQueryResult<AlbumType[], Error> => {
+  const { setAlertProps } = useContext(GlobalContext);
+
+  return useQuery({
     queryKey: [ARTIST_ALBUMS_QUERY, id],
     queryFn: async () => {
-      return await getArtistAlbums(id);
+      try {
+        return await getArtistAlbums(id);
+      } catch {
+        setAlertProps({ type: 'error', position: 'top', text: 'Something went wront with artist albums :(' });
+        return [];
+      }
     },
   });
+};
 
 export const useTopUserArtistsQuery = (
   options?: Partial<UseQueryOptions<ArtistType[]>>
-): UseQueryResult<ArtistType[], Error> =>
-  useQuery({ queryKey: [TOP_USER_ARTISTS_QUERY], queryFn: getTopUserArtists, ...options });
+): UseQueryResult<ArtistType[], Error> => {
+  const { setAlertProps } = useContext(GlobalContext);
+
+  return useQuery({
+    queryKey: [TOP_USER_ARTISTS_QUERY],
+    queryFn: async () => {
+      try {
+        return await getTopUserArtists();
+      } catch {
+        setAlertProps({ text: 'Something went wrong with top user artists :(', type: 'error', position: 'top' });
+        return [];
+      }
+    },
+    ...options,
+  });
+};

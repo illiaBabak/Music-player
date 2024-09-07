@@ -9,65 +9,42 @@ import {
   TOP_USER_TRACKS_QUERY,
   TRACKS_QUERY,
 } from './constants';
-import { getHeaders } from '.';
-import { redirectToLogin } from 'src/utils/redirect';
+import { fetchWithRedirects } from '.';
+import { useContext } from 'react';
+import { GlobalContext } from 'src/root';
 
 const getTracks = async (searchedText: string): Promise<TrackType[]> => {
-  const response = await fetch(`${BASE_URL}/search?q=${encodeURIComponent(searchedText)}&type=track`, {
-    headers: getHeaders(),
-  });
+  const result = await fetchWithRedirects(`${BASE_URL}/search?q=${encodeURIComponent(searchedText)}&type=track`, 'GET');
 
-  if (response.status === 401) redirectToLogin();
+  if (!result) throw new Error('Failed to fetch tracks from Spotify API');
 
-  if (!response.ok) throw new Error('Failed to fetch tracks from Spotify API');
-
-  const responseJson: unknown = await response.json();
-
-  return isTrackResponse(responseJson) ? responseJson.tracks.items : [];
+  return isTrackResponse(result) ? result.tracks.items : [];
 };
 
 const getRecommendationTracks = async (): Promise<TrackType[]> => {
-  const response = await fetch(`${BASE_URL}/recommendations?limit=20&seed_genres=hip-hop`, {
-    headers: getHeaders(),
-  });
+  const result = await fetchWithRedirects(`${BASE_URL}/recommendations?limit=20&seed_genres=hip-hop`, 'GET');
 
-  if (response.status === 401) redirectToLogin();
+  if (!result) throw new Error('Failed to fetch recommendation tracks from Spotify API');
 
-  if (!response.ok) throw new Error('Failed to fetch recommendation tracks from Spotify API');
-
-  const responseJson: unknown = await response.json();
-
-  return isTrackResponseObj(responseJson) ? responseJson.tracks : [];
+  return isTrackResponseObj(result) ? result.tracks : [];
 };
 
 const getTrack = async (id: string): Promise<TrackType | null> => {
-  const response = await fetch(`${BASE_URL}/tracks/${id}`, {
-    headers: getHeaders(),
-  });
+  const result = await fetchWithRedirects(`${BASE_URL}/tracks/${id}`, 'GET');
 
-  if (response.status === 401) redirectToLogin();
+  if (!result) throw new Error('Failed to fetch track from Spotify API');
 
-  if (!response.ok) throw new Error('Failed to fetch track from Spotify API');
-
-  const responseJson: unknown = await response.json();
-
-  return isTrack(responseJson) ? responseJson : null;
+  return isTrack(result) ? result : null;
 };
 
 const getAlbumTracks = async (id: string): Promise<TrackType[] | null> => {
-  const response = await fetch(`${BASE_URL}/albums/${id}/tracks`, {
-    headers: getHeaders(),
-  });
+  const result = await fetchWithRedirects(`${BASE_URL}/albums/${id}/tracks`, 'GET');
 
-  if (response.status === 401) redirectToLogin();
+  if (!result) throw new Error('Failed to fetch album tracks from Spotify API');
 
-  if (!response.ok) throw new Error('Failed to fetch album tracks from Spotify API');
+  if (!isAlbumTracksResponse(result)) return null;
 
-  const responseJson: unknown = await response.json();
-
-  if (!isAlbumTracksResponse(responseJson)) return null;
-
-  const tracksId = responseJson.items.map((el) => el.id);
+  const tracksId = result.items.map((el) => el.id);
 
   const trackPromises = tracksId.map((trackId) => getTrack(trackId));
 
@@ -77,71 +54,107 @@ const getAlbumTracks = async (id: string): Promise<TrackType[] | null> => {
 };
 
 const getArtistTopTracks = async (id: string): Promise<TrackType[]> => {
-  const response = await fetch(`${BASE_URL}/artists/${id}/top-tracks`, {
-    headers: getHeaders(),
-  });
+  const result = await fetchWithRedirects(`${BASE_URL}/artists/${id}/top-tracks`, 'GET');
 
-  if (response.status === 401) redirectToLogin();
+  if (!result) throw new Error('Failed to fetch top tracks from Spotify API');
 
-  if (!response.ok) throw new Error('Failed to fetch top tracks from Spotify API');
-
-  const responseJson: unknown = await response.json();
-
-  return isTrackResponseObj(responseJson) ? responseJson.tracks : [];
+  return isTrackResponseObj(result) ? result.tracks : [];
 };
 
 const getTopUserTracks = async (): Promise<TrackType[]> => {
-  const response = await fetch(`${BASE_URL}/me/top/tracks`, {
-    headers: getHeaders(),
-  });
+  const result = await fetchWithRedirects(`${BASE_URL}/me/top/tracks`, 'GET');
 
-  if (response.status === 401) redirectToLogin();
+  if (!result) throw new Error('Failed to fetch top user tracks from Spotify API');
 
-  if (!response.ok) throw new Error('Failed to fetch top user tracks from Spotify API');
-
-  const responseJson: unknown = await response.json();
-
-  return isTopTracks(responseJson) ? responseJson.items : [];
+  return isTopTracks(result) ? result.items : [];
 };
 
 export const useSearchTracksQuery = (
   searchedText: string,
   options?: Partial<UseQueryOptions<TrackType[]>>
-): UseQueryResult<TrackType[], Error> =>
-  useQuery({
+): UseQueryResult<TrackType[], Error> => {
+  const { setAlertProps } = useContext(GlobalContext);
+
+  return useQuery({
     queryKey: [TRACKS_QUERY, searchedText],
     queryFn: async () => {
-      return await getTracks(searchedText);
+      try {
+        return await getTracks(searchedText);
+      } catch {
+        setAlertProps({ text: 'Something went wrong with searched tracks :(', position: 'top', type: 'error' });
+        return [];
+      }
     },
     ...options,
   });
+};
 
 export const useRecommendationTracksQuery = (
   options?: Partial<UseQueryOptions<TrackType[]>>
-): UseQueryResult<TrackType[], Error> =>
-  useQuery({
+): UseQueryResult<TrackType[], Error> => {
+  const { setAlertProps } = useContext(GlobalContext);
+
+  return useQuery({
     queryKey: [RECOMMENDATIONS_QUERY],
-    queryFn: getRecommendationTracks,
+    queryFn: async () => {
+      try {
+        return await getRecommendationTracks();
+      } catch {
+        setAlertProps({ type: 'error', text: 'Something went wrong with recommendation tracks :(', position: 'top' });
+        return [];
+      }
+    },
     ...options,
   });
+};
 
-export const useAlbumTracksQuery = (id: string): UseQueryResult<TrackType[] | null, Error> =>
-  useQuery({
+export const useAlbumTracksQuery = (id: string): UseQueryResult<TrackType[] | null, Error> => {
+  const { setAlertProps } = useContext(GlobalContext);
+
+  return useQuery({
     queryKey: [ALBUM_TRACKS_QUERY, id],
     queryFn: async () => {
-      return await getAlbumTracks(id);
+      try {
+        return await getAlbumTracks(id);
+      } catch {
+        setAlertProps({ text: 'Something went wrong with album tracks :(', type: 'error', position: 'top' });
+        return [];
+      }
     },
   });
+};
 
-export const useArtistTopTracksQuery = (id: string): UseQueryResult<TrackType[], Error> =>
-  useQuery({
+export const useArtistTopTracksQuery = (id: string): UseQueryResult<TrackType[], Error> => {
+  const { setAlertProps } = useContext(GlobalContext);
+
+  return useQuery({
     queryKey: [TOP_TRACKS_QUERY, id],
     queryFn: async () => {
-      return await getArtistTopTracks(id);
+      try {
+        return await getArtistTopTracks(id);
+      } catch {
+        setAlertProps({ type: 'error', position: 'top', text: 'Something went wrong with artist top tracks :(' });
+        return [];
+      }
     },
   });
+};
 
 export const useTopUserTracksQuery = (
   options?: Partial<UseQueryOptions<TrackType[]>>
-): UseQueryResult<TrackType[], Error> =>
-  useQuery({ queryKey: [TOP_USER_TRACKS_QUERY], queryFn: getTopUserTracks, ...options });
+): UseQueryResult<TrackType[], Error> => {
+  const { setAlertProps } = useContext(GlobalContext);
+
+  return useQuery({
+    queryKey: [TOP_USER_TRACKS_QUERY],
+    queryFn: async () => {
+      try {
+        return await getTopUserTracks();
+      } catch {
+        setAlertProps({ type: 'error', position: 'top', text: 'Something went wrong with top user tracks :(' });
+        return [];
+      }
+    },
+    ...options,
+  });
+};
