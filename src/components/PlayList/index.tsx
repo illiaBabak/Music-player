@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { Card } from 'react-bootstrap';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from 'src/root';
 import { PlaylistType } from 'src/types/types';
 
@@ -12,7 +12,7 @@ type Props = {
 
 export const PlayList = ({ playlist, selectedPlaylistsId, setSelectedPlaylistsId }: Props): JSX.Element => {
   const { shouldShowPlaylists, disabledPlaylists } = useContext(GlobalContext);
-  const [, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const isDisabledPlaylist = disabledPlaylists.some((id) => playlist.id === id);
 
@@ -24,10 +24,7 @@ export const PlayList = ({ playlist, selectedPlaylistsId, setSelectedPlaylistsId
         prev.some((id) => id === playlist.id) ? prev.filter((id) => id !== playlist.id) : [...prev, playlist.id]
       );
 
-    setSearchParams((prev) => {
-      prev.set('playlist-id', playlist.id);
-      return prev;
-    });
+    navigate(`playlist?playlist-id=${playlist.id}`);
   };
 
   return (

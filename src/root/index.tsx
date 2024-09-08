@@ -2,7 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { RedirectPage } from 'src/pages/RedirectPage';
 import { HomePage } from 'src/pages/HomePage';
 import { createContext, useEffect, useState } from 'react';
-import { PlaylistsPage } from 'src/pages/PlaylistsPage';
+import { PlaylistPage } from 'src/pages/PlaylistPage';
 import { LoginPage } from 'src/pages/LoginPage';
 import { ArtistPage } from 'src/pages/ArtistPage';
 import { AlbumPage } from 'src/pages/AlbumPage';
@@ -10,6 +10,7 @@ import { AlertProps } from 'src/types/types';
 import { PodcastsPage } from 'src/pages/PodcastsPage';
 import { Alert } from 'src/components/Alert';
 import { DISABLED_DELAY } from 'src/utils/constants';
+import { PlaylistsListPage } from 'src/pages/PlaylistsListPage';
 
 type GlobalContextType = {
   currentUriTrack: string | null;
@@ -136,9 +137,16 @@ export const App = (): JSX.Element => {
             <Route path='/home' element={<HomePage />} />
             <Route path='/playlists'>
               <Route index element={<Navigate to='recommended' />} />
-              <Route path='recommended' element={<PlaylistsPage />} />
-              <Route path='my-playlists' element={<PlaylistsPage />} />
+              <Route path='recommended'>
+                <Route index element={<PlaylistsListPage isRecommendedRoute={true} />} />
+                <Route path='playlist' element={<PlaylistPage isRecommendedRoute={true} />} />
+              </Route>
+              <Route path='my-playlists'>
+                <Route index element={<PlaylistsListPage isRecommendedRoute={false} />} />
+                <Route path='playlist' element={<PlaylistPage isRecommendedRoute={false} />} />
+              </Route>
             </Route>
+
             <Route path='/artist' element={<ArtistPage />} />
             <Route path='/album' element={<AlbumPage />} />
             <Route path='/podcasts'>

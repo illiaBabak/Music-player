@@ -1,10 +1,10 @@
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useContext } from 'react';
 import { GlobalContext } from 'src/root';
 import { usePlaylistsItemsQuery } from 'src/api/playlists';
 import { TracksList } from 'src/components/TracksList';
 import { useRecommendationTracksQuery, useSearchTracksQuery } from 'src/api/tracks';
-import { PlaylistInfo } from 'src/pages/PlaylistsPage/components/PlaylistInfo';
+import { PlaylistInfo } from 'src/pages/PlaylistPage/components/PlaylistInfo';
 import { Header } from 'src/components/Header';
 import { ThemeBtn } from 'src/components/ThemeBtn';
 
@@ -16,7 +16,8 @@ type Props = {
 
 export const PlayListTracks = ({ playlistId, isOwnPlaylist, showDeleteWindow }: Props): JSX.Element => {
   const { setCurrentUriTrack } = useContext(GlobalContext);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const searchedText = searchParams.get('query') ?? '';
 
@@ -37,12 +38,7 @@ export const PlayListTracks = ({ playlistId, isOwnPlaylist, showDeleteWindow }: 
           className='return-btn p-3 m-0 d-flex justify-content-between align-items-center text-white'
           onClick={() => {
             setCurrentUriTrack(null);
-
-            setSearchParams((prev) => {
-              prev.delete('playlist-id');
-              prev.delete('query');
-              return prev;
-            });
+            navigate('..');
           }}
         >
           <span className='fs-1'>&lt;</span>

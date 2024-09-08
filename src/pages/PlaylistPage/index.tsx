@@ -1,26 +1,25 @@
 import { useContext, useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import { useLocation, useSearchParams } from 'react-router-dom';
-import { Header } from 'src/components/Header';
-import { PlayListsList } from 'src/components/PlayListsList';
-import { PlayListTracks } from 'src/pages/PlaylistsPage/components/PlayListTracks';
+import { useSearchParams } from 'react-router-dom';
+import { PlayListTracks } from 'src/pages/PlaylistPage/components/PlayListTracks';
 import { SideBarMenu } from 'src/components/SideBarMenu';
 import { GlobalContext } from 'src/root';
 import { Player } from 'src/components/Player';
-import { DeletePlaylistWindow } from 'src/pages/PlaylistsPage/components/DeletePlaylistWindow';
+import { DeletePlaylistWindow } from 'src/pages/PlaylistPage/components/DeletePlaylistWindow';
 import { ModalWrapper } from 'src/components/ModalWrapper';
-import { ImageEditor } from 'src/pages/PlaylistsPage/components/ImageEditor';
+import { ImageEditor } from 'src/pages/PlaylistPage/components/ImageEditor';
 
-export const PlaylistsPage = (): JSX.Element => {
+type Props = {
+  isRecommendedRoute: boolean;
+};
+
+export const PlaylistPage = ({ isRecommendedRoute }: Props): JSX.Element => {
   const { currentUriTrack, imageToEdit, setImageToEdit } = useContext(GlobalContext);
   const [searchParams] = useSearchParams();
-  const location = useLocation();
 
   const [shouldShowModal, setShouldShowModal] = useState(false);
 
   const currentPlaylistId = searchParams.get('playlist-id') ?? '';
-
-  const isRecommendedRoute = location.pathname.endsWith('recommended');
 
   return (
     <Container className='d-flex playlists-container p-0 m-0 flex-nowrap'>
@@ -42,18 +41,11 @@ export const PlaylistsPage = (): JSX.Element => {
         )}
 
         <Col className={`col-content m-0 p-0 scroll-container ${currentUriTrack ? 'playing' : ''}`}>
-          {currentPlaylistId ? (
-            <PlayListTracks
-              playlistId={currentPlaylistId}
-              isOwnPlaylist={!isRecommendedRoute}
-              showDeleteWindow={() => setShouldShowModal(true)}
-            />
-          ) : (
-            <>
-              <Header />
-              <PlayListsList showRecommendations={isRecommendedRoute} />
-            </>
-          )}
+          <PlayListTracks
+            playlistId={currentPlaylistId}
+            isOwnPlaylist={!isRecommendedRoute}
+            showDeleteWindow={() => setShouldShowModal(true)}
+          />
         </Col>
 
         {!!currentUriTrack && <Player />}
