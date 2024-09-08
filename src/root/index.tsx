@@ -136,7 +136,7 @@ export const App = (): JSX.Element => {
             <Route path='/redirect' element={<RedirectPage />} />
             <Route path='/home' element={<HomePage />} />
             <Route path='/playlists'>
-              <Route index element={<Navigate to='recommended' />} />
+              <Route index element={<Navigate to='my-playlists' />} />
               <Route path='recommended'>
                 <Route index element={<PlaylistsListPage isRecommendedRoute={true} />} />
                 <Route path='playlist' element={<PlaylistPage isRecommendedRoute={true} />} />

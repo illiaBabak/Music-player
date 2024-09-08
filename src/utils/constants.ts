@@ -36,7 +36,6 @@ export const SIDEBAR_LINKS = [
   { route: 'home', imgPath: '/src/images/home-icon.png', imgPathLight: '/src/images/home-icon-light.png' },
   {
     route: 'playlists',
-
     imgPath: '/src/images/disc-icon.png',
     imgPathLight: '/src/images/disc-icon-light.png',
   },
@@ -47,7 +46,7 @@ export const SIDEBAR_LINKS = [
   },
 ] as const;
 
-export const PLAYLISTS_LINKS = ['recommended', 'my-playlists'] as const;
+export const PLAYLISTS_LINKS = ['my-playlists', 'recommended'] as const;
 
 export const PODCASTS_LINKS = ['searched-podcasts', 'my-podcasts'] as const;
 
