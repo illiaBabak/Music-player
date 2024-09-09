@@ -63,3 +63,11 @@ export const PODCAST_MUTATION = 'podcast_mutation';
 export const PODCAST_ADD = 'podcast_add';
 
 export const PODCAST_DELETE = 'podcast_delete';
+
+export const FOLLOW_ARTISTS_QUERY = 'follow_artists_query';
+
+export const FOLLOW_ARTIST_MUTATION = 'follow_artist_mutation';
+
+export const FOLLOW_ARTIST_ADD = 'follow_artist_add';
+
+export const FOLLOW_ARTIST_DELETE = 'follow_artist_delete';

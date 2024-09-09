@@ -33,6 +33,14 @@
           object-fit: cover;
           border-radius: 50%;
         }
+
+        .details {
+          position: relative;
+          .follow-btn {
+            bottom: 0;
+            left: 0;
+          }
+        }
       }
 
       .empty-data {

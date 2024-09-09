@@ -1,6 +1,7 @@
 import { Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { ArtistType } from 'src/types/types';
+import { FollowArtistBtn } from '../FollowArtistBtn';
 
 type Props = {
   artist: ArtistType;
@@ -21,6 +22,8 @@ export const Artist = ({ artist, isLine }: Props): JSX.Element => {
       />
 
       <span className={`${isLine ? 'm-1' : 'm-3'} title text-white`}>{artist.name}</span>
+
+      <FollowArtistBtn artist={artist} />
     </Card>
   );
 };

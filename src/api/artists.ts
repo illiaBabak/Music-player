@@ -1,4 +1,11 @@
-import { useQuery, UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
+import {
+  useMutation,
+  UseMutationResult,
+  useQuery,
+  useQueryClient,
+  UseQueryOptions,
+  UseQueryResult,
+} from '@tanstack/react-query';
 import { AlbumType, ArtistType } from 'src/types/types';
 import { isAlbumResponseObj, isArtist, isArtistsResponse, isArtistsResponseObj, isTopArtists } from 'src/utils/guards';
 import {
@@ -6,12 +13,17 @@ import {
   ARTIST_QUERY,
   ARTISTS_QUERY,
   BASE_URL,
+  FOLLOW_ARTIST_ADD,
+  FOLLOW_ARTIST_MUTATION,
+  FOLLOW_ARTISTS_QUERY,
   RELATED_ARTISTS_QUERY,
   TOP_USER_ARTISTS_QUERY,
 } from './constants';
 import { fetchWithRedirects } from '.';
 import { useContext } from 'react';
 import { GlobalContext } from 'src/root';
+
+type ArtistWithId = Pick<ArtistType, 'id'> & Partial<ArtistType>;
 
 const getArtists = async (searchedText: string): Promise<ArtistType[]> => {
   const result = await fetchWithRedirects(
@@ -54,6 +66,38 @@ const getTopUserArtists = async (): Promise<ArtistType[]> => {
   if (!result) throw new Error('Failed to fetch top user artists from Spotify API');
 
   return isTopArtists(result) ? result.items : [];
+};
+
+const getFollowedArtists = async (): Promise<ArtistType[]> => {
+  const result = await fetchWithRedirects(`${BASE_URL}/me/following?type=artist`, 'GET');
+
+  if (!result) throw new Error('Failed to fetch followed artists from Spotify API');
+
+  return isArtistsResponse(result) ? result.artists.items : [];
+};
+
+const followArtist = async (partialArtist: ArtistWithId) => {
+  const response = await fetchWithRedirects(
+    `${BASE_URL}/me/following?type=artist`,
+    'PUT',
+    JSON.stringify({
+      ids: [partialArtist.id],
+    })
+  );
+
+  if (!response) throw new Error('Failed to follow artist using Spotify API');
+};
+
+const unFollowArtist = async (id: string) => {
+  const response = await fetchWithRedirects(
+    `${BASE_URL}/me/following?type=artist`,
+    'DELETE',
+    JSON.stringify({
+      ids: [id],
+    })
+  );
+
+  if (!response) throw new Error('Failed to unfollow artist using Spotify API');
 };
 
 export const useSearchArtistQuery = (
@@ -144,5 +188,101 @@ export const useTopUserArtistsQuery = (
       }
     },
     ...options,
+  });
+};
+
+export const useFollowedArtistsQuery = (): UseQueryResult<ArtistType[], Error> => {
+  const { setAlertProps } = useContext(GlobalContext);
+
+  return useQuery({
+    queryKey: [FOLLOW_ARTISTS_QUERY],
+    queryFn: async () => {
+      try {
+        return await getFollowedArtists();
+      } catch {
+        setAlertProps({ text: 'Something went wrong with followes artists :(', type: 'error', position: 'top' });
+        return [];
+      }
+    },
+  });
+};
+
+export const useFollowArtistQuery = (): UseMutationResult<
+  void,
+  Error,
+  ArtistWithId,
+  { prevVal: ArtistType[] | undefined }
+> => {
+  const { setAlertProps } = useContext(GlobalContext);
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: [FOLLOW_ARTIST_MUTATION, FOLLOW_ARTIST_ADD],
+    mutationFn: followArtist,
+    onMutate: async (artistToFollow) => {
+      await queryClient.cancelQueries({ queryKey: [FOLLOW_ARTISTS_QUERY] });
+
+      const prevVal = queryClient.getQueryData<ArtistType[] | undefined>([FOLLOW_ARTISTS_QUERY]);
+
+      queryClient.setQueryData([FOLLOW_ARTISTS_QUERY], (prev: ArtistType[] | undefined) =>
+        prev ? [artistToFollow, ...prev] : prev
+      );
+
+      return { prevVal };
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: [FOLLOW_ARTISTS_QUERY] });
+    },
+
+    onSuccess: () => {
+      setAlertProps({ text: 'Followed artist', type: 'success', position: 'top' });
+    },
+
+    onError: (_, __, context) => {
+      setAlertProps({ text: 'Error with follow artist', type: 'error', position: 'top' });
+
+      queryClient.setQueryData([FOLLOW_ARTISTS_QUERY], context?.prevVal);
+    },
+  });
+};
+
+export const useUnFollowArtistQuery = (): UseMutationResult<
+  void,
+  Error,
+  string,
+  { prevVal: ArtistType[] | undefined }
+> => {
+  const { setAlertProps } = useContext(GlobalContext);
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: [FOLLOW_ARTIST_MUTATION, FOLLOW_ARTIST_MUTATION],
+    mutationFn: unFollowArtist,
+    onMutate: async (id) => {
+      await queryClient.cancelQueries({ queryKey: [FOLLOW_ARTISTS_QUERY] });
+
+      const prevVal = queryClient.getQueryData<ArtistType[] | undefined>([FOLLOW_ARTISTS_QUERY]);
+
+      queryClient.setQueryData([FOLLOW_ARTISTS_QUERY], (prev: ArtistType[] | undefined) =>
+        prev ? prev.filter((artist) => artist.id !== id) : prev
+      );
+
+      return { prevVal };
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: [FOLLOW_ARTISTS_QUERY] });
+    },
+
+    onSuccess: () => {
+      setAlertProps({ text: 'Unfollowed artist', position: 'top', type: 'success' });
+    },
+
+    onError: (_, __, context) => {
+      setAlertProps({ text: 'Error with unfollow artist', position: 'top', type: 'error' });
+
+      queryClient.setQueryData([FOLLOW_ARTISTS_QUERY], context?.prevVal);
+    },
   });
 };

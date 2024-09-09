@@ -5,6 +5,7 @@ import { useArtistAlbumsQuery, useArtistQuery, useRelatedArtistsQuery } from 'sr
 import { useArtistTopTracksQuery } from 'src/api/tracks';
 import { AlbumsList } from 'src/components/AlbumsList';
 import { ArtistsList } from 'src/components/ArtistsList';
+import { FollowArtistBtn } from 'src/components/FollowArtistBtn';
 import { Player } from 'src/components/Player';
 import { SideBarMenu } from 'src/components/SideBarMenu';
 import { ThemeBtn } from 'src/components/ThemeBtn';
@@ -63,6 +64,8 @@ export const ArtistPage = (): JSX.Element => {
                 ))}
               </div>
               <span className='fs-6 mt-1'>Followers: {numToWords(artist?.followers.total ?? 0)}</span>
+
+              {artist && <FollowArtistBtn artist={artist} />}
             </div>
           </div>
 

@@ -24,6 +24,8 @@ export const SCOPES = [
   'ugc-image-upload',
   'user-library-read',
   'user-library-modify',
+  'user-follow-read',
+  'user-follow-modify',
 ];
 
 export const DIVIDE_FACTOR = 10;
