@@ -45,6 +45,13 @@ export const UserPage = (): JSX.Element => {
             <p className='fs-4'>{user?.display_name}</p>
             <p className='fs-5'>Email: {user?.email}</p>
 
+            <div
+              className='logout-btn p-3 m-0 d-flex justify-content-center align-items-center text-white'
+              onClick={() => navigate('/login')}
+            >
+              Log out
+            </div>
+
             {!!topUserTracks?.length && (
               <div className={sectionClassName}>
                 <h2>Your top tracks</h2>
