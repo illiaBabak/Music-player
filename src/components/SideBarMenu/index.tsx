@@ -5,11 +5,14 @@ import { GlobalContext } from 'src/root';
 import { capitalize } from 'src/utils/capitalize';
 import { CreatePlaylistWindow } from '../CreatePlaylistWindow';
 import { PLAYLISTS_LINKS, PODCASTS_LINKS, SIDEBAR_LINKS } from 'src/utils/constants';
+import { useUserQuery } from 'src/api/user';
 
 export const SideBarMenu = (): JSX.Element => {
   const { isLightTheme } = useContext(GlobalContext);
   const navigate = useNavigate();
   const location = useLocation();
+
+  const { data: user } = useUserQuery();
 
   const [shouldShowModal, setShouldShowModal] = useState(false);
 
@@ -21,7 +24,7 @@ export const SideBarMenu = (): JSX.Element => {
     <>
       {shouldShowModal && <CreatePlaylistWindow onClose={() => setShouldShowModal(false)} />}
 
-      <Navbar className='flex-column menu p-4' data-bs-theme='dark'>
+      <Navbar className='flex-column menu p-4 position-relative' data-bs-theme='dark'>
         <Container fluid className='d-flex flex-column'>
           <img
             alt='icon'
@@ -82,6 +85,18 @@ export const SideBarMenu = (): JSX.Element => {
             </div>
           </Nav>
         </Container>
+
+        <div
+          className='link user d-flex flex-row align-items-center justify-content-start w-100 p-1 m-1 position-absolute'
+          onClick={() => navigate('/user')}
+        >
+          <img
+            className='m-1 p-1 ms-4 rounded-circle'
+            src={user?.images.length ? user.images[0].url : '/src/images/not-found.jpg'}
+            alt='icon'
+          />
+          <h5 className='text-white m-0 p-1'>{user?.display_name}</h5>
+        </div>
       </Navbar>
     </>
   );

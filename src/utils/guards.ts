@@ -198,7 +198,16 @@ export const isEpisode = (data: unknown): data is EpisodeType =>
 export const isShowsEpisodesResponse = (data: unknown): data is PodcastEpisodesResponse =>
   isObj(data) && 'items' in data && Array.isArray(data.items) && data.items.every((el) => isEpisode(el));
 
-export const isUser = (data: unknown): data is UserType => isObj(data) && 'id' in data && isString(data.id);
+export const isUser = (data: unknown): data is UserType =>
+  isObj(data) &&
+  'id' in data &&
+  isString(data.id) &&
+  'display_name' in data &&
+  'email' in data &&
+  'images' in data &&
+  isString(data.display_name) &&
+  isString(data.email) &&
+  isImagesArr(data.images);
 
 export const isUserPodcasts = (data: unknown): data is UserPodcasts =>
   isObj(data) &&

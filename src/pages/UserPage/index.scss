@@ -1,0 +1,32 @@
+.user-container {
+  min-width: 100vw;
+
+  .row-user {
+    .col-content {
+      width: 70%;
+      height: 100vh;
+
+      .return-btn {
+        border-radius: 6px;
+        width: 100px;
+        height: 45px;
+        background-color: var(--sidebar-color);
+        cursor: pointer;
+
+        &:hover {
+          transform: scale(1.03);
+          transition: 0.25s;
+        }
+      }
+
+      .user-details {
+        color: var(--text);
+
+        .user-icon {
+          width: 100px;
+          height: 100px;
+        }
+      }
+    }
+  }
+}

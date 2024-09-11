@@ -147,6 +147,9 @@ export type UserPodcasts = {
 
 export type UserType = {
   id: string;
+  display_name: string;
+  email: string;
+  images: ImagesArrType;
 };
 
 export type AlertProps = {
