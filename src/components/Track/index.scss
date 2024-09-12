@@ -6,6 +6,7 @@
   background-color: var(--card-bg-color);
   position: relative;
   color: var(--text);
+  cursor: pointer;
 
   &:hover {
     transition: 0.25s;

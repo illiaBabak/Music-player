@@ -1,0 +1,78 @@
+.track-container {
+  min-width: 100vw;
+
+  .row-track {
+    .col-content {
+      width: 70%;
+      height: 100vh;
+      overflow: hidden auto;
+
+      .return-btn {
+        border-radius: 6px;
+        width: 100px;
+        height: 45px;
+        background-color: var(--sidebar-color);
+        cursor: pointer;
+
+        &:hover {
+          transform: scale(1.03);
+          transition: 0.25s;
+        }
+      }
+
+      .track-info {
+        height: 140px;
+        color: var(--text);
+
+        .track-icon {
+          width: 120px;
+          height: 120px;
+        }
+
+        .bg {
+          background-color: var(--accent);
+          border-radius: 6px;
+        }
+
+        .add-icon {
+          width: 50px;
+          height: 50px;
+          bottom: 8px;
+          right: 86px;
+          cursor: pointer;
+
+          &:hover {
+            transform: scale(1.03);
+            transition: 0.25s;
+          }
+        }
+
+        .artist-track {
+          cursor: pointer;
+
+          &:hover {
+            transform: scale(1.03);
+            transition: 0.25s;
+          }
+        }
+
+        .btn-img {
+          width: 50px;
+          height: 50px;
+          right: 24px;
+          bottom: 8px;
+          cursor: pointer;
+
+          &:hover {
+            transform: scale(1.03);
+            transition: 0.25s;
+          }
+        }
+      }
+    }
+
+    .col-content.playing {
+      height: calc(100vh - 80px); // 80px = player height
+    }
+  }
+}

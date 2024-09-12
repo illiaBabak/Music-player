@@ -12,6 +12,7 @@ import { Alert } from 'src/components/Alert';
 import { DISABLED_DELAY } from 'src/utils/constants';
 import { PlaylistsListPage } from 'src/pages/PlaylistsListPage';
 import { UserPage } from 'src/pages/UserPage';
+import { TrackPage } from 'src/pages/TrackPage';
 
 type GlobalContextType = {
   currentUriTrack: string | null;
@@ -155,6 +156,7 @@ export const App = (): JSX.Element => {
               <Route path='my-podcasts' element={<PodcastsPage />} />
             </Route>
             <Route path='/user' element={<UserPage />} />
+            <Route path='/track' element={<TrackPage />} />
           </Routes>
         </BrowserRouter>
       </GlobalContext.Provider>

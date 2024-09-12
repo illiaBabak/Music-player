@@ -34,7 +34,10 @@ export const Track = ({ track, isLine, isInPlaylist, playlistId, isOwnPlaylist }
   const handleDeleteTrack = () => deleteTrack({ playlistId: playlistId ?? '', uri: track.uri });
 
   return (
-    <Card className={`track p-2 m-2 mx-4 px-4 d-flex flex-row align-items-center ${isLine ? 'line' : ''}`}>
+    <Card
+      className={`track p-2 m-2 mx-4 px-4 d-flex flex-row align-items-center ${isLine ? 'line' : ''}`}
+      onClick={() => navigate(`/track?track-id=${track.id}`)}
+    >
       <Image
         className='btn-img ms-2'
         src={isLightTheme ? '/src/images/play-icon-light.svg' : '/src/images/play.svg'}

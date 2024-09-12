@@ -1,12 +1,21 @@
 import { UseQueryOptions, UseQueryResult, useQuery } from '@tanstack/react-query';
-import { TrackType } from 'src/types/types';
-import { isAlbumTracksResponse, isTopTracks, isTrack, isTrackResponse, isTrackResponseObj } from 'src/utils/guards';
+import { TrackAudioAnalysis, TrackType } from 'src/types/types';
+import {
+  isAlbumTracksResponse,
+  isTopTracks,
+  isTrack,
+  isTrackAudioAnalysis,
+  isTrackResponse,
+  isTrackResponseObj,
+} from 'src/utils/guards';
 import {
   ALBUM_TRACKS_QUERY,
   BASE_URL,
   RECOMMENDATIONS_QUERY,
   TOP_TRACKS_QUERY,
   TOP_USER_TRACKS_QUERY,
+  TRACK_AUDIO_ANALYSIS_QUERY,
+  TRACK_QUERY,
   TRACKS_QUERY,
 } from './constants';
 import { fetchWithRedirects } from '.';
@@ -67,6 +76,14 @@ const getTopUserTracks = async (): Promise<TrackType[]> => {
   if (!result) throw new Error('Failed to fetch top user tracks from Spotify API');
 
   return isTopTracks(result) ? result.items : [];
+};
+
+const getTrackAudioAnalysis = async (id: string): Promise<TrackAudioAnalysis | null> => {
+  const result = await fetchWithRedirects(`${BASE_URL}/audio-analysis/${id}`, 'GET');
+
+  if (!result) throw new Error('Failed to fetch track audio analysis from Spotify API');
+
+  return isTrackAudioAnalysis(result) ? result : null;
 };
 
 export const useSearchTracksQuery = (
@@ -156,5 +173,37 @@ export const useTopUserTracksQuery = (
       }
     },
     ...options,
+  });
+};
+
+export const useTrackQuery = (id: string): UseQueryResult<TrackType | null, Error> => {
+  const { setAlertProps } = useContext(GlobalContext);
+
+  return useQuery({
+    queryKey: [TRACK_QUERY, id],
+    queryFn: async () => {
+      try {
+        return await getTrack(id);
+      } catch {
+        setAlertProps({ type: 'error', position: 'top', text: 'Something went wrong with track :(' });
+        return null;
+      }
+    },
+  });
+};
+
+export const useTrackAnalysisQuery = (id: string): UseQueryResult<TrackAudioAnalysis | null, Error> => {
+  const { setAlertProps } = useContext(GlobalContext);
+
+  return useQuery({
+    queryKey: [TRACK_AUDIO_ANALYSIS_QUERY, id],
+    queryFn: async () => {
+      try {
+        return await getTrackAudioAnalysis(id);
+      } catch {
+        setAlertProps({ type: 'error', position: 'top', text: 'Something went wrong with track analysis :(' });
+        return null;
+      }
+    },
   });
 };

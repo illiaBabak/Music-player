@@ -157,3 +157,12 @@ export type AlertProps = {
   type: 'success' | 'error';
   position: 'top' | 'bottom';
 };
+
+export type TrackSection = {
+  start: number;
+  tempo: number;
+};
+
+export type TrackAudioAnalysis = {
+  sections: TrackSection[];
+};

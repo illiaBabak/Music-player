@@ -8,11 +8,11 @@ import { PLAYLISTS_LINKS, PODCASTS_LINKS, SIDEBAR_LINKS } from 'src/utils/consta
 import { useUserQuery } from 'src/api/user';
 
 export const SideBarMenu = (): JSX.Element => {
-  const { isLightTheme } = useContext(GlobalContext);
+  const { isLightTheme, currentUriTrack } = useContext(GlobalContext);
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { data: user } = useUserQuery();
+  const { data: user, isLoading: isLoadingUser } = useUserQuery();
 
   const [shouldShowModal, setShouldShowModal] = useState(false);
 
@@ -86,17 +86,19 @@ export const SideBarMenu = (): JSX.Element => {
           </Nav>
         </Container>
 
-        <div
-          className='link user d-flex flex-row align-items-center justify-content-start w-100 p-1 m-1 position-absolute'
-          onClick={() => navigate('/user')}
-        >
-          <img
-            className='m-1 p-1 ms-4 rounded-circle'
-            src={user?.images.length ? user.images[0].url : '/src/images/not-found.jpg'}
-            alt='icon'
-          />
-          <h5 className='text-white m-0 p-1'>{user?.display_name}</h5>
-        </div>
+        {!isLoadingUser && (
+          <div
+            className={`link user d-flex flex-row align-items-center justify-content-start w-100 p-1 m-1 position-absolute ${currentUriTrack ? 'playing' : ''}`}
+            onClick={() => navigate('/user')}
+          >
+            <img
+              className='m-1 p-1 ms-4 rounded-circle'
+              src={user?.images.length ? user.images[0].url : '/src/images/not-found.jpg'}
+              alt='icon'
+            />
+            <h5 className='text-white m-0 p-1'>{user?.display_name}</h5>
+          </div>
+        )}
       </Navbar>
     </>
   );

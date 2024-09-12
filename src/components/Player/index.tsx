@@ -16,10 +16,10 @@ export const Player = (): JSX.Element => {
         uris={[currentUriTrack ?? '']}
         styles={{
           activeColor: '#fff',
-          bgColor: `${isLightTheme ? '#ff8300' : '#040b1b'}`,
-          color: `${isLightTheme ? '#ffffff' : '#192a56'}`,
+          bgColor: `${isLightTheme ? '#ff8300' : '#130821'}`,
+          color: `${isLightTheme ? '#ffffff' : '#433673'}`,
           loaderColor: '#fff',
-          sliderColor: `${isLightTheme ? '#ffffff' : '#273c75'}`,
+          sliderColor: `${isLightTheme ? '#ffffff' : '#433673'}`,
           trackArtistColor: '#ccc',
           trackNameColor: '#fff',
         }}

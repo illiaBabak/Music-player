@@ -71,3 +71,7 @@ export const FOLLOW_ARTIST_MUTATION = 'follow_artist_mutation';
 export const FOLLOW_ARTIST_ADD = 'follow_artist_add';
 
 export const FOLLOW_ARTIST_DELETE = 'follow_artist_delete';
+
+export const TRACK_QUERY = 'track_query';
+
+export const TRACK_AUDIO_ANALYSIS_QUERY = 'track_audio_analysis_query';
