@@ -20,11 +20,11 @@ export const RedirectPage = (): JSX.Element => {
   }, [navigate]);
 
   return (
-    <div className='redirect-page d-flex justify-content-center align-items-center h-100'>
-      <div className='d-flex flex-column text-white justify-content-center align-items-center content'>
+    <div className='redirect-page d-flex justify-content-center align-items-center h-100 overflow-hidden text-center'>
+      <div className='d-flex flex-column text-white justify-content-center align-items-center content p-1'>
         <span className='fs-2'>Ooops..Something went wrong :(</span>
         <button
-          className='btn d-flex mt-4 p-2 redirect-btn text-white d-flex align-items-center justify-content-center'
+          className='btn d-flex mt-4 p-2 redirect-btn border-0 text-white d-flex align-items-center justify-content-center'
           onClick={() => navigate('/login')}
         >
           <span className='btn-text d-flex align-items-center justify-content-center w-100 h-100'>
