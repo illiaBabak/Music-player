@@ -11,12 +11,12 @@ export const LoginPage = (): JSX.Element => {
 
   return (
     <Container className='text-center text-white d-flex flex-column align-items-center login-container m-0 p-0 h-100'>
-      <div className='login-content mt-4 d-flex flex-column align-items-center justify-content-center'>
-        <img src='src/images/logo.png' alt='logo' className='logo' />
+      <div className='login-content z-10 mt-4 d-flex flex-column align-items-center justify-content-center'>
+        <img src='src/images/logo.png' alt='logo' className='logo object-fit-contain' />
         <h2 className='mt-4'>Welcome!</h2>
-        <p className='logo-text'>To use our service, please log in with your Spotify account</p>
+        <p className='logo-text p-2'>To use our service, please log in with your Spotify account</p>
         <button
-          className='btn mt-4 p-2 login-btn text-white d-flex align-items-center justify-content-center'
+          className='btn mt-4 p-2 login-btn border-0 text-white d-flex align-items-center justify-content-center'
           onClick={handleClick}
         >
           <span className='btn-text d-flex align-items-center justify-content-center w-100 h-100'>Click to login</span>

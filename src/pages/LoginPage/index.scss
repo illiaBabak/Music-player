@@ -3,12 +3,9 @@
   background-color: #0d1736;
 
   .login-content {
-    z-index: 10;
-
     .logo {
       width: 320px;
       height: 320px;
-      object-fit: contain;
       filter: drop-shadow(0 0.2rem 0.25rem rgba(0, 0, 0, 0.2));
     }
 
@@ -22,7 +19,6 @@
       width: 140px;
       height: 50px;
       background-image: linear-gradient(144deg, #7340ff, #5b42f3 50%, #0603ad);
-      border: 0;
       border-radius: 8px;
       box-shadow: rgba(151, 65, 252, 0.2) 0 10px 30px -5px;
 
@@ -35,6 +31,21 @@
         &:hover {
           background: none;
         }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .login-container {
+    .login-content {
+      .logo {
+        width: 270px;
+        height: 270px;
+      }
+
+      .logo-text {
+        font-size: 20px;
       }
     }
   }
