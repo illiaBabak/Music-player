@@ -13,10 +13,11 @@ type Props = {
   isInPlaylist?: boolean;
   playlistId?: string;
   isOwnPlaylist?: boolean;
+  isFirst?: boolean;
 };
 
-export const Track = ({ track, isLine, isInPlaylist, playlistId, isOwnPlaylist }: Props): JSX.Element => {
-  const { setCurrentUriTrack, isLightTheme, setShouldShowPlaylists } = useContext(GlobalContext);
+export const Track = ({ track, isLine, isInPlaylist, playlistId, isOwnPlaylist, isFirst }: Props): JSX.Element => {
+  const { setCurrentUriTrack, isLightTheme, setShouldShowPlaylists, isTablet } = useContext(GlobalContext);
   const navigate = useNavigate();
 
   const { mutateAsync: addTrack } = useAddItemsPlaylist();
@@ -33,29 +34,44 @@ export const Track = ({ track, isLine, isInPlaylist, playlistId, isOwnPlaylist }
 
   const handleDeleteTrack = () => deleteTrack({ playlistId: playlistId ?? '', uri: track.uri });
 
+  const handleClickAddBtn = () => {
+    // check if we are in playlist route
+    if (playlistId && isOwnPlaylist) handleAddTrack();
+    else {
+      setShouldShowPlaylists(true);
+      navigate(`/home?track-to-add=${track.uri}`);
+    }
+  };
+
   return (
     <Card
-      className={`track p-2 m-2 mx-4 px-4 d-flex flex-row align-items-center ${isLine ? 'line' : ''}`}
+      className={`track m-2 p-2 ${isFirst ? 'me-4 px-3' : 'mx-2 px-3'} d-flex flex-row align-items-center ${isLine ? 'line' : ''} position-relative text-center`}
       onClick={() => navigate(`/track?track-id=${track.id}`)}
     >
-      <Image
-        className='btn-img ms-2'
-        src={isLightTheme ? '/src/images/play-icon-light.svg' : '/src/images/play.svg'}
-        onClick={() => setCurrentUriTrack(track.uri)}
-      />
+      <div className='d-flex flex-row justify-content-center align-items-center'>
+        <Image
+          className='btn-img ms-2 object-fit-cover rounded-circle'
+          src={isLightTheme ? '/src/images/play-icon-light.svg' : '/src/images/play.svg'}
+          onClick={(e) => {
+            e.stopPropagation();
 
-      <Card.Img
-        src={
-          track.album && track.album.images && !!track.album.images.length
-            ? track.album.images[0].url
-            : '/src/images/not-found.jpg'
-        }
-        className='track-img ms-4'
-      />
+            setCurrentUriTrack(track.uri);
+          }}
+        />
 
-      <Card.Body className='track-info d-flex flex-row justify-content-start align-items-center'>
+        <Card.Img
+          src={
+            track.album && track.album.images && !!track.album.images.length
+              ? track.album.images[0].url
+              : '/src/images/not-found.jpg'
+          }
+          className={`track-img ${isTablet ? 'ms-2' : 'ms-4'} object-fit-contain`}
+        />
+      </div>
+
+      <Card.Body className='track-info d-flex flex-row justify-content-start align-items-center overflow-hidden'>
         <span
-          className={`fs-6 track-name text-white ${isLine ? 'mb-2' : ''}`}
+          className={`d-inline-block fs-6 track-name text-white ${isLine ? 'mb-2' : 'overflow-hidden full-name'}`}
           style={{ animationDuration: `${calcDuration(track.name)}s` }}
         >
           {track.name}
@@ -63,8 +79,8 @@ export const Track = ({ track, isLine, isInPlaylist, playlistId, isOwnPlaylist }
 
         {!isLine && (
           <>
-            <span className='fs-6 track-duration text-white'>{msToMinSec(track.duration_ms)}</span>
-            <span className='fs-6 d-flex flex-row justify-content-start align-items-center artists-track text-white'>
+            <span className='fs-6 track-duration text-white position-absolute'>{msToMinSec(track.duration_ms)}</span>
+            <span className='fs-6 d-flex flex-row justify-content-start align-items-start artists-track text-white position-absolute overflow-hidden me-4'>
               {artists.map((artist) => (
                 <p
                   key={`${artist.id}-${track.id}-text`}
@@ -80,22 +96,19 @@ export const Track = ({ track, isLine, isInPlaylist, playlistId, isOwnPlaylist }
 
         {(!isOwnPlaylist || (!isTrackInPlaylist && isOwnPlaylist)) && (
           <Image
-            className={`icon ${isLine ? 'line' : ''}`}
+            className={`icon ${isLine ? 'line' : ''} object-fit-contain position-absolute ms-3`}
             src={isLightTheme ? '/src/images/add-light-icon.png' : '/src/images/add-icon.png'}
-            onClick={
-              playlistId && isOwnPlaylist // check if we are in playlist route
-                ? () => handleAddTrack()
-                : () => {
-                    setShouldShowPlaylists(true);
-                    navigate(`/home?track-to-add=${track.uri}`);
-                  }
-            }
+            onClick={(e) => {
+              e.stopPropagation();
+
+              handleClickAddBtn();
+            }}
           />
         )}
 
         {isInPlaylist && isOwnPlaylist && isTrackInPlaylist && (
           <Image
-            className={`icon ${isLine ? 'line' : ''} `}
+            className={`icon ${isLine ? 'line' : ''} object-fit-contain position-absolute ms-3`}
             src={isLightTheme ? '/src/images/trash-icon-light.png' : '/src/images/trash-icon.png'}
             onClick={handleDeleteTrack}
           />

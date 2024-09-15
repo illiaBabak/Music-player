@@ -12,7 +12,7 @@ type Props = {
 
 export const Podcast = ({ podcast, isSavedPodcast }: Props): JSX.Element => {
   const [, setSearchParams] = useSearchParams();
-  const { setCurrentUriTrack, isLightTheme } = useContext(GlobalContext);
+  const { setCurrentUriTrack, isLightTheme, isTablet } = useContext(GlobalContext);
 
   const { mutateAsync: addPodcast } = useAddPodcast();
   const { mutateAsync: deletePodcast } = useDeletePodcast();
@@ -27,19 +27,19 @@ export const Podcast = ({ podcast, isSavedPodcast }: Props): JSX.Element => {
 
         setCurrentUriTrack(podcast.uri);
       }}
-      className='d-flex flex-row justify-content-start align-items-center m-2 p-2 podcast text-white'
+      className='d-flex flex-row justify-content-start align-items-center m-2 p-2 podcast text-white position-relative overflow-hidden'
     >
       <Card.Img
-        className='podcast-icon m-2'
+        className='podcast-icon m-2 object-fit-contain'
         src={podcast.images.length ? podcast.images[0].url : '/src/images/not-found.jpg'}
       />
 
       <Card.Body className='d-flex flex-column justify-content-start align-items-center ms-1 w-100 h-100'>
-        <span className='fs-4'>{podcast.name}</span>
+        <span className={`${isTablet ? 'fs-5' : 'fs-4'}`}>{podcast.name}</span>
         <span className='description mt-2 scroll-container'>{podcast.description}</span>
         {isSavedPodcast ? (
           <Image
-            className='delete-icon'
+            className='icon object-fit-contain position-absolute'
             src={isLightTheme ? '/src/images/trash-icon-light.png' : '/src/images/trash-icon.png'}
             onClick={(e) => {
               e.stopPropagation();
@@ -49,7 +49,7 @@ export const Podcast = ({ podcast, isSavedPodcast }: Props): JSX.Element => {
           />
         ) : (
           <Image
-            className='add-icon'
+            className='icon object-fit-contain position-absolute'
             src={isLightTheme ? '/src/images/add-light-icon.png' : '/src/images/add-icon.png'}
             onClick={(e) => {
               e.stopPropagation();

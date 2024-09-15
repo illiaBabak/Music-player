@@ -8,7 +8,7 @@ import { PLAYLISTS_LINKS, PODCASTS_LINKS, SIDEBAR_LINKS } from 'src/utils/consta
 import { useUserQuery } from 'src/api/user';
 
 export const SideBarMenu = (): JSX.Element => {
-  const { isLightTheme, currentUriTrack } = useContext(GlobalContext);
+  const { isLightTheme, currentUriTrack, isTablet } = useContext(GlobalContext);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -24,7 +24,7 @@ export const SideBarMenu = (): JSX.Element => {
     <>
       {shouldShowModal && <CreatePlaylistWindow onClose={() => setShouldShowModal(false)} />}
 
-      <Navbar className='flex-column menu p-4 position-relative' data-bs-theme='dark'>
+      <Navbar className={`flex-column menu ${isTablet ? 'p-3' : 'p-4'} position-relative`} data-bs-theme='dark'>
         <Container fluid className='d-flex flex-column'>
           <img
             alt='icon'
@@ -56,7 +56,7 @@ export const SideBarMenu = (): JSX.Element => {
                     <Nav.Link
                       key={`sub-link-${subLink}-${subIndex}`}
                       onClick={() => navigate(`/playlists/${subLink}`)}
-                      className={`sub-link ms-4 m-1 ${currentLocationName.endsWith(subLink) ? 'selected-link' : ''}`}
+                      className={`sub-link ms-3 m-1 ${currentLocationName.endsWith(subLink) ? 'selected-link' : ''}`}
                     >
                       -{capitalize(subLink)}
                     </Nav.Link>

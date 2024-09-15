@@ -13,19 +13,32 @@
   .episode-icon {
     width: 140px;
     height: 140px;
-    object-fit: contain;
   }
 
   .episode-body {
-    position: relative;
-
     .description {
-      height: 80px;
+      max-height: 150px;
       overflow: hidden scroll;
+      text-overflow: ellipsis;
+      white-space: normal;
+      word-wrap: break-word;
+      word-break: break-all;
     }
 
     .detail {
       font-size: 12px;
+    }
+  }
+}
+
+//Tablets
+@media only screen and (max-width: 992px) {
+  .episode {
+    height: 160px;
+
+    .episode-icon {
+      width: 110px;
+      height: 110px;
     }
   }
 }

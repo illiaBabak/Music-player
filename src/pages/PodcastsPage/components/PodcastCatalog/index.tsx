@@ -13,7 +13,7 @@ type Props = {
 };
 
 export const PodcastCatalog = ({ podcastId, isSavedPodcast }: Props): JSX.Element => {
-  const { isLightTheme } = useContext(GlobalContext);
+  const { isLightTheme, isTablet } = useContext(GlobalContext);
   const [, setSearchParams] = useSearchParams();
 
   const { data: podcast, isLoading: isLoadingPodcast } = usePodcastQuery(podcastId);
@@ -22,6 +22,12 @@ export const PodcastCatalog = ({ podcastId, isSavedPodcast }: Props): JSX.Elemen
 
   const { mutateAsync: addPodcast } = useAddPodcast();
   const { mutateAsync: deletePodcast } = useDeletePodcast();
+
+  const skeletonImgSizeDesktop = '220px';
+  const skeletonImgSizeTablet = '180px';
+
+  const skeletonDescriptionHeightDesktop = '120px';
+  const skeletonDescriptionHeightTablet = '80px';
 
   return (
     <div className='podcast-catalog h-100'>
@@ -44,26 +50,34 @@ export const PodcastCatalog = ({ podcastId, isSavedPodcast }: Props): JSX.Elemen
       <div className='podcast-info d-flex flex-row justify-content-start align-items-start w-100 p-3'>
         {isLoadingPodcast ? (
           <>
-            <SkeletonLoader width='220px' height='220px' borderRadius='0' />
+            <SkeletonLoader
+              width={isTablet ? skeletonImgSizeTablet : skeletonImgSizeDesktop}
+              height={isTablet ? skeletonImgSizeTablet : skeletonImgSizeDesktop}
+              borderRadius='0'
+            />
             <div className='ms-3 d-flex flex-column w-100 h-100'>
               <SkeletonLoader width='50%' height='42px' borderRadius='0' className='mb-2' />
-              <SkeletonLoader width='100%' height='120px' borderRadius='0' />
+              <SkeletonLoader
+                width='100%'
+                height={isTablet ? skeletonDescriptionHeightTablet : skeletonDescriptionHeightDesktop}
+                borderRadius='0'
+              />
               <SkeletonLoader width='25%' height='32px' borderRadius='0' className='mt-3' />
             </div>
           </>
         ) : (
           <>
             <img
-              className='podcast-icon'
+              className='podcast-icon object-fit-contain'
               src={podcast?.images.length ? podcast.images[0].url : '/src/image/not-found.jpg'}
             />
-            <div className='podcast-details d-flex flex-column w-100 ms-3 h-100'>
-              <span className='fs-3'>{podcast?.name}</span>
+            <div className='podcast-details d-flex flex-column w-100 ms-3 h-100 position-relative'>
+              <span className={`${isTablet ? 'fs-4' : 'fs-3'}`}>{podcast?.name}</span>
               <span className='description scroll-container mt-3'>{podcast?.description}</span>
-              <span className='fs-5 mt-4'>Publisher: {podcast?.publisher}</span>
+              <span className={`${isTablet ? 'fs-6' : 'fs-5'} mt-4`}>Publisher: {podcast?.publisher}</span>
               {isSavedPodcast ? (
                 <Image
-                  className='delete-icon'
+                  className='icon object-fit-contain position-absolute'
                   src={isLightTheme ? '/src/images/trash-icon-light.png' : '/src/images/trash-icon.png'}
                   onClick={(e) => {
                     e.stopPropagation();
@@ -73,7 +87,7 @@ export const PodcastCatalog = ({ podcastId, isSavedPodcast }: Props): JSX.Elemen
                 />
               ) : (
                 <Image
-                  className='add-icon'
+                  className='icon object-fit-contain position-absolute'
                   src={isLightTheme ? '/src/images/add-light-icon.png' : '/src/images/add-icon.png'}
                   onClick={(e) => {
                     e.stopPropagation();

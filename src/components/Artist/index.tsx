@@ -14,11 +14,11 @@ export const Artist = ({ artist, isLine }: Props): JSX.Element => {
   return (
     <Card
       onClick={() => navigate(`/artist?artist-id=${artist.id}`)}
-      className={`artist p-2 m-2 d-flex justify-content-center align-items-center text-white flex-column ${isLine ? 'line mx-4' : ''}`}
+      className={`artist p-2 m-2 d-flex justify-content-center align-items-center text-white flex-column text-center rounded-circle ${isLine ? 'line mx-4' : ''}`}
     >
       <Card.Img
         src={artist.images.length ? artist.images[0].url : '/src/images/not-found.jpg'}
-        className='artist-icon'
+        className='artist-icon object-fit-cover rounded-circle'
       />
 
       <span className={`${isLine ? 'm-1' : 'm-3'} title text-white`}>{artist.name}</span>

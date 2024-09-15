@@ -8,3 +8,11 @@
     transition: 0.25s;
   }
 }
+
+//Tablets
+@media only screen and (max-width: 992px) {
+  .follow-btn {
+    width: 25px;
+    height: 25px;
+  }
+}

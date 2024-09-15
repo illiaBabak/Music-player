@@ -1,10 +1,14 @@
 .header {
   .header-form {
     .input-wrapper {
-      position: relative;
+      max-width: 420px;
+      min-width: 250px;
+      width: auto;
 
       .search-input {
-        width: 420px;
+        max-width: 420px;
+        min-width: 250px;
+        width: auto;
         height: 45px;
         border: none;
         background-color: var(--sidebar-color);
@@ -22,8 +26,6 @@
       }
 
       .clear-input-btn {
-        font-weight: bolder;
-        position: absolute;
         right: 16px;
         cursor: pointer;
 

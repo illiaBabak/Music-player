@@ -61,12 +61,19 @@
   align-items: flex-start;
 }
 
+.content-container.tracks,
+.content-container.artist-list,
+.content-container.albums-list,
+.content-container.episodes {
+  width: auto;
+}
+
 .content-container.podcasts {
   height: 90%;
 }
 
 .content-container.episodes {
-  height: 60%;
+  height: 65%;
 }
 
 @keyframes shake {

@@ -23,11 +23,9 @@
     .podcast-icon {
       width: 220px;
       height: 220px;
-      object-fit: contain;
     }
 
     .podcast-details {
-      position: relative;
       color: var(--text);
 
       .description {
@@ -36,15 +34,37 @@
         font-size: 14px;
       }
 
-      .add-icon,
-      .delete-icon {
+      .icon {
         width: 45px;
         height: 45px;
-        object-fit: contain;
-        position: absolute;
         right: 8px;
         bottom: 8px;
         cursor: pointer;
+      }
+    }
+  }
+}
+
+//Tablets
+@media only screen and (max-width: 992px) {
+  .podcast-catalog {
+    .podcast-info {
+      height: 200px;
+
+      .podcast-icon {
+        width: 180px;
+        height: 180px;
+      }
+
+      .podcast-details {
+        .description {
+          height: 80px;
+        }
+
+        .icon {
+          width: 30px;
+          height: 30px;
+        }
       }
     }
   }

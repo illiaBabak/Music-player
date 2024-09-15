@@ -1,8 +1,10 @@
 .modal-wrapper {
-  width: 100vw;
+  min-width: 100vw;
   height: 100vh;
   background-color: rgba(17, 17, 17, 0.572);
-  position: absolute;
-  z-index: 5;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 15;
   cursor: pointer;
 }

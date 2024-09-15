@@ -71,7 +71,7 @@ export const HomePage = (): JSX.Element => {
 
   return (
     <Container className='d-flex flex-nowrap home-container p-0 m-0'>
-      <Row className='row-home w-100 flex-nowrap'>
+      <Row className='row-home flex-nowrap'>
         <SideBarMenu />
 
         {shouldShowPlaylists && <PlaylistsModal onClose={() => setShouldShowPlaylists(false)} />}

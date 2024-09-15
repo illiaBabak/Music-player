@@ -44,3 +44,10 @@
     border-radius: 6px;
   }
 }
+
+//Tablets
+@media only screen and (max-width: 992px) {
+  .menu {
+    width: 220px;
+  }
+}

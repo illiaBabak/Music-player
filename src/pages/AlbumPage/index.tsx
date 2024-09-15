@@ -12,7 +12,7 @@ import { GlobalContext } from 'src/root';
 import { formatDate } from 'src/utils/formatDate';
 
 export const AlbumPage = (): JSX.Element => {
-  const { currentUriTrack } = useContext(GlobalContext);
+  const { currentUriTrack, isTablet } = useContext(GlobalContext);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -39,17 +39,17 @@ export const AlbumPage = (): JSX.Element => {
             <ThemeBtn />
           </div>
 
-          <div className='album-info w-100 m-2 p-3 d-flex justify-content-start align-items-center'>
+          <div className='album-info w-100 m-2 p-3 d-flex justify-content-start align-items-start'>
             <img src={selectedAlbum?.images[0].url ?? ''} className='album-icon' />
             <div className='details d-flex flex-column ms-2 w-100'>
-              <div className='fs-1 w-100'>{selectedAlbum?.name}</div>
+              <div className={`${isTablet ? 'fs-4' : 'fs-2'} w-100`}>{selectedAlbum?.name}</div>
               <span className='fs-6 mt-2'>Tracks: {selectedAlbum?.total_tracks}</span>
               <span className='fs-6 mt-2'>Release date: {formatDate(selectedAlbum?.release_date ?? '')}</span>
               <div
                 className='artist-info d-flex flex-row justify-content-start align-items-center mt-3'
                 onClick={() => navigate(`/artist?artist-id=${artist?.id}`)}
               >
-                <img className='artist-icon' src={artist?.images[0].url} />
+                <img className='artist-icon rounded-circle object-fit-cover' src={artist?.images[0].url} />
                 <span className='fs-5 m-2'>{artist?.name}</span>
               </div>
             </div>

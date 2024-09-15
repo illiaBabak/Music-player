@@ -1,10 +1,8 @@
 .track {
-  text-align: center;
   width: 95%;
   min-height: 85px;
   max-height: 85px;
   background-color: var(--card-bg-color);
-  position: relative;
   color: var(--text);
   cursor: pointer;
 
@@ -17,32 +15,31 @@
   .btn-img {
     width: 30px;
     height: 30px;
-    object-fit: contain;
-    border-radius: 50%;
     cursor: pointer;
   }
 
   .track-img {
     width: 60px;
     height: 60px;
-    object-fit: contain;
   }
 
   .track-info {
-    overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 
+    .full-name {
+      max-width: 25%;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
     .track-duration {
-      position: absolute;
-      left: 45%;
+      left: 50%;
     }
 
     .icon {
       width: 30px;
       height: 30px;
-      object-fit: contain;
-      position: absolute;
       right: 30px;
       cursor: pointer;
 
@@ -58,13 +55,12 @@
     }
 
     .artists-track {
-      max-width: 380px;
-      min-width: 200px;
+      max-width: 25%;
       width: auto;
-      position: absolute;
-      left: 60%;
-      overflow: hidden;
+      left: 65%;
       text-overflow: ellipsis;
+      white-space: nowrap;
+      height: 24px;
 
       .artist-track {
         white-space: nowrap;
@@ -85,7 +81,6 @@
 
   .track-info {
     .track-name {
-      display: inline-block;
       padding-left: 70%;
       animation-name: scroll-track-name;
       animation-timing-function: linear;
@@ -106,5 +101,25 @@
 
   100% {
     transform: translateX(-300px);
+  }
+}
+
+//Tablets
+@media only screen and (max-width: 992px) {
+  .track.line {
+    max-width: 270px;
+    min-width: 270px;
+    min-height: 75px;
+    max-height: 75px;
+  }
+
+  .track {
+    .track-info {
+      .icon {
+        width: 24px;
+        height: 24px;
+        right: 24px;
+      }
+    }
   }
 }

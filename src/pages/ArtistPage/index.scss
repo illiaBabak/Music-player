@@ -30,12 +30,9 @@
         .artist-icon {
           width: 180px;
           height: 180px;
-          object-fit: cover;
-          border-radius: 50%;
         }
 
         .details {
-          position: relative;
           .follow-btn {
             bottom: 0;
             left: 0;
@@ -47,12 +44,38 @@
         .empty-icon {
           height: 90px;
           width: 90px;
-          object-fit: contain;
         }
       }
 
       .white-text {
         color: var(--text);
+      }
+    }
+
+    .col-content.playing {
+      height: calc(100vh - 80px); // 80px = player height
+    }
+  }
+}
+
+//Tablets
+@media only screen and (max-width: 992px) {
+  .artist-container {
+    .row-artist {
+      .col-content {
+        .artist-info {
+          .artist-icon {
+            width: 140px;
+            height: 140px;
+          }
+
+          .details {
+            .follow-btn {
+              bottom: 0;
+              left: 90%;
+            }
+          }
+        }
       }
     }
   }

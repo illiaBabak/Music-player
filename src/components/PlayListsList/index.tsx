@@ -20,7 +20,7 @@ export const PlayListsList = ({
   setSelectedPlaylistsId,
   selectedPlaylistsId,
 }: Props): JSX.Element => {
-  const { disabledPlaylists } = useContext(GlobalContext);
+  const { disabledPlaylists, isTablet } = useContext(GlobalContext);
   const [searchParams] = useSearchParams();
 
   const searchedText = searchParams.get('query') ?? '';
@@ -46,14 +46,20 @@ export const PlayListsList = ({
       ? featuredPlaylists
       : playlists;
 
+  const skeletonWidthDesktop = '220px';
+  const skeletonHeightDesktop = '240px';
+
+  const skeletonWidthTablet = '190px';
+  const skeletonHeightTablet = '220px';
+
   return (
     <div className='playlists-list scroll-container d-flex flex-row flex-wrap align-items-center justify-content-center w-100'>
       {isLoadingPlaylists || isLoadingFeaturedPlaylists
         ? Array.from({ length: 20 }).map((_, index) => (
             <SkeletonLoader
               key={`playlist-skeleton-${index}`}
-              width='220px'
-              height='240px'
+              width={isTablet ? skeletonWidthTablet : skeletonWidthDesktop}
+              height={isTablet ? skeletonHeightTablet : skeletonHeightDesktop}
               borderRadius='4px'
               className='p-1 m-3'
             />

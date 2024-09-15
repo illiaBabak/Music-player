@@ -13,7 +13,7 @@ export const ChangedField = ({ isReadOnly, data, handleBlur, name }: Props): JSX
   return isEdit ? (
     <input
       key={data}
-      className='info-field m-2 p-1'
+      className='info-field m-2 p-1 d-flex flex-grow-1 flex-schrink-1'
       type='text'
       defaultValue={data}
       onBlur={(e) => {
@@ -29,7 +29,10 @@ export const ChangedField = ({ isReadOnly, data, handleBlur, name }: Props): JSX
       autoFocus
     />
   ) : (
-    <span className={`fs-4 m-2 ${isReadOnly ? '' : 'readonly'} ${data ? '' : 'add'}`} onClick={() => setIsEdit(true)}>
+    <span
+      className={`changed-text fs-4 m-2 ${isReadOnly ? '' : 'readonly'} ${data ? '' : 'add'}`}
+      onClick={() => setIsEdit(true)}
+    >
       {data ? data : `Add ${name}`}
     </span>
   );

@@ -5,6 +5,7 @@
     .col-content {
       width: 70%;
       height: 100vh;
+      overflow: hidden scroll;
 
       .return-btn,
       .logout-btn {

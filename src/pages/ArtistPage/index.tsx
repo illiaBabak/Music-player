@@ -34,7 +34,7 @@ export const ArtistPage = (): JSX.Element => {
     <Container className='d-flex flex-nowrap artist-container p-0 m-0 '>
       <Row className='row-artist w-100 flex-nowrap'>
         <SideBarMenu />
-        <Col className='col-content m-0 p-0 scroll-container'>
+        <Col className={`col-content m-0 p-0 scroll-container ${currentUriTrack ? 'playing' : ''}`}>
           <div className='artist-header d-flex flex-row justify-content-between align-items-center p-3 w-100'>
             <div
               className='return-btn p-3 m-0 d-flex justify-content-between align-items-center text-white'
@@ -49,10 +49,10 @@ export const ArtistPage = (): JSX.Element => {
           <div className='artist-info d-flex flex-row m-2'>
             <img
               src={artist?.images.length ? artist.images[0].url : '/src/images/not-found.jpg'}
-              className='artist-icon'
+              className='artist-icon rounded-circle object-fit-cover'
             />
 
-            <div className='details d-flex flex-column m-3'>
+            <div className='details d-flex flex-column m-3 position-relative w-100'>
               <span className='fs-2'>{artist?.name}</span>
               <div className='fs-5 mt-2'>
                 Genres:
@@ -73,7 +73,7 @@ export const ArtistPage = (): JSX.Element => {
             <h4>Artist's top tracks</h4>
             {!isLoadingArtistsTopTracks && !artistTopTracks?.length ? (
               <div className='empty-data d-flex flex-column justify-content-start align-items-center w-100 h-25'>
-                <img className='empty-icon' src='/src/images/no-data.png' alt='empty' />
+                <img className='empty-icon object-fit-contain' src='/src/images/no-data.png' alt='empty' />
                 <p className='fs-6 m-1'>Oops, not found anything</p>
               </div>
             ) : (

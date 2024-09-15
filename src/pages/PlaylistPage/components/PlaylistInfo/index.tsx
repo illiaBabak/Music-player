@@ -12,7 +12,7 @@ type Props = {
 };
 
 export const PlaylistInfo = ({ playlistId, isOwnPlaylist, showDeleteWindow }: Props): JSX.Element => {
-  const { setAlertProps, isLightTheme, disablePlaylist, setImageToEdit } = useContext(GlobalContext);
+  const { setAlertProps, isLightTheme, disablePlaylist, setImageToEdit, isTablet } = useContext(GlobalContext);
 
   const { data: playlistData, isLoading: isLoadingPlaylist } = usePlaylistQuery(playlistId);
   const { mutateAsync: editPlaylist } = useEditPlaylist();
@@ -51,15 +51,19 @@ export const PlaylistInfo = ({ playlistId, isOwnPlaylist, showDeleteWindow }: Pr
     setImageToEdit(file);
   };
 
+  const skeletonFieldWidthDesktop = '450px';
+
+  const skeletonFieldWidthTablet = '300px';
+
   return (
-    <div className='playlist-info p-2 d-flex flex-row justify-content-center align-items-center w-100'>
+    <div className='playlist-info p-2 d-flex flex-row justify-content-center align-items-center w-100 position-relative'>
       <div className='d-flex justify-content-center align-items-end'>
         {isLoadingPlaylist ? (
           <SkeletonLoader width='140px' height='140px' borderRadius='50%' className='mx-2' />
         ) : (
           <img
             src={playlistData?.images?.length ? playlistData.images[0].url : '/src/images/not-found.jpg'}
-            className='playlist-icon mx-2'
+            className='playlist-icon mx-2 object-fit-cover rounded-circle'
             onClick={handleImageClick}
           />
         )}
@@ -70,14 +74,19 @@ export const PlaylistInfo = ({ playlistId, isOwnPlaylist, showDeleteWindow }: Pr
       {isOwnPlaylist && (
         <img
           src={isLightTheme ? '/src/images/trash-icon-light.png' : '/src/images/trash-icon.png'}
-          className='dlt-icon'
+          className='dlt-icon position-absolute p-1 object-fit-cover'
           onClick={showDeleteWindow}
         />
       )}
 
       <div className='d-flex flex-column w-100 h-100'>
         {isLoadingPlaylist ? (
-          <SkeletonLoader width='450px' height='32px' borderRadius='2px' className='m-2 p-1' />
+          <SkeletonLoader
+            width={isTablet ? skeletonFieldWidthTablet : skeletonFieldWidthDesktop}
+            height='32px'
+            borderRadius='2px'
+            className='m-2 p-1'
+          />
         ) : (
           <ChangedField
             handleBlur={handleBlur}
@@ -88,7 +97,12 @@ export const PlaylistInfo = ({ playlistId, isOwnPlaylist, showDeleteWindow }: Pr
         )}
 
         {isLoadingPlaylist ? (
-          <SkeletonLoader width='450px' height='32px' borderRadius='2px' className='m-2 p-1' />
+          <SkeletonLoader
+            width={isTablet ? skeletonFieldWidthTablet : skeletonFieldWidthDesktop}
+            height='32px'
+            borderRadius='2px'
+            className='m-2 p-1'
+          />
         ) : (
           <ChangedField
             handleBlur={handleBlur}

@@ -1,8 +1,8 @@
 .podcast {
   width: 95%;
-  height: 270px;
+  max-height: 270px;
+  min-height: 270px;
   background-color: var(--card-bg-color);
-  position: relative;
   cursor: pointer;
 
   &:hover {
@@ -11,25 +11,43 @@
   }
 
   .podcast-icon {
-    width: 180px;
-    height: 180px;
-    object-fit: contain;
+    width: 185px;
+    height: 185px;
   }
 
   .description {
     font-size: 14px;
     overflow: hidden auto;
-    max-height: 90px;
-    height: auto;
+    max-height: 150px;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-wrap: break-word;
+    word-break: break-all;
   }
 
-  .add-icon,
-  .delete-icon {
+  .icon {
+    background-color: var(--card-bg-color);
     width: 45px;
     height: 45px;
-    object-fit: contain;
-    position: absolute;
     right: 8px;
     bottom: 8px;
+  }
+}
+
+//Tablets
+@media only screen and (max-width: 992px) {
+  .podcast {
+    max-height: 180px;
+    min-height: 180px;
+
+    .podcast-icon {
+      width: 140px;
+      height: 140px;
+    }
+
+    .icon {
+      width: 35px;
+      height: 35px;
+    }
   }
 }

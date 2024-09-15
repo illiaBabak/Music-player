@@ -33,7 +33,7 @@ export const PodcastsPage = (): JSX.Element => {
       <Row className='row-podcasts w-100 flex-nowrap'>
         <SideBarMenu />
 
-        <Col className={`col-content m-0 p-0 scroll-container ${currentUriTrack ? 'playing' : ''}`}>
+        <Col className={`col-content position-relative m-0 p-0 scroll-container ${currentUriTrack ? 'playing' : ''}`}>
           {podcastId ? (
             <PodcastCatalog
               podcastId={podcastId}
@@ -42,7 +42,7 @@ export const PodcastsPage = (): JSX.Element => {
           ) : (
             <>
               <Header />
-              {shouldShowEmptyText && <span className='empty-text fs-4'>No podcasts :(</span>}
+              {shouldShowEmptyText && <span className='empty-text position-absolute fs-4'>No podcasts :(</span>}
               <PodcastsList
                 podcasts={isMyPodcastsRoute ? userPodcasts ?? [] : podcasts ?? []}
                 searchedText={searchedText}

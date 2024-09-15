@@ -17,7 +17,7 @@ export const Header = (): JSX.Element => {
   return (
     <Navbar className='p-3 header' data-bs-theme='dark'>
       <Form className='header-form d-flex flex-row justify-content-between align-items-center w-100'>
-        <div className='input-wrapper d-flex flex-row align-items-center'>
+        <div className='input-wrapper d-flex flex-row align-items-center position-relative flex-grow-1 flex-shrink-1'>
           <Form.Control
             type='search'
             placeholder='Search'
@@ -40,11 +40,11 @@ export const Header = (): JSX.Element => {
             onKeyDown={({ key, currentTarget }) => {
               if (key === 'Enter') currentTarget.blur();
             }}
-            className='search-input'
+            className='search-input d-flex flex-grow-1 flex-shrink-1'
           />
           {inputVal && (
             <div
-              className='clear-input-btn text-white'
+              className='clear-input-btn text-white position-absolute font-bolder'
               onClick={() => {
                 setSearchParams((prev) => {
                   prev.delete('query');

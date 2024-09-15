@@ -7,7 +7,10 @@ type Props = {
 
 export const ModalWrapper = ({ onClose, children }: Props): JSX.Element => {
   return (
-    <div className='modal-wrapper d-flex justify-content-center align-items-center' onClick={onClose}>
+    <div
+      className='modal-wrapper d-flex justify-content-center align-items-center p-0 m-0 position-absolute'
+      onClick={onClose}
+    >
       {children}
     </div>
   );

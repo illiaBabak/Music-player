@@ -1,6 +1,8 @@
 import { PodcastType } from 'src/types/types';
 import { Podcast } from '../Podcast';
 import { SkeletonLoader } from 'src/components/SkeletonLoader';
+import { useContext } from 'react';
+import { GlobalContext } from 'src/root';
 
 type Props = {
   podcasts: PodcastType[];
@@ -20,9 +22,17 @@ export const PodcastsList = ({
   searchedText,
   userPodcasts,
 }: Props): JSX.Element => {
+  const { isTablet } = useContext(GlobalContext);
+
   const filteredPodcasts = isOwnPodcasts
     ? podcasts.filter((podcast) => isPodcastContainsText(podcast, searchedText))
     : podcasts;
+
+  const skeletonWidth = '95%';
+
+  const skeletonHeightDesktop = '270px';
+
+  const skeletonHeightTablet = '180px';
 
   return (
     <div className='content-container podcasts scroll-container'>
@@ -30,8 +40,8 @@ export const PodcastsList = ({
         ? Array.from({ length: 8 }).map((_, index) => (
             <SkeletonLoader
               key={`podcast-skeleton-${index}`}
-              width='95%'
-              height='270px'
+              width={skeletonWidth}
+              height={isTablet ? skeletonHeightTablet : skeletonHeightDesktop}
               borderRadius='4px'
               className='m-2 p-2'
             />

@@ -1,7 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { RedirectPage } from 'src/pages/RedirectPage';
 import { HomePage } from 'src/pages/HomePage';
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useRef, useState } from 'react';
 import { PlaylistPage } from 'src/pages/PlaylistPage';
 import { LoginPage } from 'src/pages/LoginPage';
 import { ArtistPage } from 'src/pages/ArtistPage';
@@ -26,6 +26,7 @@ type GlobalContextType = {
   disablePlaylist: (playlistId: string) => void;
   imageToEdit: File | null;
   setImageToEdit: React.Dispatch<React.SetStateAction<File | null>>;
+  isTablet: boolean;
 };
 
 export const GlobalContext = createContext<GlobalContextType>({
@@ -53,6 +54,7 @@ export const GlobalContext = createContext<GlobalContextType>({
   setImageToEdit: () => {
     throw new Error('Global context is not initialized');
   },
+  isTablet: false,
 });
 
 export const App = (): JSX.Element => {
@@ -66,6 +68,8 @@ export const App = (): JSX.Element => {
   const [shouldShowPlaylists, setShouldShowPlaylists] = useState(false);
   const [disabledPlaylists, setDisabledPlaylists] = useState<string[]>([]);
   const [imageToEdit, setImageToEdit] = useState<File | null>(null);
+
+  const isTabletRef = useRef(window.innerWidth < 992);
 
   const disablePlaylist = (playlistId: string) => {
     setDisabledPlaylists((prev) => [...prev, playlistId]);
@@ -127,6 +131,7 @@ export const App = (): JSX.Element => {
           disabledPlaylists,
           disablePlaylist,
           setImageToEdit,
+          isTablet: isTabletRef.current,
           imageToEdit,
         }}
       >
@@ -151,7 +156,7 @@ export const App = (): JSX.Element => {
             <Route path='/artist' element={<ArtistPage />} />
             <Route path='/album' element={<AlbumPage />} />
             <Route path='/podcasts'>
-              <Route index element={<Navigate to='searched-podcasts' />} />
+              <Route index element={<Navigate to='my-podcasts' />} />
               <Route path='searched-podcasts' element={<PodcastsPage />} />
               <Route path='my-podcasts' element={<PodcastsPage />} />
             </Route>
