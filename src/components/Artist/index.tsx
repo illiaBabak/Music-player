@@ -21,7 +21,7 @@ export const Artist = ({ artist, isLine }: Props): JSX.Element => {
         className='artist-icon object-fit-cover rounded-circle'
       />
 
-      <span className={`${isLine ? 'm-1' : 'm-3'} title text-white`}>{artist.name}</span>
+      <span className={`${isLine ? 'm-1' : 'm-3'} title text-white m-2`}>{artist.name}</span>
 
       <FollowArtistBtn artist={artist} />
     </Card>

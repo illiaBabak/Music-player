@@ -1,9 +1,11 @@
+import { useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import { useTopUserArtistsQuery } from 'src/api/artists';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useFollowedArtistsQuery, useTopUserArtistsQuery } from 'src/api/artists';
 import { useTopUserTracksQuery } from 'src/api/tracks';
 import { useUserQuery } from 'src/api/user';
 import { ArtistsList } from 'src/components/ArtistsList';
+import { Chips } from 'src/components/Chips';
 import { SideBarMenu } from 'src/components/SideBarMenu';
 import { ThemeBtn } from 'src/components/ThemeBtn';
 import { TracksList } from 'src/components/TracksList';
@@ -11,13 +13,30 @@ import { TracksList } from 'src/components/TracksList';
 export const UserPage = (): JSX.Element => {
   const navigate = useNavigate();
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const selectedArtistSection = searchParams.get('section') ?? '';
+
+  const isFollowed = selectedArtistSection === 'Followed';
+
+  useEffect(() => {
+    if (selectedArtistSection) return;
+
+    setSearchParams((prev) => {
+      prev.set('section', 'Top');
+      return prev;
+    });
+  }, [setSearchParams, selectedArtistSection]);
+
   const { data: user } = useUserQuery();
 
   const { data: topUserArtists, isLoading: isLoadingArtists } = useTopUserArtistsQuery();
 
   const { data: topUserTracks, isLoading: isLoadingTracks } = useTopUserTracksQuery();
 
-  const sectionClassName = 'd-flex justify-content-start flex-column w-100';
+  const { data: followedArtists, isLoading: isLoadingFollowedArtists } = useFollowedArtistsQuery();
+
+  const sectionClassName = 'd-flex flex-column justify-content-start flex-column w-100';
 
   return (
     <Container className='d-flex user-container p-0 m-0 flex-nowrap'>
@@ -54,17 +73,21 @@ export const UserPage = (): JSX.Element => {
 
             {!!topUserTracks?.length && (
               <div className={sectionClassName}>
-                <h2>Your top tracks</h2>
+                <h2>Top tracks</h2>
                 <TracksList isLine={false} isLoading={isLoadingTracks} tracks={topUserTracks.slice(0, 3)} />
               </div>
             )}
 
-            {!!topUserArtists?.length && (
-              <div className={sectionClassName}>
-                <h2>Your top artists</h2>
-                <ArtistsList isLine={false} isLoading={isLoadingArtists} artists={topUserArtists.slice(0, 3)} />
-              </div>
-            )}
+            <Chips chips={['Top', 'Followed']} />
+
+            <div className={sectionClassName}>
+              <h2>{isFollowed ? 'Followed' : 'Top'} artists</h2>
+              <ArtistsList
+                isLine={false}
+                isLoading={isFollowed ? isLoadingFollowedArtists : isLoadingArtists}
+                artists={isFollowed ? followedArtists ?? [] : topUserArtists?.slice(0, 3) ?? []}
+              />
+            </div>
           </div>
         </Col>
       </Row>

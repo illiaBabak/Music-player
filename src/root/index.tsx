@@ -69,7 +69,7 @@ export const App = (): JSX.Element => {
   const [disabledPlaylists, setDisabledPlaylists] = useState<string[]>([]);
   const [imageToEdit, setImageToEdit] = useState<File | null>(null);
 
-  const isTabletRef = useRef(window.innerWidth < 992);
+  const isTabletRef = useRef(window.innerWidth < 992); //TODO ref -> state (hook)
 
   const disablePlaylist = (playlistId: string) => {
     setDisabledPlaylists((prev) => [...prev, playlistId]);

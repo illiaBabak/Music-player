@@ -4,7 +4,7 @@ import { Header } from 'src/components/Header';
 import { SideBarMenu } from 'src/components/SideBarMenu';
 import { TracksList } from 'src/components/TracksList';
 import { GlobalContext } from 'src/root';
-import { Chips } from 'src/pages/HomePage/components/Chips';
+import { Chips } from 'src/components/Chips';
 import { ArtistsList } from 'src/components/ArtistsList';
 import { AlbumsList } from 'src/components/AlbumsList';
 import { Player } from 'src/components/Player';
@@ -79,7 +79,7 @@ export const HomePage = (): JSX.Element => {
         <Col className={`col-content m-0 p-0 scroll-container ${currentUriTrack ? 'playing' : ''}`}>
           <Header />
 
-          <Chips isInitialize={!searchedText} />
+          <Chips chips={searchedText ? ['All', 'Tracks', 'Artists', 'Albums'] : ['Top', 'Recommendations']} />
 
           {!!searchedText && (
             <>
