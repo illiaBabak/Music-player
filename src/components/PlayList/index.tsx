@@ -40,7 +40,7 @@ export const PlayList = ({ playlist, selectedPlaylistsId, setSelectedPlaylistsId
         className='playlist-icon mt-3 object-fit-cover'
       />
       <span className='fs-5 mb-2'>{isDisabledPlaylist ? 'Updating...' : playlist.name}</span>
-      {isSelectedPlaylist && <span className='fs-1 mb-2 selected-text position-absolute'>Selected</span>}
+  
     </Card>
   );
 };
