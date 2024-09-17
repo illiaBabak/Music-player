@@ -1,7 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { RedirectPage } from 'src/pages/RedirectPage';
 import { HomePage } from 'src/pages/HomePage';
-import { createContext, useEffect, useRef, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { PlaylistPage } from 'src/pages/PlaylistPage';
 import { LoginPage } from 'src/pages/LoginPage';
 import { ArtistPage } from 'src/pages/ArtistPage';
@@ -13,6 +13,7 @@ import { DISABLED_DELAY } from 'src/utils/constants';
 import { PlaylistsListPage } from 'src/pages/PlaylistsListPage';
 import { UserPage } from 'src/pages/UserPage';
 import { TrackPage } from 'src/pages/TrackPage';
+import { useGetDeviceType } from 'src/hooks/useGetDeviceType';
 
 type GlobalContextType = {
   currentUriTrack: string | null;
@@ -69,7 +70,7 @@ export const App = (): JSX.Element => {
   const [disabledPlaylists, setDisabledPlaylists] = useState<string[]>([]);
   const [imageToEdit, setImageToEdit] = useState<File | null>(null);
 
-  const isTabletRef = useRef(window.innerWidth < 992); //TODO ref -> state (hook)
+  const { isTablet } = useGetDeviceType();
 
   const disablePlaylist = (playlistId: string) => {
     setDisabledPlaylists((prev) => [...prev, playlistId]);
@@ -131,7 +132,7 @@ export const App = (): JSX.Element => {
           disabledPlaylists,
           disablePlaylist,
           setImageToEdit,
-          isTablet: isTabletRef.current,
+          isTablet,
           imageToEdit,
         }}
       >
