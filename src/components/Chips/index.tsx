@@ -20,7 +20,7 @@ export const Chips = ({ chips }: Props): JSX.Element => {
       {chips.map((chip, index) => (
         <div
           key={`chip-key-${chip}-${index}`}
-          className={`chip m-2 p-2 d-flex justify-content-center text-white ${selectedSection === chip ? 'selected' : ''}`}
+          className={`chip m-2 p-2 d-flex border-0 justify-content-center text-white ${selectedSection === chip ? 'selected' : ''}`}
           onClick={() => handleChipClick(chip)}
         >
           {chip}

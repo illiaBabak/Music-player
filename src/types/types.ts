@@ -157,6 +157,12 @@ export type TrackSection = {
   tempo: number;
 };
 
+export type TrackBeat = {
+  start: number;
+  duration: number;
+}
+
 export type TrackAudioAnalysis = {
   sections: TrackSection[];
+  beats: TrackBeat[];
 };

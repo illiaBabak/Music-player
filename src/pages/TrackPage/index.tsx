@@ -1,9 +1,10 @@
 import { CategoryScale, LinearScale, PointElement, LineElement, Title, Legend, Chart, Tooltip } from 'chart.js';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { Col, Container, Row, Image } from 'react-bootstrap';
 import { Line } from 'react-chartjs-2';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTrackAnalysisQuery, useTrackQuery } from 'src/api/tracks';
+import { Chips } from 'src/components/Chips';
 import { Player } from 'src/components/Player';
 import { SideBarMenu } from 'src/components/SideBarMenu';
 import { ThemeBtn } from 'src/components/ThemeBtn';
@@ -16,9 +17,21 @@ export const TrackPage = (): JSX.Element => {
   const { currentUriTrack, isLightTheme, setCurrentUriTrack, setShouldShowPlaylists } = useContext(GlobalContext);
   const navigate = useNavigate();
 
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const trackId = searchParams.get('track-id') ?? '';
+  const section = searchParams.get('section') ?? '';
+
+  const isTempoChart = section === 'Tempo';
+
+  useEffect(() => {
+    if (section) return;
+
+    setSearchParams((prev) => {
+      prev.set('section', 'Tempo');
+      return prev;
+    });
+  }, [setSearchParams, section]);
 
   const { data: trackData } = useTrackQuery(trackId);
 
@@ -26,7 +39,11 @@ export const TrackPage = (): JSX.Element => {
 
   const sections = trackAnalysis?.sections ?? [];
   const tempos = sections.map((section) => section.tempo);
-  const startTimes = sections.map((section) => section.start.toFixed(2));
+  const temposStartTimes = sections.map((section) => section.start.toFixed(2));
+
+  const beats = trackAnalysis?.beats ?? [];
+  const beatDurations = beats.map((beat) => beat.duration);
+  const beatStartTimes = beats.map((beat) => beat.start.toFixed(2));
 
   return (
     <Container className='d-flex track-container p-0 m-0 flex-nowrap'>
@@ -86,14 +103,16 @@ export const TrackPage = (): JSX.Element => {
             </div>
           </div>
 
+          <Chips chips={['Tempo', 'Beats']} />
+
           <Line
             className='m-2 p-4'
             data={{
-              labels: startTimes,
+              labels: isTempoChart ? temposStartTimes : beatStartTimes,
               datasets: [
                 {
-                  label: 'BPM',
-                  data: tempos,
+                  label: isTempoChart ? 'BPM' : 'Beats',
+                  data: isTempoChart ? tempos : beatDurations,
                   borderColor: isLightTheme ? '#d66d11' : '#433673',
                   backgroundColor: isLightTheme ? '#eb9031' : '#190b2e',
                   tension: 0.2,
@@ -112,7 +131,7 @@ export const TrackPage = (): JSX.Element => {
                 },
                 title: {
                   display: true,
-                  text: 'Changing the tempo over time',
+                  text: isTempoChart ? 'Changing the tempo over time' : 'Changing the beat over time',
                   color: isLightTheme ? '#140f0b' : '#ffffff',
                 },
               },
@@ -120,7 +139,7 @@ export const TrackPage = (): JSX.Element => {
                 x: {
                   title: {
                     display: true,
-                    text: 'Section start time (sec)',
+                    text: isTempoChart ? 'Section start time (sec)' : 'Beat start time (sec)',
                     color: isLightTheme ? '#140f0b' : '#ffffff',
                   },
                   ticks: {
@@ -133,7 +152,7 @@ export const TrackPage = (): JSX.Element => {
                 y: {
                   title: {
                     display: true,
-                    text: 'Tempo (BPM)',
+                    text: isTempoChart ? 'Tempo (BPM)' : 'Duration',
                     color: isLightTheme ? '#140f0b' : '#ffffff',
                   },
                   ticks: {
