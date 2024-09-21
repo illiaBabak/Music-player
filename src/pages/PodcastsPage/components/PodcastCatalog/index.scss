@@ -69,3 +69,38 @@
     }
   }
 }
+
+//Mobiles
+@media only screen and (max-width: 767px) {
+  .podcast-catalog {
+    .header {
+      .return-btn {
+        width: 60px;
+        height: 30px;
+        font-size: 14px;
+      }
+    }
+
+    .podcast-info {
+      height: 230px;
+
+      .podcast-icon {
+        width: 80px;
+        height: 80px;
+      }
+
+      .podcast-details {
+        .description {
+          height: 60px;
+        }
+
+        .icon {
+          width: 25px;
+          height: 25px;
+          top: 2px;
+          right: 2px;
+        }
+      }
+    }
+  }
+}

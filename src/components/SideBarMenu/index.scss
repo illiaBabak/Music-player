@@ -6,7 +6,6 @@
   .menu-icon {
     width: 85px;
     height: 85px;
-    object-fit: contain;
   }
 
   .link {
@@ -16,7 +15,6 @@
     .link-icon {
       width: 30px;
       height: 30px;
-      object-fit: contain;
     }
 
     &:hover {
@@ -39,7 +37,6 @@
   }
 
   .selected-link {
-    color: white;
     background-color: var(--accent);
     border-radius: 6px;
   }
@@ -49,5 +46,62 @@
 @media only screen and (max-width: 992px) {
   .menu {
     width: 220px;
+  }
+}
+
+//Mobiles
+@media only screen and (max-width: 767px) {
+  .menu {
+    width: 40px;
+
+    .menu-nav {
+      width: 40px;
+
+      .menu-icon {
+        width: 40px;
+        height: 40px;
+      }
+
+      .link {
+        min-width: 30px;
+        max-width: 30px;
+        height: 30px;
+
+        .link-icon {
+          min-width: 30px;
+          max-width: 30px;
+          height: 30px;
+        }
+
+        &:hover {
+          transform: scale(1);
+        }
+      }
+
+      .sub-link {
+        min-width: 24px;
+        max-width: 24px;
+        height: 24px;
+        font-size: 10px;
+      }
+
+      .selected-link {
+        border-radius: 4px;
+      }
+    }
+
+    .user.playing {
+      bottom: 148px;
+    }
+
+    .user {
+      bottom: 0;
+
+      .user-img {
+        min-width: 30px;
+        max-width: 30px;
+        height: 30px;
+      }
+    }
   }
 }

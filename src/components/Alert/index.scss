@@ -4,9 +4,7 @@
   width: auto;
   height: 65px;
   border-radius: 8px;
-  text-align: center;
   color: #6a6a6a;
-  position: fixed;
   left: 50%;
   transform: translate(-50%, 0);
   animation: showAndHide 1.5s ease-in-out forwards;
@@ -15,21 +13,20 @@
     min-width: 50px;
     max-width: 50px;
     height: 50px;
-    object-fit: cover;
-    z-index: 4;
     background-size: contain;
-    position: relative;
     left: 0;
   }
 
+  .alert-text {
+    font-size: 20px;
+  }
+
   .close-alert-btn {
-    position: absolute;
-    right: 2px;
-    top: 2px;
+    right: 4px;
+    top: 4px;
     font-size: 24px;
     width: 18px;
     height: 18px;
-    font-weight: bolder;
     cursor: pointer;
 
     &:hover {
@@ -82,5 +79,25 @@
 
   100% {
     bottom: 24px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .custom-alert {
+    height: 45px;
+
+    .alert-img {
+      min-width: 35px;
+      max-width: 35px;
+      height: 35px;
+    }
+
+    .alert-text {
+      font-size: 16px;
+    }
+
+    .close-alert-btn {
+      font-size: 20px;
+    }
   }
 }

@@ -40,3 +40,16 @@
     }
   }
 }
+
+//Mobiles
+@media only screen and (max-width: 767px) {
+  .playlist {
+    width: 150px;
+    height: 170px;
+
+    .playlist-icon {
+      width: 100px;
+      height: 100px;
+    }
+  }
+}

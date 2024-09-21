@@ -80,3 +80,30 @@
     }
   }
 }
+
+//Mobiles
+@media only screen and (max-width: 767px) {
+  .artist-container {
+    .row-artist {
+      .col-content {
+        .artist-info {
+          .artist-icon {
+            width: 100px;
+            height: 100px;
+          }
+
+          .details {
+            .follow-btn {
+              left: 65%;
+              top: -24px;
+            }
+          }
+        }
+      }
+
+      .col-content.playing {
+        height: calc(100vh - 148px); // 148px = player height
+      }
+    }
+  }
+}

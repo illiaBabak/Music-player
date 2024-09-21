@@ -12,7 +12,7 @@ import { GlobalContext } from 'src/root';
 import { formatDate } from 'src/utils/formatDate';
 
 export const AlbumPage = (): JSX.Element => {
-  const { currentUriTrack, isTablet } = useContext(GlobalContext);
+  const { currentUriTrack, isTablet, isMobile } = useContext(GlobalContext);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -26,31 +26,37 @@ export const AlbumPage = (): JSX.Element => {
 
   return (
     <Container className='d-flex flex-nowrap album-container p-0 m-0'>
-      <Row className='row-album w-100 flex-nowrap'>
+      <Row className='row-album w-100 flex-nowrap p-0 m-0'>
         <SideBarMenu />
         <Col className={`col-content m-0 p-0 scroll-container ${currentUriTrack ? 'playing' : ''}`}>
-          <div className='album-header d-flex flex-row justify-content-between align-items-center p-3 w-100 text-white'>
+          <div
+            className={`album-header d-flex flex-row justify-content-between align-items-center ${isMobile ? 'p-2' : 'p-3'} w-100 text-white`}
+          >
             <div
-              className='return-btn p-3 m-0 d-flex justify-content-between align-items-center'
+              className={`return-btn ${isMobile ? 'p-2' : 'p-3'} m-0 d-flex justify-content-between align-items-center text-white`}
               onClick={() => navigate('/home')}
             >
-              <span className='fs-1'>&lt;</span> Back
+              <span className={`${isMobile ? 'fs-5' : 'fs-1'}`}>&lt;</span> Back
             </div>
             <ThemeBtn />
           </div>
 
-          <div className='album-info w-100 m-2 p-3 d-flex justify-content-start align-items-start'>
+          <div
+            className={`album-info w-100 d-flex  ${isMobile ? 'p-1 m-0 flex-column justify-content-center align-items-center text-center' : 'p-3 flex-row justify-content-start align-items-start m-2'}`}
+          >
             <img src={selectedAlbum?.images[0].url ?? ''} className='album-icon' />
             <div className='details d-flex flex-column ms-2 w-100'>
-              <div className={`${isTablet ? 'fs-4' : 'fs-2'} w-100`}>{selectedAlbum?.name}</div>
+              <div className={`${isMobile ? 'fs-6 mt-2' : isTablet ? 'fs-4' : 'fs-2'} w-100`}>
+                {selectedAlbum?.name}
+              </div>
               <span className='fs-6 mt-2'>Tracks: {selectedAlbum?.total_tracks}</span>
               <span className='fs-6 mt-2'>Release date: {formatDate(selectedAlbum?.release_date ?? '')}</span>
               <div
-                className='artist-info d-flex flex-row justify-content-start align-items-center mt-3'
+                className={`artist-info d-flex flex-row align-items-center ${isMobile ? 'mt-1 justify-content-center' : 'mt-3 justify-content-start'}`}
                 onClick={() => navigate(`/artist?artist-id=${artist?.id}`)}
               >
                 <img className='artist-icon rounded-circle object-fit-cover' src={artist?.images[0].url} />
-                <span className='fs-5 m-2'>{artist?.name}</span>
+                <span className={`${isMobile ? 'fs-6 m-0 ms-1' : 'fs-5 m-2'}`}>{artist?.name}</span>
               </div>
             </div>
           </div>

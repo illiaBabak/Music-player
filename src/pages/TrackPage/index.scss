@@ -76,3 +76,50 @@
     }
   }
 }
+
+//Mobiles
+@media only screen and (max-width: 767px) {
+  .track-container {
+    .row-track {
+      .col-content {
+        .return-btn {
+          width: 60px;
+          height: 30px;
+          font-size: 14px;
+        }
+
+        .track-info {
+          height: 100px;
+
+          .track-icon {
+            width: 80px;
+            height: 80px;
+          }
+
+          .add-icon {
+            width: 35px;
+            height: 35px;
+            bottom: 0;
+            right: 40px;
+          }
+
+          .btn-img {
+            width: 35px;
+            height: 35px;
+            bottom: 0;
+            right: 8px;
+          }
+
+          .artist-track,
+          .duration {
+            font-size: 12px;
+          }
+        }
+      }
+
+      .col-content.playing {
+        height: calc(100vh - 148px); // 148px = player height
+      }
+    }
+  }
+}

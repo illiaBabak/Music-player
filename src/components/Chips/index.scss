@@ -19,3 +19,13 @@
     transform: scale(1.03);
   }
 }
+
+//Mobiles
+@media only screen and (max-width: 767px) {
+  .chips-container {
+    .chip {
+      height: 30px;
+      font-size: 12px;
+    }
+  }
+}

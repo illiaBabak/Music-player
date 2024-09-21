@@ -5,6 +5,7 @@
     .col-content {
       width: 70%;
       height: 100vh;
+      overflow: hidden scroll;
 
       .album-header {
         height: 80px;
@@ -72,6 +73,40 @@
             height: 250px;
           }
         }
+      }
+    }
+  }
+}
+
+//Mobiles
+@media only screen and (max-width: 767px) {
+  .album-container {
+    .row-album {
+      .col-content {
+        .album-header {
+          height: 50px;
+
+          .return-btn {
+            width: 60px;
+            height: 30px;
+            font-size: 14px;
+          }
+        }
+
+        .album-info {
+          .album-icon {
+            height: 100px;
+            width: 100px;
+          }
+
+          .details {
+            height: 170px;
+          }
+        }
+      }
+
+      .col-content.playing {
+        height: calc(100vh - 148px); //148px = player height
       }
     }
   }

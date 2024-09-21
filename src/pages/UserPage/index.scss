@@ -30,5 +30,41 @@
         }
       }
     }
+
+    .col-content.playing {
+      height: calc(100vh - 80px); // 80px = player height
+    }
+  }
+}
+
+//Mobiles
+@media only screen and (max-width: 767px) {
+  .user-container {
+    .row-user {
+      .col-content {
+        .return-btn {
+          width: 60px;
+          height: 30px;
+          font-size: 14px;
+        }
+
+        .logout-btn {
+          width: 90px;
+          height: 35px;
+          font-size: 14px;
+        }
+
+        .user-details {
+          .user-icon {
+            height: 80px;
+            width: 80px;
+          }
+        }
+      }
+
+      .col-content.playing {
+        height: calc(100vh - 148px); // 148px = player height
+      }
+    }
   }
 }

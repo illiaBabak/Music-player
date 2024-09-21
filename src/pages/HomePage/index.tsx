@@ -15,13 +15,13 @@ import { useReleasesAlbumsQuery, useSearchAlbumsQuery } from 'src/api/albums';
 import { PlaylistsModal } from 'src/components/PlaylistsModal';
 
 export const HomePage = (): JSX.Element => {
-  const { currentUriTrack, shouldShowPlaylists, setShouldShowPlaylists } = useContext(GlobalContext);
+  const { currentUriTrack, shouldShowPlaylists, setShouldShowPlaylists, isMobile } = useContext(GlobalContext);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const selectedSection = searchParams.get('section');
   const searchedText = searchParams.get('query') ?? '';
 
-  const sectionClassName = `m-2 p-3 title`;
+  const sectionClassName = `${isMobile ? 'm-1 p-2' : 'm-2 p-3'} title`;
 
   const isRecommendationsSection = selectedSection === 'Recommendations';
 
@@ -71,7 +71,7 @@ export const HomePage = (): JSX.Element => {
 
   return (
     <Container className='d-flex flex-nowrap home-container p-0 m-0'>
-      <Row className='row-home flex-nowrap'>
+      <Row className='row-home flex-nowrap m-0 p-0'>
         <SideBarMenu />
 
         {shouldShowPlaylists && <PlaylistsModal onClose={() => setShouldShowPlaylists(false)} />}
@@ -85,13 +85,28 @@ export const HomePage = (): JSX.Element => {
             <>
               {selectedSection === 'All' && (
                 <>
-                  <h4 className={sectionClassName}>Tracks</h4>
+                  {isMobile ? (
+                    <h6 className={sectionClassName}>Tracks</h6>
+                  ) : (
+                    <h4 className={sectionClassName}>Tracks</h4>
+                  )}
+
                   <TracksList isLine={true} tracks={tracks ?? []} isLoading={isLoadingTracks} />
 
-                  <h4 className={sectionClassName}>Artists</h4>
+                  {isMobile ? (
+                    <h6 className={sectionClassName}>Artists</h6>
+                  ) : (
+                    <h4 className={sectionClassName}>Artists</h4>
+                  )}
+
                   <ArtistsList artists={artists ?? []} isLine={true} isLoading={isLoadingArtists} />
 
-                  <h4 className={sectionClassName}>Albums</h4>
+                  {isMobile ? (
+                    <h6 className={sectionClassName}>Albums</h6>
+                  ) : (
+                    <h4 className={sectionClassName}>Albums</h4>
+                  )}
+
                   <AlbumsList isLine={true} isLoading={isLoadingAlbums} albums={albums ?? []} />
                 </>
               )}
@@ -113,7 +128,11 @@ export const HomePage = (): JSX.Element => {
                 <>
                   {!(!isLoadingRecommendations && !recommendationsTracks?.length) && (
                     <>
-                      <h4 className={sectionClassName}>Recommendations tracks</h4>
+                      {isMobile ? (
+                        <h6 className={sectionClassName}>Recommendations tracks</h6>
+                      ) : (
+                        <h4 className={sectionClassName}>Recommendations tracks</h4>
+                      )}
 
                       <TracksList
                         isLine={true}
@@ -123,19 +142,31 @@ export const HomePage = (): JSX.Element => {
                     </>
                   )}
 
-                  <h4 className={sectionClassName}>Releases albums</h4>
+                  {isMobile ? (
+                    <h6 className={sectionClassName}>Releases albums</h6>
+                  ) : (
+                    <h4 className={sectionClassName}>Releases albums</h4>
+                  )}
                   <AlbumsList isLine={true} albums={releasesAlbums ?? []} isLoading={isLoadingReleases} />
                 </>
               )}
 
               {isTopSection && (
                 <>
-                  <h4 className={sectionClassName}>Your top tracks</h4>
+                  {isMobile ? (
+                    <h6 className={sectionClassName}>Your top tracks</h6>
+                  ) : (
+                    <h4 className={sectionClassName}>Your top tracks</h4>
+                  )}
                   <TracksList isLine={true} isLoading={isLoadingTopTracks} tracks={topTracks ?? []} />
 
                   {!!topArtists?.length && (
                     <>
-                      <h4 className={sectionClassName}>Your top artists</h4>
+                      {isMobile ? (
+                        <h6 className={sectionClassName}>Your top artists</h6>
+                      ) : (
+                        <h4 className={sectionClassName}>Your top artists</h4>
+                      )}
                       <ArtistsList isLine={true} artists={topArtists} isLoading={isLoadingTopArtists} />
                     </>
                   )}

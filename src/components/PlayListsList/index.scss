@@ -3,3 +3,13 @@
   padding: 32px;
   overflow: hidden auto;
 }
+
+.playlists-list.playing {
+  height: calc(85% - 80px); // 80px = player height
+}
+
+@media only screen and (max-width: 767px) {
+  .playlists-list.playing {
+    height: calc(85% - 148px); // 148px = player height
+  }
+}

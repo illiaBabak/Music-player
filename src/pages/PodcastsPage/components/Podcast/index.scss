@@ -31,6 +31,7 @@
     height: 45px;
     right: 8px;
     bottom: 8px;
+    border-radius: 4px;
   }
 }
 
@@ -48,6 +49,34 @@
     .icon {
       width: 35px;
       height: 35px;
+    }
+  }
+}
+
+//Mobiles
+@media only screen and (max-width: 767px) {
+  .podcast {
+    max-height: 115px;
+    min-height: 115px;
+
+    .podcast-icon {
+      width: 90px;
+      height: 90px;
+    }
+
+    .text-fs {
+      font-size: 12px;
+    }
+
+    .description {
+      font-size: 10px;
+    }
+
+    .icon {
+      width: 24px;
+      height: 24px;
+      right: 4px;
+      bottom: 4px;
     }
   }
 }

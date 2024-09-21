@@ -39,7 +39,7 @@
 }
 
 //Tablets
-@media only screen and (max-width: 550px) {
+@media only screen and (max-width: 992px) {
   .login-container {
     .login-content {
       .logo {
@@ -49,6 +49,22 @@
 
       .logo-text {
         font-size: 20px;
+      }
+    }
+  }
+}
+
+//Mobiles
+@media only screen and (max-width: 767px) {
+  .login-container {
+    .login-content {
+      .logo {
+        width: 220px;
+        height: 220px;
+      }
+
+      .logo-text {
+        font-size: 18px;
       }
     }
   }

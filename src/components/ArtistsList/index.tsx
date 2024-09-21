@@ -1,8 +1,9 @@
 import { Artist } from '../Artist';
 import { ArtistType } from 'src/types/types';
 import { SkeletonLoader } from '../SkeletonLoader';
-import { useContext } from 'react';
+import { useContext, useRef } from 'react';
 import { GlobalContext } from 'src/root';
+import { useGetElSize } from 'src/hooks/useGetElSize';
 
 type Props = {
   artists: ArtistType[];
@@ -11,24 +12,23 @@ type Props = {
 };
 
 export const ArtistsList = ({ artists, isLine, isLoading }: Props): JSX.Element => {
-  const { isTablet } = useContext(GlobalContext);
+  const { isMobile } = useContext(GlobalContext);
 
-  const skeletonWidthDesktop = isLine ? '180px' : '300px';
-  const skeletonHeightDesktop = isLine ? '180px' : '290px';
-
-  const skeletonWidthTablet = isLine ? '150px' : '230px';
-  const skeletonHeightTablet = isLine ? '150px' : '240px';
+  const elRef = useRef<HTMLInputElement | null>(null);
+  const { width, height } = useGetElSize(elRef);
 
   return (
     <div className={`content-container scroll-container artist-list ${isLine ? 'line' : ''}`}>
+      <div className={`invisible position-absolute artist ${isLine ? 'line' : ''}`} ref={elRef} />
+
       {isLoading
         ? Array.from({ length: 10 }).map((_, index) => (
             <SkeletonLoader
               key={`artist-skeleton-${index}`}
-              height={isTablet ? skeletonHeightTablet : skeletonHeightDesktop}
-              width={isTablet ? skeletonWidthTablet : skeletonWidthDesktop}
+              height={height}
+              width={width}
               borderRadius='50%'
-              className={`p-2 m-2 ${isLine ? 'mx-4' : ''}`}
+              className={`p-2 m-2 ${!isMobile && isLine ? 'mx-4' : ''}`}
             />
           ))
         : artists?.map((artist, index) => (

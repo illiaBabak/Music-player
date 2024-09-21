@@ -31,3 +31,20 @@
     }
   }
 }
+
+//Mobiles
+@media only screen and (max-width: 767px) {
+  .playlist-info {
+    .playlist-icon {
+      width: 90px;
+      height: 90px;
+    }
+
+    .dlt-icon {
+      width: 30px;
+      height: 30px;
+      right: 8px;
+      bottom: 8px;
+    }
+  }
+}

@@ -174,3 +174,52 @@
     filter: blur(0px);
   }
 }
+
+@media only screen and (max-width: 767px) {
+  .theme-btn-wrapper,
+  .switch {
+    width: 70px;
+    height: 30px;
+  }
+
+  .switch:after {
+    width: 22px;
+    height: 22px;
+    left: 4px;
+    top: 4px;
+  }
+
+  @keyframes off {
+    0% {
+      transform: translateX(40px);
+      width: 22px;
+    }
+
+    50% {
+      width: 38px;
+      border-radius: 25px;
+    }
+
+    100% {
+      transform: translateX(0px);
+      width: 22px;
+    }
+  }
+
+  @keyframes on {
+    0% {
+      transform: translateX(0px);
+      width: 22px;
+    }
+
+    50% {
+      width: 38px;
+      border-radius: 25px;
+    }
+
+    100% {
+      transform: translateX(40px);
+      width: 22px;
+    }
+  }
+}

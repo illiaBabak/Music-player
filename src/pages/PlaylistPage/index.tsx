@@ -23,7 +23,7 @@ export const PlaylistPage = ({ isRecommendedRoute }: Props): JSX.Element => {
 
   return (
     <Container className='d-flex playlists-container p-0 m-0 flex-nowrap'>
-      <Row className='row-playlists w-100 flex-nowrap'>
+      <Row className='row-playlists w-100 flex-nowrap m-0 p-0'>
         <SideBarMenu />
 
         {shouldShowModal && (

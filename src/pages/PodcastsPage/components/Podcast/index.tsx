@@ -12,7 +12,7 @@ type Props = {
 
 export const Podcast = ({ podcast, isSavedPodcast }: Props): JSX.Element => {
   const [, setSearchParams] = useSearchParams();
-  const { setCurrentUriTrack, isLightTheme, isTablet } = useContext(GlobalContext);
+  const { setCurrentUriTrack, isLightTheme, isTablet, isMobile } = useContext(GlobalContext);
 
   const { mutateAsync: addPodcast } = useAddPodcast();
   const { mutateAsync: deletePodcast } = useDeletePodcast();
@@ -27,16 +27,18 @@ export const Podcast = ({ podcast, isSavedPodcast }: Props): JSX.Element => {
 
         setCurrentUriTrack(podcast.uri);
       }}
-      className='d-flex flex-row justify-content-start align-items-center m-2 p-2 podcast text-white position-relative overflow-hidden'
+      className={`d-flex flex-row justify-content-start align-items-center m-2 ${isMobile ? 'p-1' : 'p-2'} podcast text-white position-relative overflow-hidden`}
     >
       <Card.Img
         className='podcast-icon m-2 object-fit-contain'
         src={podcast.images.length ? podcast.images[0].url : '/src/images/not-found.jpg'}
       />
 
-      <Card.Body className='d-flex flex-column justify-content-start align-items-center ms-1 w-100 h-100'>
-        <span className={`${isTablet ? 'fs-5' : 'fs-4'}`}>{podcast.name}</span>
-        <span className='description mt-2 scroll-container'>{podcast.description}</span>
+      <Card.Body
+        className={`d-flex flex-column justify-content-start align-items-center w-100 h-100 ${isMobile ? 'p-1 ps-1 pe-3' : 'ms-1'}`}
+      >
+        <span className={`${isMobile ? 'text-fs' : isTablet ? 'fs-5' : 'fs-4'} text-center`}>{podcast.name}</span>
+        <span className={`description mt-2 scroll-container ${isMobile ? 'p-2' : ''}`}>{podcast.description}</span>
         {isSavedPodcast ? (
           <Image
             className='icon object-fit-contain position-absolute'

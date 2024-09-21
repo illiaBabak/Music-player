@@ -2,12 +2,13 @@
   .header-form {
     .input-wrapper {
       max-width: 420px;
-      min-width: 250px;
+      min-width: 50px;
       width: auto;
+      height: 45px;
 
       .search-input {
         max-width: 420px;
-        min-width: 250px;
+        min-width: 50px;
         width: auto;
         height: 45px;
         border: none;
@@ -32,6 +33,22 @@
         &:hover {
           transform: scale(1.05);
           transition: 0.25s;
+        }
+      }
+    }
+  }
+}
+
+//Mobiles
+@media only screen and (max-width: 767px) {
+  .header {
+    .header-form {
+      .input-wrapper {
+        height: 30px;
+
+        .search-input {
+          height: 30px;
+          font-size: 12px;
         }
       }
     }

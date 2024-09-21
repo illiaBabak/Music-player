@@ -27,10 +27,10 @@ export const PodcastsPage = (): JSX.Element => {
   const shouldShowEmptyText = isMyPodcastsRoute
     ? !userPodcasts?.length && !isLoadingPodcasts
     : !podcasts?.length && !isLoadingUserPodcasts;
-
+  
   return (
     <Container className='d-flex podcasts-container p-0 m-0 flex-nowrap'>
-      <Row className='row-podcasts w-100 flex-nowrap'>
+      <Row className='row-podcasts w-100 flex-nowrap m-0 p-0'>
         <SideBarMenu />
 
         <Col className={`col-content position-relative m-0 p-0 scroll-container ${currentUriTrack ? 'playing' : ''}`}>
@@ -42,7 +42,9 @@ export const PodcastsPage = (): JSX.Element => {
           ) : (
             <>
               <Header />
-              {shouldShowEmptyText && <span className='empty-text position-absolute fs-4'>No podcasts :(</span>}
+              {shouldShowEmptyText && (
+                <span className='empty-text position-absolute fs-4 text-center'>No podcasts :(</span>
+              )}
               <PodcastsList
                 podcasts={isMyPodcastsRoute ? userPodcasts ?? [] : podcasts ?? []}
                 searchedText={searchedText}

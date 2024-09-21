@@ -14,7 +14,9 @@ import { msToMinSec } from 'src/utils/msToMinSec';
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 export const TrackPage = (): JSX.Element => {
-  const { currentUriTrack, isLightTheme, setCurrentUriTrack, setShouldShowPlaylists } = useContext(GlobalContext);
+  const { currentUriTrack, isLightTheme, setCurrentUriTrack, setShouldShowPlaylists, isMobile } =
+    useContext(GlobalContext);
+
   const navigate = useNavigate();
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -47,22 +49,24 @@ export const TrackPage = (): JSX.Element => {
 
   return (
     <Container className='d-flex track-container p-0 m-0 flex-nowrap'>
-      <Row className='row-track w-100 flex-nowrap'>
+      <Row className='row-track w-100 flex-nowrap m-0 p-0'>
         <SideBarMenu />
 
         <Col className={`col-content m-0 p-0 scroll-container ${currentUriTrack ? 'playing' : ''}`}>
-          <div className='artist-header d-flex flex-row justify-content-between align-items-center p-3 w-100'>
+          <div
+            className={`artist-header d-flex flex-row justify-content-between align-items-center ${isMobile ? 'p-2' : 'p-3'} w-100`}
+          >
             <div
-              className='return-btn p-3 m-0 d-flex justify-content-between align-items-center text-white'
+              className={`return-btn ${isMobile ? 'p-2' : 'p-3'} m-0 d-flex justify-content-between align-items-center text-white`}
               onClick={() => navigate('/home')}
             >
-              <span className='fs-1'>&lt;</span>
+              <span className={`${isMobile ? 'fs-5' : 'fs-1'}`}>&lt;</span>
               Back
             </div>
             <ThemeBtn />
           </div>
 
-          <div className='track-info d-flex flex-row w-100 p-3 m-1 position-relative'>
+          <div className={`track-info d-flex flex-row w-100 ${isMobile ? 'p-2' : 'p-3'} m-1 position-relative`}>
             <img
               className='track-icon object-fit-cover rounded'
               src={trackData?.album.images.length ? trackData?.album.images[0].url : '/src/images/not-found.jpg'}
@@ -85,12 +89,12 @@ export const TrackPage = (): JSX.Element => {
             />
 
             <div className='d-flex flex-column m-2'>
-              <h4>{trackData?.name}</h4>
+              {isMobile ? <h6>{trackData?.name}</h6> : <h4>{trackData?.name}</h4>}
 
               <div className='d-flex flex-row'>
                 {trackData?.artists.map((artist, index) => (
                   <p
-                    className='me-2 artist-track'
+                    className={`${isMobile ? 'm-0' : 'me-2'} artist-track`}
                     key={`track-artist-${index}-${artist.id}`}
                     onClick={() => navigate(`/artist?artist-id=${artist.id}`)}
                   >
@@ -99,14 +103,14 @@ export const TrackPage = (): JSX.Element => {
                 ))}
               </div>
 
-              <p>Duration: {msToMinSec(trackData?.duration_ms ?? 0)}</p>
+              <p className='duration'>Duration: {msToMinSec(trackData?.duration_ms ?? 0)}</p>
             </div>
           </div>
 
           <Chips chips={['Tempo', 'Beats']} />
 
           <Line
-            className='m-2 p-4'
+            className={`${isMobile ? 'm-0 p-0' : 'm-2 p-4'}`}
             data={{
               labels: isTempoChart ? temposStartTimes : beatStartTimes,
               datasets: [
@@ -117,6 +121,7 @@ export const TrackPage = (): JSX.Element => {
                   backgroundColor: isLightTheme ? '#eb9031' : '#190b2e',
                   tension: 0.2,
                   borderWidth: 3.5,
+                  pointRadius: 0.1,
                 },
               ],
             }}

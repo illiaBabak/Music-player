@@ -11,13 +11,13 @@ type Props = {
 };
 
 export const Album = ({ album, isLine }: Props): JSX.Element => {
-  const { isTablet } = useContext(GlobalContext);
+  const { isTablet, isMobile } = useContext(GlobalContext);
   const navigate = useNavigate();
 
   return (
     <Card
       onClick={() => navigate(`/album?album-id=${album.id}`)}
-      className={`album p-2 m-2 d-flex align-items-center text-white text-center overflow-hidden ${isLine ? 'line mx-3' : ''}`}
+      className={`album p-2 m-2 d-flex align-items-center text-white text-center overflow-hidden ${isLine ? `line ${isMobile ? 'mx-1' : 'mx-3'}` : ''}`}
     >
       <Card.Img src={album.images[0].url} className='album-icon object-fit-contain' />
 

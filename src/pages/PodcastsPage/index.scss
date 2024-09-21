@@ -22,3 +22,14 @@
     }
   }
 }
+
+//Mobiles
+@media only screen and (max-width: 767px) {
+  .podcasts-container {
+    .row-podcasts {
+      .col-content.playing {
+        height: calc(100vh - 148px); // 148px = player height
+      }
+    }
+  }
+}

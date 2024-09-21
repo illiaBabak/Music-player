@@ -70,6 +70,7 @@
 
 .content-container.podcasts {
   height: 90%;
+  width: auto;
 }
 
 .content-container.episodes {
@@ -119,5 +120,21 @@
 
   100% {
     transform: translate(1px, -2px) rotate(-1deg);
+  }
+}
+
+//Mobiles
+@media only screen and (max-width: 767px) {
+  .scroll-container::-webkit-scrollbar {
+    width: 0;
+  }
+
+  .content-container.playlist-tracks.line {
+    min-height: 80px;
+    max-height: 80px;
+  }
+
+  .content-container.episodes {
+    height: 50%;
   }
 }

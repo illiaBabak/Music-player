@@ -2,12 +2,9 @@
   color: var(--text);
 
   .empty-data {
-    height: 100%;
-
     .empty-icon {
       width: 200px;
       height: 200px;
-      object-fit: contain;
     }
   }
 
@@ -29,6 +26,26 @@
       &:hover {
         transform: scale(1.03);
         transition: 0.25s;
+      }
+    }
+  }
+}
+
+//Mobiles
+@media only screen and (max-width: 767px) {
+  .playlist-tracks {
+    .empty-data {
+      .empty-icon {
+        width: 70px;
+        height: 70px;
+      }
+    }
+
+    .header-container {
+      .return-btn {
+        width: 60px;
+        height: 30px;
+        font-size: 14px;
       }
     }
   }

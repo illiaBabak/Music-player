@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { forwardRef, useState } from 'react';
 
 type Props = {
   isReadOnly: boolean;
@@ -7,18 +7,17 @@ type Props = {
   handleBlur: ({ currentTarget: { value, name } }: React.FocusEvent<HTMLInputElement, Element>) => void;
 };
 
-export const ChangedField = ({ isReadOnly, data, handleBlur, name }: Props): JSX.Element => {
+export const ChangedField = forwardRef<HTMLInputElement, Props>(({ isReadOnly, data, handleBlur, name }, ref) => {
   const [isEdit, setIsEdit] = useState(false);
 
   return isEdit ? (
     <input
       key={data}
-      className='info-field m-2 p-1 d-flex flex-grow-1 flex-schrink-1'
+      className='info-field d-flex flex-grow-1 flex-shrink-1'
       type='text'
       defaultValue={data}
       onBlur={(e) => {
         handleBlur(e);
-
         setIsEdit(false);
       }}
       onKeyDown={({ key, currentTarget }) => {
@@ -30,10 +29,11 @@ export const ChangedField = ({ isReadOnly, data, handleBlur, name }: Props): JSX
     />
   ) : (
     <span
-      className={`changed-text fs-4 m-2 ${isReadOnly ? '' : 'readonly'} ${data ? '' : 'add'}`}
+      ref={ref}
+      className={`changed-text d-flex flex-grow-1 flex-shrink-1 ${isReadOnly ? '' : 'readonly'} ${data ? '' : 'add'}`}
       onClick={() => setIsEdit(true)}
     >
       {data ? data : `Add ${name}`}
     </span>
   );
-};
+});

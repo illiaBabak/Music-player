@@ -1,8 +1,10 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AnimatedBg } from 'src/components/AnimatedBg';
+import { GlobalContext } from 'src/root';
 
 export const RedirectPage = (): JSX.Element => {
+  const { isMobile } = useContext(GlobalContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,7 +24,7 @@ export const RedirectPage = (): JSX.Element => {
   return (
     <div className='redirect-page d-flex justify-content-center align-items-center h-100 overflow-hidden text-center'>
       <div className='d-flex flex-column text-white justify-content-center align-items-center content p-1'>
-        <span className='fs-2'>Ooops..Something went wrong :(</span>
+        <span className={`${isMobile ? 'fs-4' : 'fs-2'}`}>Ooops..Something went wrong :(</span>
         <button
           className='btn d-flex mt-4 p-2 redirect-btn border-0 text-white d-flex align-items-center justify-content-center'
           onClick={() => navigate('/login')}

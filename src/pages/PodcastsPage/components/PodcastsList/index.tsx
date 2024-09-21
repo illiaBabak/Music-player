@@ -1,8 +1,9 @@
 import { PodcastType } from 'src/types/types';
 import { Podcast } from '../Podcast';
 import { SkeletonLoader } from 'src/components/SkeletonLoader';
-import { useContext } from 'react';
+import { useContext, useRef } from 'react';
 import { GlobalContext } from 'src/root';
+import { useGetElSize } from 'src/hooks/useGetElSize';
 
 type Props = {
   podcasts: PodcastType[];
@@ -22,28 +23,27 @@ export const PodcastsList = ({
   searchedText,
   userPodcasts,
 }: Props): JSX.Element => {
-  const { isTablet } = useContext(GlobalContext);
+  const { isMobile } = useContext(GlobalContext);
 
   const filteredPodcasts = isOwnPodcasts
     ? podcasts.filter((podcast) => isPodcastContainsText(podcast, searchedText))
     : podcasts;
 
-  const skeletonWidth = '95%';
-
-  const skeletonHeightDesktop = '270px';
-
-  const skeletonHeightTablet = '180px';
+  const elRef = useRef<HTMLInputElement | null>(null);
+  const { width, height } = useGetElSize(elRef);
 
   return (
     <div className='content-container podcasts scroll-container'>
+      <div className={`m-2 ${isMobile ? 'p-1' : 'p-2'} podcast position-absolute invisible`} ref={elRef} />
+
       {isLoading
         ? Array.from({ length: 8 }).map((_, index) => (
             <SkeletonLoader
               key={`podcast-skeleton-${index}`}
-              width={skeletonWidth}
-              height={isTablet ? skeletonHeightTablet : skeletonHeightDesktop}
+              width={width}
+              height={height}
               borderRadius='4px'
-              className='m-2 p-2'
+              className={`m-2 ${isMobile ? 'p-1' : 'p-2'}`}
             />
           ))
         : filteredPodcasts.map((podcast, index) => (

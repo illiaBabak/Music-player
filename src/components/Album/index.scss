@@ -98,3 +98,27 @@
     }
   }
 }
+
+//Mobiles
+@media only screen and (max-width: 767px) {
+  .album {
+    width: 200px;
+    height: 210px;
+
+    .album-icon {
+      width: 125px;
+      height: 125px;
+    }
+  }
+
+  .album.line {
+    min-width: 150px;
+    max-width: 150px;
+    height: 150px;
+
+    .album-icon {
+      height: 100px;
+      width: 100px;
+    }
+  }
+}

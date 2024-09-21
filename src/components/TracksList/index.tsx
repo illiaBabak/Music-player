@@ -1,8 +1,9 @@
-import { useContext } from 'react';
+import { useContext, useRef } from 'react';
 import { SkeletonLoader } from '../SkeletonLoader';
 import { Track } from '../Track';
 import { TrackType } from 'src/types/types';
 import { GlobalContext } from 'src/root';
+import { useGetElSize } from 'src/hooks/useGetElSize';
 
 type Props = {
   tracks: TrackType[];
@@ -21,26 +22,24 @@ export const TracksList = ({
   playlistId,
   isOwnPlaylist,
 }: Props): JSX.Element => {
-  const { isTablet } = useContext(GlobalContext);
+  const { isMobile } = useContext(GlobalContext);
 
-  const skeletonWidthDesktop = isLine ? '300px' : '95%';
-  const skeletonHeightDesktop = '85px';
-
-  const skeletonWidthTablet = isLine ? '270px' : '95%';
-  const skeletonHeightTablet = '75px';
+  const elRef = useRef<HTMLInputElement | null>(null);
+  const { width, height } = useGetElSize(elRef);
 
   return (
     <div
-      className={`content-container ${isInPlaylist ? '' : 'tracks'} scroll-container ${isLine ? 'line tracks-line' : ''}`}
+      className={`content-container ${isInPlaylist ? 'playlist-tracks' : 'tracks'} scroll-container ${isLine ? 'line tracks-line' : ''}`}
     >
+      <div className={`track position-absolute invisible ${isLine ? 'line' : ''}`} ref={elRef} />
       {isLoading || !tracks.length
         ? Array.from({ length: 10 }).map((_, index) => (
             <SkeletonLoader
               key={`track-skeleton-${!!playlistId}-${index}`}
-              width={isTablet ? skeletonWidthTablet : skeletonWidthDesktop}
-              height={isTablet ? skeletonHeightTablet : skeletonHeightDesktop}
+              width={width}
+              height={height}
               borderRadius='4px'
-              className='p-2 m-2'
+              className={`${isMobile ? 'm-1 p-1' : 'm-2 p-2'} ${isLine && (index === 0 || index === 1) && !isMobile ? 'me-4 px-3' : isMobile ? '' : 'mx-2 px-3'}`}
             />
           ))
         : tracks.map((track, index) => (

@@ -1,5 +1,11 @@
 .nav-player {
   height: 80px;
-  background-color: var(--accent);
+  background-color: var(--player);
   z-index: 2;
+}
+
+@media only screen and (max-width: 767px) {
+  .nav-player {
+    height: 148px;
+  }
 }

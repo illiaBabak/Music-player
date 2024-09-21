@@ -10,22 +10,37 @@ type Props = {
 };
 
 export const Episode = ({ episode }: Props): JSX.Element => {
-  const { isTablet } = useContext(GlobalContext);
+  const { isTablet, isMobile } = useContext(GlobalContext);
 
   return (
     <Card className='d-flex flex-row justify-content-start align-items-center m-2 p-2 episode'>
-      <Card.Img
-        className='episode-icon ms-3 object-fit-contain'
-        src={episode.images.length ? episode.images[0].url : '/src/images/not-found.jpg'}
-      />
-      <Card.Body className='d-flex flex-column justify-content-start align-items-start episode-body h-100 position-relative'>
-        <span className={`${isTablet ? 'fs-6' : 'fs-5'}`}>{episode.name}</span>
-        <span className='detail description scroll-container mt-2'>{episode.description}</span>
+      <div className={`d-flex ${isMobile ? 'flex-column' : ''}`}>
+        <Card.Img
+          className='episode-icon object-fit-contain'
+          src={episode.images.length ? episode.images[0].url : '/src/images/not-found.jpg'}
+        />
 
-        <div className='d-flex flex-row justify-content-center align-items-center mt-4'>
-          <span className='detail'>{msToMinSec(episode.duration_ms)},</span>
-          <span className='detail ms-1'>{formatDate(episode.release_date)}</span>
-        </div>
+        {isMobile && (
+          <div className='d-flex flex-row justify-content-center align-items-center m-0'>
+            <span className='detail'>{msToMinSec(episode.duration_ms)},</span>
+            <span className='detail ms-1'>{formatDate(episode.release_date)}</span>
+          </div>
+        )}
+      </div>
+
+      <Card.Body
+        className={`d-flex flex-column justify-content-start align-items-start episode-body h-100 position-relative ${isMobile ? 'p-0 ms-3' : ''}`}
+      >
+        <span className={`${isMobile ? 'small-text' : isTablet ? 'fs-6' : 'fs-5'}`}>{episode.name}</span>
+        <span className={`${isMobile ? 'small-text' : ''} detail description scroll-container mt-2`}>
+          {episode.description}
+        </span>
+        {!isMobile && (
+          <div className='d-flex flex-row justify-content-center align-items-center mt-4'>
+            <span className='detail'>{msToMinSec(episode.duration_ms)},</span>
+            <span className='detail ms-1'>{formatDate(episode.release_date)}</span>
+          </div>
+        )}
       </Card.Body>
     </Card>
   );

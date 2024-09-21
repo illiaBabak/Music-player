@@ -1,8 +1,8 @@
 import { EpisodeType } from 'src/types/types';
 import { Episode } from '../Episode';
 import { SkeletonLoader } from 'src/components/SkeletonLoader';
-import { useContext } from 'react';
-import { GlobalContext } from 'src/root';
+import { useRef } from 'react';
+import { useGetElSize } from 'src/hooks/useGetElSize';
 
 type Props = {
   episodes: EpisodeType[];
@@ -10,22 +10,19 @@ type Props = {
 };
 
 export const EpisodesList = ({ episodes, isLoading }: Props): JSX.Element => {
-  const { isTablet } = useContext(GlobalContext);
-
-  const skeletonWidth = '95%';
-
-  const skeletonHeightDesktop = '180px';
-
-  const skeletonHeightTablet = '160px';
+  const elRef = useRef<HTMLInputElement | null>(null);
+  const { width, height } = useGetElSize(elRef);
 
   return (
     <div className='content-container episodes scroll-container'>
+      <div className='episode position-absolute invisible' ref={elRef} />
+
       {isLoading
         ? Array.from({ length: 5 }).map((_, index) => (
             <SkeletonLoader
               key={`episode-skeleton-${index}`}
-              width={skeletonWidth}
-              height={isTablet ? skeletonHeightTablet : skeletonHeightDesktop}
+              width={width}
+              height={height}
               borderRadius='4px'
               className='m-2 p-2'
             />

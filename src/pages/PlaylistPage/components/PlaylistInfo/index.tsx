@@ -4,6 +4,7 @@ import { GlobalContext } from 'src/root';
 import { MAX_IMG_SIZE } from 'src/utils/constants';
 import { ChangedField } from 'src/components/ChangedField';
 import { SkeletonLoader } from 'src/components/SkeletonLoader';
+import { useGetElSize } from 'src/hooks/useGetElSize';
 
 type Props = {
   playlistId: string;
@@ -12,7 +13,7 @@ type Props = {
 };
 
 export const PlaylistInfo = ({ playlistId, isOwnPlaylist, showDeleteWindow }: Props): JSX.Element => {
-  const { setAlertProps, isLightTheme, disablePlaylist, setImageToEdit, isTablet } = useContext(GlobalContext);
+  const { setAlertProps, isLightTheme, disablePlaylist, setImageToEdit, isMobile } = useContext(GlobalContext);
 
   const { data: playlistData, isLoading: isLoadingPlaylist } = usePlaylistQuery(playlistId);
   const { mutateAsync: editPlaylist } = useEditPlaylist();
@@ -51,15 +52,19 @@ export const PlaylistInfo = ({ playlistId, isOwnPlaylist, showDeleteWindow }: Pr
     setImageToEdit(file);
   };
 
-  const skeletonFieldWidthDesktop = '450px';
+  const changedFieldRef = useRef<HTMLInputElement | null>(null);
+  const imgRef = useRef<HTMLImageElement | null>(null);
 
-  const skeletonFieldWidthTablet = '300px';
+  const { width: fieldWidth, height: fieldHeight } = useGetElSize(changedFieldRef);
+  const { width: imgWidth, height: imgHeight } = useGetElSize(imgRef);
 
   return (
-    <div className='playlist-info p-2 d-flex flex-row justify-content-center align-items-center w-100 position-relative'>
+    <div
+      className={`playlist-info d-flex p-2 flex-row justify-content-center align-items-center w-100 position-relative`}
+    >
       <div className='d-flex justify-content-center align-items-end'>
         {isLoadingPlaylist ? (
-          <SkeletonLoader width='140px' height='140px' borderRadius='50%' className='mx-2' />
+          <SkeletonLoader width={imgWidth} height={imgHeight} borderRadius='50%' className='mx-2' />
         ) : (
           <img
             src={playlistData?.images?.length ? playlistData.images[0].url : '/src/images/not-found.jpg'}
@@ -79,13 +84,19 @@ export const PlaylistInfo = ({ playlistId, isOwnPlaylist, showDeleteWindow }: Pr
         />
       )}
 
+      <div className='invisible position-absolute'>
+        //* empty elements just to calc skeleton size
+        <img className='playlist-icon object-fit-cover position-absolute invisible' ref={imgRef} />
+        <ChangedField handleBlur={() => {}} isReadOnly={true} data={''} name='' ref={changedFieldRef} />
+      </div>
+
       <div className='d-flex flex-column w-100 h-100'>
         {isLoadingPlaylist ? (
           <SkeletonLoader
-            width={isTablet ? skeletonFieldWidthTablet : skeletonFieldWidthDesktop}
-            height='32px'
+            width={fieldWidth}
+            height={fieldHeight}
             borderRadius='2px'
-            className='m-2 p-1'
+            className={`${isMobile ? 'm-1' : 'm-2 p-1'}`}
           />
         ) : (
           <ChangedField
@@ -98,10 +109,10 @@ export const PlaylistInfo = ({ playlistId, isOwnPlaylist, showDeleteWindow }: Pr
 
         {isLoadingPlaylist ? (
           <SkeletonLoader
-            width={isTablet ? skeletonFieldWidthTablet : skeletonFieldWidthDesktop}
-            height='32px'
+            width={fieldWidth}
+            height={fieldHeight}
             borderRadius='2px'
-            className='m-2 p-1'
+            className={`${isMobile ? 'm-1' : 'm-2 p-1'}`}
           />
         ) : (
           <ChangedField

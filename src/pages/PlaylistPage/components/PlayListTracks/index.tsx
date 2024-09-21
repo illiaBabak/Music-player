@@ -15,7 +15,7 @@ type Props = {
 };
 
 export const PlayListTracks = ({ playlistId, isOwnPlaylist, showDeleteWindow }: Props): JSX.Element => {
-  const { setCurrentUriTrack } = useContext(GlobalContext);
+  const { setCurrentUriTrack, isMobile } = useContext(GlobalContext);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -33,9 +33,11 @@ export const PlayListTracks = ({ playlistId, isOwnPlaylist, showDeleteWindow }: 
 
   return (
     <div className='playlist-tracks d-flex flex-column w-100 h-100 justify-content-start align-items-center'>
-      <div className='header-container d-flex flex-row justify-content-between p-3 w-100 align-items-center'>
+      <div
+        className={`header-container d-flex justify-content-between ${isMobile ? 'p-0 flex-column-reverse mt-1 align-items-start' : 'p-3 flex-row align-items-center'} w-100`}
+      >
         <div
-          className='return-btn p-3 m-0 d-flex justify-content-between align-items-center text-white'
+          className={`return-btn ${isMobile ? 'p-2 ms-3' : 'p-3'} m-0 d-flex justify-content-between align-items-center text-white`}
           onClick={() => {
             setCurrentUriTrack(null);
             navigate('..');
@@ -51,8 +53,8 @@ export const PlayListTracks = ({ playlistId, isOwnPlaylist, showDeleteWindow }: 
 
       {!tracks?.length && !isLoadingTracks ? (
         <div className='empty-data d-flex flex-column justify-content-start align-items-center w-100 h-100'>
-          <img className='empty-icon' src='/src/images/no-data.png' alt='empty' />
-          <p className='fs-3 m-1'>Oops, not found anything</p>
+          <img className='empty-icon object-fit-contain' src='/src/images/no-data.png' alt='empty' />
+          <p className={`${isMobile ? 'fs-6' : 'fs-3'} m-1 text-center`}>Oops, not found anything</p>
         </div>
       ) : (
         <TracksList
@@ -67,7 +69,7 @@ export const PlayListTracks = ({ playlistId, isOwnPlaylist, showDeleteWindow }: 
 
       {isOwnPlaylist && (!!searchedTracks?.length || !!recommendedTracks?.length) && (
         <>
-          <h5 className='mt-4'>{searchedTracks ? 'Searched' : 'Recommended'} tracks</h5>
+          <h5 className={`${isMobile ? 'm-0 mt-1' : 'mt-4'}`}>{searchedTracks ? 'Searched' : 'Recommended'} tracks</h5>
           <TracksList
             tracks={searchedTracks ?? recommendedTracks ?? []}
             isLine={true}

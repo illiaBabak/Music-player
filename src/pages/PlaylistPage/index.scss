@@ -7,11 +7,23 @@
     .col-content {
       width: 70%;
       height: 100vh;
+      overflow: hidden scroll;
     }
 
     .col-content.playing {
       overflow: hidden auto;
       height: calc(100vh - 80px); // 80px = player height
+    }
+  }
+}
+
+//Mobiles
+@media only screen and (max-width: 767px) {
+  .playlists-container {
+    .row-playlists {
+      .col-content.playing {
+        height: calc(100vh - 148px); // 148px = player height
+      }
     }
   }
 }

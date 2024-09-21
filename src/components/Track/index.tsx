@@ -17,7 +17,7 @@ type Props = {
 };
 
 export const Track = ({ track, isLine, isInPlaylist, playlistId, isOwnPlaylist, isFirst }: Props): JSX.Element => {
-  const { setCurrentUriTrack, isLightTheme, setShouldShowPlaylists, isTablet } = useContext(GlobalContext);
+  const { setCurrentUriTrack, isLightTheme, setShouldShowPlaylists, isTablet, isMobile } = useContext(GlobalContext);
   const navigate = useNavigate();
 
   const { mutateAsync: addTrack } = useAddItemsPlaylist();
@@ -45,12 +45,12 @@ export const Track = ({ track, isLine, isInPlaylist, playlistId, isOwnPlaylist, 
 
   return (
     <Card
-      className={`track m-2 p-2 ${isFirst ? 'me-4 px-3' : 'mx-2 px-3'} d-flex flex-row align-items-center ${isLine ? 'line' : ''} position-relative text-center`}
+      className={`track ${isMobile ? 'm-1 p-1' : 'm-2 p-2'} ${isFirst && !isMobile ? 'me-4 px-3' : isMobile ? '' : 'mx-2 px-3'} d-flex flex-row align-items-center ${isLine ? 'line' : ''} position-relative text-center`}
       onClick={() => navigate(`/track?track-id=${track.id}`)}
     >
       <div className='d-flex flex-row justify-content-center align-items-center'>
         <Image
-          className='btn-img ms-2 object-fit-cover rounded-circle'
+          className={`btn-img ${isMobile ? 'ms-1' : 'ms-2'} object-fit-cover rounded-circle`}
           src={isLightTheme ? '/src/images/play-icon-light.svg' : '/src/images/play.svg'}
           onClick={(e) => {
             e.stopPropagation();
@@ -69,7 +69,9 @@ export const Track = ({ track, isLine, isInPlaylist, playlistId, isOwnPlaylist, 
         />
       </div>
 
-      <Card.Body className='track-info d-flex flex-row justify-content-start align-items-center overflow-hidden'>
+      <Card.Body
+        className={`track-info d-flex ${isMobile ? 'flex-column p-0 h-100 justify-content-center align-items-start ms-3' : 'flex-row justify-content-start align-items-center'} overflow-hidden`}
+      >
         <span
           className={`d-inline-block fs-6 track-name text-white ${isLine ? 'mb-2' : 'overflow-hidden full-name'}`}
           style={{ animationDuration: `${calcDuration(track.name)}s` }}
@@ -79,13 +81,22 @@ export const Track = ({ track, isLine, isInPlaylist, playlistId, isOwnPlaylist, 
 
         {!isLine && (
           <>
-            <span className='fs-6 track-duration text-white position-absolute'>{msToMinSec(track.duration_ms)}</span>
-            <span className='fs-6 d-flex flex-row justify-content-start align-items-start artists-track text-white position-absolute overflow-hidden me-4'>
-              {artists.map((artist) => (
+            {!isMobile && (
+              <span className='fs-6 track-duration text-white position-absolute'>{msToMinSec(track.duration_ms)}</span>
+            )}
+
+            <span
+              className={`d-flex flex-row justify-content-start align-items-start artists-track text-white ${isMobile ? 'position-static' : 'position-absolute me-4 fs-6'} overflow-hidden`}
+            >
+              {artists.map((artist, index) => (
                 <p
                   key={`${artist.id}-${track.id}-text`}
-                  className='artist-track m-0 ms-2'
-                  onClick={() => navigate(`/artist?artist-id=${artist.id}`)}
+                  className={`artist-track m-0 ${isMobile && index === 0 ? 'ms-0' : 'ms-2'}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+
+                    navigate(`/artist?artist-id=${artist.id}`);
+                  }}
                 >
                   {artist.name}
                 </p>

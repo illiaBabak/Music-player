@@ -42,3 +42,26 @@
     }
   }
 }
+
+//Mobiles
+@media only screen and (max-width: 767px) {
+  .episode {
+    height: 90px;
+
+    .episode-icon {
+      width: 70px;
+      height: 70px;
+    }
+
+    .episode-body {
+      .small-text {
+        font-size: 10px;
+      }
+    }
+
+    .detail {
+      font-size: 8px;
+      white-space: nowrap;
+    }
+  }
+}

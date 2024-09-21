@@ -28,6 +28,7 @@ type GlobalContextType = {
   imageToEdit: File | null;
   setImageToEdit: React.Dispatch<React.SetStateAction<File | null>>;
   isTablet: boolean;
+  isMobile: boolean;
 };
 
 export const GlobalContext = createContext<GlobalContextType>({
@@ -56,6 +57,7 @@ export const GlobalContext = createContext<GlobalContextType>({
     throw new Error('Global context is not initialized');
   },
   isTablet: false,
+  isMobile: false,
 });
 
 export const App = (): JSX.Element => {
@@ -70,7 +72,7 @@ export const App = (): JSX.Element => {
   const [disabledPlaylists, setDisabledPlaylists] = useState<string[]>([]);
   const [imageToEdit, setImageToEdit] = useState<File | null>(null);
 
-  const { isTablet } = useGetDeviceType();
+  const { isTablet, isMobile } = useGetDeviceType();
 
   const disablePlaylist = (playlistId: string) => {
     setDisabledPlaylists((prev) => [...prev, playlistId]);
@@ -91,6 +93,7 @@ export const App = (): JSX.Element => {
     body.style.setProperty('--link-text', isLightTheme ? '#cacaca' : '#8f9199');
     body.style.setProperty('--skeleton-bg', isLightTheme ? '#808080' : '#413950');
     body.style.setProperty('--skeleton-animate-bg', isLightTheme ? '#4e4e4e' : '#322b3f');
+    body.style.setProperty('--player', isLightTheme ? '#ff8300' : '#130821');
 
     localStorage.setItem('is_light_theme', JSON.stringify(isLightTheme ? 'light' : 'dark'));
   }, [isLightTheme]);
@@ -134,6 +137,7 @@ export const App = (): JSX.Element => {
           setImageToEdit,
           isTablet,
           imageToEdit,
+          isMobile,
         }}
       >
         <BrowserRouter>
