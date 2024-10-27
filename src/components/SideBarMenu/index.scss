@@ -25,6 +25,11 @@
 
   .user {
     bottom: 0;
+
+    .user-img {
+      width: 80px;
+      height: 80px;
+    }
   }
 
   .user.playing {
@@ -46,6 +51,16 @@
 @media only screen and (max-width: 992px) {
   .menu {
     width: 220px;
+
+    .user {
+      bottom: 0;
+  
+      .user-img {
+        width: 50px;
+        height: 50px;
+      }
+    }
+  
   }
 }
 

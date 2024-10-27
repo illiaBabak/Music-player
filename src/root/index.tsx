@@ -54,9 +54,12 @@ export const GlobalContext = createContext<GlobalContextType>({
 
 export const App = (): JSX.Element => {
   const [currentUriTrack, setCurrentUriTrack] = useState<string | null>(null);
-  const [isLightTheme, setIsLightTheme] = useState(
-    JSON.parse(localStorage.getItem('is_light_theme') ?? '') === 'light' ? true : false
-  );
+  const [isLightTheme, setIsLightTheme] = useState(() => {
+    const storedTheme = localStorage.getItem('is_light_theme');
+    
+    return storedTheme ? JSON.parse(storedTheme) === 'light' : false;
+  });
+  
 
   const [alertProps, setAlertProps] = useState<AlertProps | null>(null);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
