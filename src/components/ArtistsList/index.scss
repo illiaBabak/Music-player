@@ -1,0 +1,44 @@
+.skeleton-loader {
+  &.artist {
+    width: 290px;
+    height: 300px;
+
+    &.line {
+      height: 180px;
+      min-width: 180px;
+      max-width: 180px;
+    }
+  }
+}
+
+// Tablets
+@media only screen and (max-width: 992px) {
+  .skeleton-loader {
+    &.artist {
+      width: 230px;
+      height: 240px;
+
+      &.line {
+        height: 150px;
+        min-width: 150px;
+        max-width: 150px;
+      }
+    }
+  }
+}
+
+// Mobiles
+@media only screen and (max-width: 767px) {
+  .skeleton-loader {
+    &.artist {
+      width: 190px;
+      height: 190px;
+
+      &.line {
+        height: 140px;
+        min-width: 140px;
+        max-width: 140px;
+      }
+    }
+  }
+}

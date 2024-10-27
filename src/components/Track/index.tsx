@@ -45,7 +45,7 @@ export const Track = ({ track, isLine, isInPlaylist, playlistId, isOwnPlaylist, 
 
   return (
     <Card
-      className={`track ${isMobile ? 'm-1 p-1' : 'm-2 p-2'} ${isFirst && !isMobile ? 'me-4 px-3' : isMobile ? '' : 'mx-2 px-3'} d-flex flex-row align-items-center ${isLine ? 'line' : ''} position-relative text-center`}
+      className={`track ${isMobile ? 'm-1 p-1' : 'm-2 p-2'} ${isFirst && !isMobile ? 'me-4 px-3' : 'mx-2 px-3'} d-flex flex-row align-items-center ${isLine ? 'line' : ''} position-relative text-center`}
       onClick={() => navigate(`/track?track-id=${track.id}`)}
     >
       <div className='d-flex flex-row justify-content-center align-items-center'>

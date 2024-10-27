@@ -11,10 +11,8 @@ type Props = {
 };
 
 export const PlayList = ({ playlist, selectedPlaylistsId, setSelectedPlaylistsId }: Props): JSX.Element => {
-  const { shouldShowPlaylists, disabledPlaylists, isMobile } = useContext(GlobalContext);
+  const { shouldShowPlaylists, isMobile } = useContext(GlobalContext);
   const navigate = useNavigate();
-
-  const isDisabledPlaylist = disabledPlaylists.some((id) => playlist.id === id);
 
   const isSelectedPlaylist = selectedPlaylistsId?.some((id) => playlist.id === id);
 
@@ -32,14 +30,14 @@ export const PlayList = ({ playlist, selectedPlaylistsId, setSelectedPlaylistsId
 
   return (
     <Card
-      className={`playlist ${isMobile ? 'm-2' : 'm-3'} p-1 d-flex align-items-center justify-content-between text-white overflow-hidden text-center ${isDisabledPlaylist ? 'disabled-playlist' : ''} ${isSelectedPlaylist && shouldShowPlaylists ? 'selected' : ''}`}
+      className={`playlist ${isMobile ? 'm-2' : 'm-3'} p-1 d-flex align-items-center justify-content-between text-white overflow-hidden text-center ${isSelectedPlaylist && shouldShowPlaylists ? 'selected' : ''}`}
       onClick={handleSelectPlaylist}
     >
       <Card.Img
         src={playlist.images ? playlist.images[0].url : '/src/images/not-found.jpg'}
         className='playlist-icon mt-3 object-fit-cover'
       />
-      <span className={`${isMobile ? 'fs-6' : 'fs-5'} mb-2`}>{isDisabledPlaylist ? 'Updating...' : playlist.name}</span>
+      <span className={`${isMobile ? 'fs-6' : 'fs-5'} mb-2`}>{playlist.name}</span>
     </Card>
   );
 };

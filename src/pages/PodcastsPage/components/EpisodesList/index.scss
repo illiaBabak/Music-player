@@ -1,0 +1,26 @@
+.skeleton-loader {
+  border-radius: 4px;
+
+  &.episode {
+    width: 95%;
+    height: 180px;
+  }
+}
+
+// Tablets
+@media only screen and (max-width: 992px) {
+  .skeleton-loader {
+    &.episode {
+      height: 160px;
+    }
+  }
+}
+
+// Mobiles
+@media only screen and (max-width: 767px) {
+  .skeleton-loader {
+    &.episode {
+      height: 90px;
+    }
+  }
+}

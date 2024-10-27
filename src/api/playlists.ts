@@ -23,7 +23,7 @@ import {
   PLAYLISTS_QUERY,
 } from './constants';
 import { fetchWithRedirects } from '.';
-import { useContext } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { GlobalContext } from 'src/root';
 import { BASE64_PATTERN } from 'src/utils/constants';
 
@@ -173,11 +173,15 @@ export const usePlaylistsItemsQuery = (
   });
 };
 
-export const usePlaylistQuery = (playlistId: string): UseQueryResult<PlaylistType, Error> => {
+export const usePlaylistQuery = (
+  playlistId: string,
+  partialKey?: string,
+  options?: Partial<UseQueryOptions<PlaylistType | null>>
+): UseQueryResult<PlaylistType | null, Error> => {
   const { setAlertProps } = useContext(GlobalContext);
 
   return useQuery({
-    queryKey: [PLAYLIST_QUERY, playlistId],
+    queryKey: partialKey ? [PLAYLIST_QUERY, playlistId, partialKey] : [PLAYLIST_QUERY, playlistId],
     queryFn: async () => {
       try {
         return await getPlaylist(playlistId);
@@ -186,6 +190,7 @@ export const usePlaylistQuery = (playlistId: string): UseQueryResult<PlaylistTyp
         return null;
       }
     },
+    ...options,
   });
 };
 
@@ -288,7 +293,34 @@ export const useDeletePlaylist = (): UseMutationResult<
   });
 };
 
-export const useEditPlaylist = (): UseMutationResult<
+type Props = {
+  playlistId: string;
+  onPollingEnd?: () => void;
+  isPollingEnabled: boolean;
+};
+
+const usePollPlaylist = ({ playlistId, onPollingEnd, isPollingEnabled }: Props) => {
+  const oldPlaylistData = useRef<PlaylistType>();
+
+  usePlaylistQuery(playlistId, 'polling', {
+    refetchInterval: (query) => {
+      if (!isPollingEnabled) return false;
+
+      if (!oldPlaylistData.current) oldPlaylistData.current = query.state.data ?? undefined;
+      else if (JSON.stringify(oldPlaylistData.current) !== JSON.stringify(query.state.data)) {
+        onPollingEnd?.();
+
+        return false;
+      }
+
+      return 10000;
+    },
+  });
+};
+
+export const useEditPlaylist = (
+  playlistId: string
+): UseMutationResult<
   void,
   Error,
   Pick<PlaylistType, 'id'> & Partial<PlaylistType>,
@@ -299,6 +331,18 @@ export const useEditPlaylist = (): UseMutationResult<
 > => {
   const queryClient = useQueryClient();
   const { setAlertProps } = useContext(GlobalContext);
+  const [isPollingEnabled, setIsPollingEnabled] = useState(false);
+
+  const onPollingEnd = () => {
+    setIsPollingEnabled(false);
+
+    setTimeout(() => {
+      queryClient.invalidateQueries({ queryKey: [PLAYLISTS_QUERY] });
+      queryClient.invalidateQueries({ queryKey: [PLAYLIST_QUERY, playlistId] });
+    }, 0);
+  };
+
+  usePollPlaylist({ playlistId, onPollingEnd, isPollingEnabled });
 
   return useMutation({
     mutationFn: editPlaylist,
@@ -310,13 +354,13 @@ export const useEditPlaylist = (): UseMutationResult<
       const prevValList = queryClient.getQueryData<PlaylistType[] | undefined>([PLAYLISTS_QUERY]);
       const prevValSingle = queryClient.getQueryData<PlaylistType | undefined>([PLAYLIST_QUERY, updatedPlaylist.id]);
 
-      queryClient.setQueryData([PLAYLISTS_QUERY], (prev: PlaylistType[] | undefined) =>
-        prev
+      queryClient.setQueryData([PLAYLISTS_QUERY], (prev: PlaylistType[] | undefined) => {
+        return prev
           ? prev.map((playlist) =>
               playlist.id === updatedPlaylist.id ? { ...playlist, ...updatedPlaylist } : playlist
             )
-          : []
-      );
+          : [];
+      });
 
       queryClient.setQueryData([PLAYLIST_QUERY, updatedPlaylist.id], (prev: PlaylistType | undefined) =>
         prev ? { ...prev, ...updatedPlaylist } : undefined
@@ -325,17 +369,13 @@ export const useEditPlaylist = (): UseMutationResult<
       return { prevValList, prevValSingle };
     },
 
-    onSettled: (_, __, context) => {
-      queryClient.invalidateQueries({ queryKey: [PLAYLISTS_QUERY] });
-      queryClient.invalidateQueries({ queryKey: [PLAYLIST_QUERY, context.id] });
-    },
-
     onSuccess: () => {
-      setAlertProps({ text: 'Success', type: 'success', position: 'top' });
+      setIsPollingEnabled(true);
+      setAlertProps({ text: 'Success edit', type: 'success', position: 'top' });
     },
 
     onError: (_, __, context) => {
-      setAlertProps({ text: 'Error', type: 'error', position: 'top' });
+      setAlertProps({ text: 'Error edit', type: 'error', position: 'top' });
 
       queryClient.setQueryData([PLAYLISTS_QUERY], context?.prevValList);
       queryClient.setQueryData([PLAYLISTS_QUERY, context?.prevValSingle?.id], context?.prevValSingle);

@@ -1,0 +1,44 @@
+.skeleton-loader {
+  border-radius: 4px;
+
+  &.track {
+    width: 95%;
+    min-height: 85px;
+    max-height: 85px;
+
+    &.line {
+      min-width: 300px;
+      max-width: 300px;
+    }
+  }
+}
+// Tablets
+@media only screen and (max-width: 992px) {
+  .skeleton-loader {
+    &.track {
+      &.line {
+        max-width: 270px;
+        min-width: 270px;
+        min-height: 75px;
+        max-height: 75px;
+      }
+    }
+  }
+}
+
+// Mobiles
+@media only screen and (max-width: 767px) {
+  .skeleton-loader {
+    &.track {
+      min-height: 70px;
+      max-height: 70px;
+
+      &.line {
+        max-width: 240px;
+        min-width: 240px;
+        min-height: 60px;
+        max-height: 60px;
+      }
+    }
+  }
+}

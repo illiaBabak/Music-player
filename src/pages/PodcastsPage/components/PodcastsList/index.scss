@@ -1,0 +1,27 @@
+.skeleton-loader {
+  &.podcast {
+    width: 95%;
+    max-height: 270px;
+    min-height: 270px;
+  }
+}
+
+// Tablets
+@media only screen and (max-width: 992px) {
+  .skeleton-loader {
+    &.podcast {
+      max-height: 180px;
+      min-height: 180px;
+    }
+  }
+}
+
+// Mobiles
+@media only screen and (max-width: 767px) {
+  .skeleton-loader {
+    &.podcast {
+      max-height: 115px;
+      min-height: 115px;
+    }
+  }
+}

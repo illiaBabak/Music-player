@@ -45,6 +45,22 @@
   }
 }
 
+.skeleton-loader {
+  &.podcast-icon {
+    width: 220px;
+    height: 220px;
+  }
+
+  &.podcast-description {
+    height: 120px;
+  }
+
+  &.podcast-name,
+  &.podcast-author {
+    height: 32px;
+  }
+}
+
 //Tablets
 @media only screen and (max-width: 992px) {
   .podcast-catalog {
@@ -66,6 +82,17 @@
           height: 30px;
         }
       }
+    }
+  }
+
+  .skeleton-loader {
+    &.podcast-icon {
+      width: 180px;
+      height: 180px;
+    }
+
+    &.podcast-description {
+      height: 80px;
     }
   }
 }
@@ -101,6 +128,17 @@
           right: 2px;
         }
       }
+    }
+  }
+
+  .skeleton-loader {
+    &.podcast-icon {
+      width: 80px;
+      height: 80px;
+    }
+
+    &.podcast-description {
+      height: 60px;
     }
   }
 }

@@ -9,7 +9,6 @@ import { AlbumPage } from 'src/pages/AlbumPage';
 import { AlertProps } from 'src/types/types';
 import { PodcastsPage } from 'src/pages/PodcastsPage';
 import { Alert } from 'src/components/Alert';
-import { DISABLED_DELAY } from 'src/utils/constants';
 import { PlaylistsListPage } from 'src/pages/PlaylistsListPage';
 import { UserPage } from 'src/pages/UserPage';
 import { TrackPage } from 'src/pages/TrackPage';
@@ -23,8 +22,6 @@ type GlobalContextType = {
   setAlertProps: React.Dispatch<React.SetStateAction<AlertProps | null>>;
   shouldShowPlaylists: boolean;
   setShouldShowPlaylists: React.Dispatch<React.SetStateAction<boolean>>;
-  disabledPlaylists: string[];
-  disablePlaylist: (playlistId: string) => void;
   imageToEdit: File | null;
   setImageToEdit: React.Dispatch<React.SetStateAction<File | null>>;
   isTablet: boolean;
@@ -40,16 +37,11 @@ export const GlobalContext = createContext<GlobalContextType>({
   setIsLightTheme: () => {
     throw new Error('Global context is not initialized');
   },
-
   setAlertProps: () => {
     throw new Error('Global context is not initialized');
   },
   shouldShowPlaylists: false,
   setShouldShowPlaylists: () => {
-    throw new Error('Global context is not initialized');
-  },
-  disabledPlaylists: [],
-  disablePlaylist: () => {
     throw new Error('Global context is not initialized');
   },
   imageToEdit: null,
@@ -69,18 +61,9 @@ export const App = (): JSX.Element => {
   const [alertProps, setAlertProps] = useState<AlertProps | null>(null);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const [shouldShowPlaylists, setShouldShowPlaylists] = useState(false);
-  const [disabledPlaylists, setDisabledPlaylists] = useState<string[]>([]);
   const [imageToEdit, setImageToEdit] = useState<File | null>(null);
 
   const { isTablet, isMobile } = useGetDeviceType();
-
-  const disablePlaylist = (playlistId: string) => {
-    setDisabledPlaylists((prev) => [...prev, playlistId]);
-
-    setTimeout(() => {
-      setDisabledPlaylists((prev) => prev.filter((id) => id !== playlistId));
-    }, DISABLED_DELAY);
-  };
 
   useEffect(() => {
     const { body } = document;
@@ -132,8 +115,7 @@ export const App = (): JSX.Element => {
           setAlertProps,
           setShouldShowPlaylists,
           shouldShowPlaylists,
-          disabledPlaylists,
-          disablePlaylist,
+
           setImageToEdit,
           isTablet,
           imageToEdit,

@@ -44,7 +44,7 @@ export const AlbumPage = (): JSX.Element => {
           <div
             className={`album-info w-100 d-flex  ${isMobile ? 'p-1 m-0 flex-column justify-content-center align-items-center text-center' : 'p-3 flex-row justify-content-start align-items-start m-2'}`}
           >
-            <img src={selectedAlbum?.images[0].url ?? ''} className='album-icon' />
+            <img src={selectedAlbum?.images[0].url ?? '/src/images/not-found.jpg'} className='album-icon' />
             <div className='details d-flex flex-column ms-2 w-100'>
               <div className={`${isMobile ? 'fs-6 mt-2' : isTablet ? 'fs-4' : 'fs-2'} w-100`}>
                 {selectedAlbum?.name}

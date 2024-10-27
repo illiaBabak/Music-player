@@ -37,19 +37,18 @@
   .changed-text {
     max-height: 24px;
     min-height: 24px;
-    font-size: 16px;
-    max-width: 155px;
     min-width: 100px;
     width: auto;
+    font-size: 12px;
     margin: 2px;
   }
 
   .info-field {
-    max-width: 155px;
-    min-width: 100px;
-    width: auto;
     max-height: 24px;
     min-height: 24px;
+    min-width: 100px;
+    width: auto;
+    font-size: 12px;
     margin: 2px;
     padding: 0;
   }

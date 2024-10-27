@@ -48,6 +48,4 @@ export const PLAYLISTS_LINKS = ['my-playlists', 'recommended'] as const;
 
 export const PODCASTS_LINKS = ['my-podcasts', 'searched-podcasts'] as const;
 
-export const DISABLED_DELAY = 20000;
-
 export const MAX_IMG_SIZE = 256;

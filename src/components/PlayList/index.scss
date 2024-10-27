@@ -16,13 +16,6 @@
   }
 }
 
-.disabled-playlist {
-  filter: grayscale(10%);
-  opacity: 0.5;
-  pointer-events: none;
-  cursor: not-allowed;
-}
-
 .selected {
   background-color: var(--accent);
   border: 4px solid var(--card-bg-color);

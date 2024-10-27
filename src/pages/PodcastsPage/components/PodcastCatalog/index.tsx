@@ -4,9 +4,8 @@ import { useAddPodcast, useDeletePodcast, usePodcastEpisodesQuery, usePodcastQue
 import { EpisodesList } from '../EpisodesList';
 import { SkeletonLoader } from 'src/components/SkeletonLoader';
 import { Image } from 'react-bootstrap';
-import { useContext, useRef } from 'react';
+import { useContext } from 'react';
 import { GlobalContext } from 'src/root';
-import { useGetElSize } from 'src/hooks/useGetElSize';
 
 type Props = {
   podcastId: string;
@@ -23,12 +22,6 @@ export const PodcastCatalog = ({ podcastId, isSavedPodcast }: Props): JSX.Elemen
 
   const { mutateAsync: addPodcast } = useAddPodcast();
   const { mutateAsync: deletePodcast } = useDeletePodcast();
-
-  const imgRef = useRef<HTMLImageElement | null>(null);
-  const { width: imgWidth, height: imgHeight } = useGetElSize(imgRef);
-
-  const descriptionRef = useRef<HTMLSpanElement | null>(null);
-  const { height: descHeight } = useGetElSize(descriptionRef);
 
   return (
     <div className='podcast-catalog h-100'>
@@ -51,23 +44,17 @@ export const PodcastCatalog = ({ podcastId, isSavedPodcast }: Props): JSX.Elemen
       <div
         className={`podcast-info d-flex flex-row justify-content-start align-items-start w-100 ${isMobile ? 'p-0 px-2 text-center' : 'p-3'}`}
       >
-        <div className='position-absolute invisible'>
-          //* empty elements just to calc size for skeletons
-          <img className='podcast-icon object-fit-contain' ref={imgRef} />
-          <span className='description scroll-container mt-3' ref={descriptionRef} />
-        </div>
-
         {isLoadingPodcast ? (
           <div
             className={`d-flex ${isMobile ? 'flex-column justify-content-center align-items-center' : 'flex-row'} w-100`}
           >
-            <SkeletonLoader width={imgWidth} height={imgHeight} borderRadius='0' />
+            <SkeletonLoader className='podcast-icon' />
             <div
               className={`d-flex flex-column w-100 ${isMobile ? 'm-0 justify-content-center align-items-center' : 'ms-3 h-100'}`}
             >
-              <SkeletonLoader width='50%' height='32px' borderRadius='0' className={`${isMobile ? 'm-2' : 'mb-2'}`} />
-              <SkeletonLoader width='100%' height={descHeight} borderRadius='0' />
-              <SkeletonLoader width='25%' height='32px' borderRadius='0' className='mt-3' />
+              <SkeletonLoader className={`podcast-name w-50 ${isMobile ? 'm-2' : 'mb-2'}`} />
+              <SkeletonLoader className='podcast-description w-100' />
+              <SkeletonLoader className='podcast-author w-25 mt-3' />
             </div>
           </div>
         ) : (
