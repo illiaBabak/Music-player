@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { HashRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
 import { RedirectPage } from 'src/pages/RedirectPage';
 import { HomePage } from 'src/pages/HomePage';
 import { createContext, useEffect, useState } from 'react';
@@ -124,7 +124,7 @@ export const App = (): JSX.Element => {
           isMobile,
         }}
       >
-        <BrowserRouter basename='/Music-player/'>
+        <Router basename='/Music-player'>
           <Routes>
             <Route path='/' element={<Navigate to='/login' />} />
             <Route path='/*' element={<Navigate to='/redirect' />} />
@@ -152,7 +152,7 @@ export const App = (): JSX.Element => {
             <Route path='/user' element={<UserPage />} />
             <Route path='/track' element={<TrackPage />} />
           </Routes>
-        </BrowserRouter>
+        </Router>
       </GlobalContext.Provider>
 
       {alertProps && (

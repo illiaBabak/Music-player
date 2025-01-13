@@ -4,7 +4,7 @@ import checker from 'vite-plugin-checker';
 import react from '@vitejs/plugin-react';
 
 export default defineConfig({
-  base: '/Music-player/',
+  base: '/Music-player',
   build: {
     outDir: 'build',
     emptyOutDir: true,
