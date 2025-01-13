@@ -1,5 +1,6 @@
 {
-  "name": "Music-player",
+  "homepage": "https://illiababak.github.io/Music-player/#",
+  "name": "music",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -26,8 +27,7 @@
     "react-router-dom": "^6.23.1",
     "spotify-web-api-node": "^5.0.2",
     "vite-plugin-checker": "^0.6.4",
-    "vite-plugin-eslint": "^1.8.1",
-    "vite-plugin-gh-pages": "^1.0.1"
+    "vite-plugin-eslint": "^1.8.1"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.49.0",
