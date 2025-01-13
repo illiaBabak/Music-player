@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react';
 import { ghPages } from 'vite-plugin-gh-pages';
 
 export default defineConfig({
-  base: '/Music-player',
+  base: '/Music-player/',
   build: {
     outDir: 'build',
     emptyOutDir: true,

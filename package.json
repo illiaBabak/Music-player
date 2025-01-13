@@ -1,6 +1,5 @@
 {
-  "homepage": "https://illiababak.github.io/Music-player",
-  "name": "music",
+  "name": "Music-player",
   "private": true,
   "version": "0.0.0",
   "type": "module",
