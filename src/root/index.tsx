@@ -1,4 +1,4 @@
-import { HashRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
 import { RedirectPage } from 'src/pages/RedirectPage';
 import { HomePage } from 'src/pages/HomePage';
 import { createContext, useEffect, useState } from 'react';
@@ -124,7 +124,7 @@ export const App = (): JSX.Element => {
           isMobile,
         }}
       >
-        <Router basename={import.meta.env.BASE_URL}>
+        <Router basename='/Music-player'>
           <Routes>
             <Route path='/' element={<Navigate to='/login' />} />
             <Route path='/*' element={<Navigate to='/redirect' />} />
@@ -154,7 +154,6 @@ export const App = (): JSX.Element => {
           </Routes>
         </Router>
       </GlobalContext.Provider>
-
       {alertProps && (
         <Alert
           onClose={() => setAlertProps(null)}
