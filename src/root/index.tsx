@@ -124,7 +124,7 @@ export const App = (): JSX.Element => {
           isMobile,
         }}
       >
-        <BrowserRouter basename='https://illiababak.github.io/Music-player'>
+        <BrowserRouter basename='https://illiababak.github.io/Music-player/'>
           <Routes>
             <Route path='/' element={<Navigate to='/login' />} />
             <Route path='/*' element={<Navigate to='/redirect' />} />
