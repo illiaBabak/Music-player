@@ -1,11 +1,12 @@
-import { defineConfig } from "vite";
-import eslint from "vite-plugin-eslint";
-import checker from "vite-plugin-checker";
-import react from "@vitejs/plugin-react";
+import { defineConfig } from 'vite';
+import eslint from 'vite-plugin-eslint';
+import checker from 'vite-plugin-checker';
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
+  base: '/Music-player',
   build: {
-    outDir: "build",
+    outDir: 'build',
     emptyOutDir: true,
   },
   server: {
@@ -16,7 +17,7 @@ export default defineConfig({
   plugins: [react(), eslint(), checker({ typescript: true })],
   resolve: {
     alias: {
-      src: "/src",
+      src: '/src',
     },
   },
 });
