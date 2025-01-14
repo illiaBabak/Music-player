@@ -40,6 +40,8 @@ This project written to sum up my experience in technology and create something 
 <p>Switch theme</p>
 <p>Responsive web application</p>
 
+### <a href="https://developer.spotify.com/blog/2024-11-27-changes-to-the-web-api"> Not all features work due to Spotify Web API change November 27, 2024 </a>
+
 # yarn scripts
 
 - `i` - to install all packages
