@@ -1,6 +1,6 @@
 export const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
 
-export const REDIRECT_URL = 'https://illiababak.github.io/Music-player/redirect';
+export const REDIRECT_URL = 'http://localhost:3000/redirect';
 
 export const API_URL = 'https://accounts.spotify.com/authorize';
 
@@ -31,7 +31,11 @@ export const MULTIPLACTION_FACTOR = 4.1;
 export const BASE64_PATTERN = /^data:image\/(png|jpeg|jpg|gif);base64,/;
 
 export const SIDEBAR_LINKS = [
-  { route: 'home', imgPath: '/src/images/home-icon.png', imgPathLight: '/src/images/home-icon-light.png' },
+  {
+    route: 'home',
+    imgPath: '/src/images/home-icon.png',
+    imgPathLight: '/src/images/home-icon-light.png',
+  },
   {
     route: 'playlists',
     imgPath: '/src/images/disc-icon.png',
