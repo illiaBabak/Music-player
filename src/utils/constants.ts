@@ -1,6 +1,6 @@
 export const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
 
-export const REDIRECT_URL = 'http://localhost:3000/redirect';
+export const REDIRECT_URL = 'https://music-player-hc8h.vercel.app/redirect';
 
 export const API_URL = 'https://accounts.spotify.com/authorize';
 
