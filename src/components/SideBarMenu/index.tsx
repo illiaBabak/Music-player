@@ -4,11 +4,16 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { GlobalContext } from 'src/root';
 import { capitalize } from 'src/utils/capitalize';
 import { CreatePlaylistWindow } from '../CreatePlaylistWindow';
-import { PLAYLISTS_LINKS, PODCASTS_LINKS, SIDEBAR_LINKS } from 'src/utils/constants';
+import {
+  PLAYLISTS_LINKS,
+  PODCASTS_LINKS,
+  SIDEBAR_LINKS,
+} from 'src/utils/constants';
 import { useUserQuery } from 'src/api/user';
 
 export const SideBarMenu = (): JSX.Element => {
-  const { isLightTheme, currentUriTrack, isTablet, isMobile } = useContext(GlobalContext);
+  const { isLightTheme, currentUriTrack, isTablet, isMobile } =
+    useContext(GlobalContext);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -22,7 +27,9 @@ export const SideBarMenu = (): JSX.Element => {
 
   return (
     <>
-      {shouldShowModal && <CreatePlaylistWindow onClose={() => setShouldShowModal(false)} />}
+      {shouldShowModal && (
+        <CreatePlaylistWindow onClose={() => setShouldShowModal(false)} />
+      )}
 
       <Navbar
         className={`d-flex flex-column menu ${isMobile ? 'p-0' : isTablet ? 'p-3' : 'p-4'} position-relative`}
@@ -34,7 +41,7 @@ export const SideBarMenu = (): JSX.Element => {
         >
           <img
             alt='icon'
-            src={isLightTheme ? '/src/images/logo-light.png' : '/src/images/logo.png'}
+            src={isLightTheme ? '/logo-light.png' : '/logo.png'}
             className={`d-inline-block align-top menu-icon ${isMobile ? 'm-0' : 'm-1'} object-fit-contain`}
           />
 
@@ -46,7 +53,9 @@ export const SideBarMenu = (): JSX.Element => {
                 <div
                   key={`link-${link.route}-${index}`}
                   className={`link d-flex flex-row align-items-center ${isMobile ? 'mx-0 my-1 w-80 mt-2' : 'p-2 m-1 w-100'} ${
-                    currentLocationName.startsWith(link.route) ? 'selected-link text-white' : ''
+                    currentLocationName.startsWith(link.route)
+                      ? 'selected-link text-white'
+                      : ''
                   }`}
                   onClick={() => navigate(`/${link.route}`)}
                 >
@@ -65,10 +74,14 @@ export const SideBarMenu = (): JSX.Element => {
                       key={`sub-link-${subLink}-${subIndex}`}
                       onClick={() => navigate(`/playlists/${subLink}`)}
                       className={`sub-link d-flex align-items-center w-100 ${
-                        isMobile ? 'ms-1 justify-content-center' : 'ms-3 justify-content-start'
+                        isMobile
+                          ? 'ms-1 justify-content-center'
+                          : 'ms-3 justify-content-start'
                       } m-1 ${currentLocationName.endsWith(subLink) ? 'selected-link text-white' : ''}`}
                     >
-                      {isMobile ? capitalize(subLink.slice(0, 1)) : `-${capitalize(subLink)}`}
+                      {isMobile
+                        ? capitalize(subLink.slice(0, 1))
+                        : `-${capitalize(subLink)}`}
                     </Nav.Link>
                   ))}
 
@@ -79,10 +92,14 @@ export const SideBarMenu = (): JSX.Element => {
                       key={`sub-link-${subLink}-${subIndex}`}
                       onClick={() => navigate(`/podcasts/${subLink}`)}
                       className={`sub-link d-flex align-items-center  w-100 ${
-                        isMobile ? 'ms-1 justify-content-center' : 'ms-3 justify-content-start'
+                        isMobile
+                          ? 'ms-1 justify-content-center'
+                          : 'ms-3 justify-content-start'
                       } m-1 ${currentLocationName.endsWith(subLink) ? 'selected-link text-white' : ''}`}
                     >
-                      {isMobile ? capitalize(subLink.slice(0, 1)) : `-${capitalize(subLink)}`}
+                      {isMobile
+                        ? capitalize(subLink.slice(0, 1))
+                        : `-${capitalize(subLink)}`}
                     </Nav.Link>
                   ))}
               </Fragment>
@@ -93,7 +110,7 @@ export const SideBarMenu = (): JSX.Element => {
               onClick={() => setShouldShowModal(true)}
             >
               <img
-                src={isLightTheme ? '/src/images/add-light-icon.png' : '/src/images/add-icon.png'}
+                src={isLightTheme ? '/add-light-icon.png' : '/add-icon.png'}
                 className={`link-icon ${isMobile ? 'me-1' : 'me-2'}`}
               />
               {isMobile ? '' : 'Create playlist'}
@@ -108,10 +125,12 @@ export const SideBarMenu = (): JSX.Element => {
           >
             <img
               className={`user-img m-1 ${isMobile ? '' : 'ms-4 p-1'} rounded-circle`}
-              src={user?.images.length ? user.images[0].url : '/src/images/not-found.jpg'}
+              src={user?.images.length ? user.images[0].url : '/not-found.jpg'}
               alt='icon'
             />
-            {!isMobile && <h5 className='text-white m-0 p-1'>{user?.display_name}</h5>}
+            {!isMobile && (
+              <h5 className='text-white m-0 p-1'>{user?.display_name}</h5>
+            )}
           </div>
         )}
       </Navbar>

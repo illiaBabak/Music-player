@@ -1,7 +1,10 @@
 import { useContext, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useFollowedArtistsQuery, useTopUserArtistsQuery } from 'src/api/artists';
+import {
+  useFollowedArtistsQuery,
+  useTopUserArtistsQuery,
+} from 'src/api/artists';
 import { useTopUserTracksQuery } from 'src/api/tracks';
 import { useUserQuery } from 'src/api/user';
 import { ArtistsList } from 'src/components/ArtistsList';
@@ -33,11 +36,14 @@ export const UserPage = (): JSX.Element => {
 
   const { data: user } = useUserQuery();
 
-  const { data: topUserArtists, isLoading: isLoadingArtists } = useTopUserArtistsQuery();
+  const { data: topUserArtists, isLoading: isLoadingArtists } =
+    useTopUserArtistsQuery();
 
-  const { data: topUserTracks, isLoading: isLoadingTracks } = useTopUserTracksQuery();
+  const { data: topUserTracks, isLoading: isLoadingTracks } =
+    useTopUserTracksQuery();
 
-  const { data: followedArtists, isLoading: isLoadingFollowedArtists } = useFollowedArtistsQuery();
+  const { data: followedArtists, isLoading: isLoadingFollowedArtists } =
+    useFollowedArtistsQuery();
 
   const sectionClassName = `d-flex flex-column justify-content-start flex-column w-100 ${isMobile ? 'text-center mt-4' : 'mt-2'}`;
 
@@ -46,7 +52,9 @@ export const UserPage = (): JSX.Element => {
       <Row className='row-user w-100 flex-nowrap m-0 p-0'>
         <SideBarMenu />
 
-        <Col className={`col-content m-0 p-0 scroll-container ${currentUriTrack ? 'playing' : ''}`}>
+        <Col
+          className={`col-content m-0 p-0 scroll-container ${currentUriTrack ? 'playing' : ''}`}
+        >
           <div
             className={`d-flex flex-row justify-content-between align-items-center ${isMobile ? 'p-2' : 'p-3'} w-100 text-white`}
           >
@@ -64,11 +72,15 @@ export const UserPage = (): JSX.Element => {
           >
             <img
               className='object-fit-contain user-icon rounded-circle'
-              src={user?.images.length ? user.images[0].url : '/src/images/not-found.jpg'}
+              src={user?.images.length ? user.images[0].url : '/not-found.jpg'}
               alt='user-icon'
             />
-            <p className={`${isMobile ? 'fs-5' : 'fs-4'}`}>{user?.display_name}</p>
-            <p className={`${isMobile ? 'fs-6' : 'fs-5'}`}>Email: {user?.email}</p>
+            <p className={`${isMobile ? 'fs-5' : 'fs-4'}`}>
+              {user?.display_name}
+            </p>
+            <p className={`${isMobile ? 'fs-6' : 'fs-5'}`}>
+              Email: {user?.email}
+            </p>
 
             <div
               className='logout-btn p-3 m-0 d-flex justify-content-center align-items-center text-white'
@@ -81,7 +93,11 @@ export const UserPage = (): JSX.Element => {
               <div className={sectionClassName}>
                 {isMobile ? <h5>Top tracks</h5> : <h2>Top tracks</h2>}
 
-                <TracksList isLine={false} isLoading={isLoadingTracks} tracks={topUserTracks.slice(0, 3)} />
+                <TracksList
+                  isLine={false}
+                  isLoading={isLoadingTracks}
+                  tracks={topUserTracks.slice(0, 3)}
+                />
               </div>
             )}
 
@@ -95,8 +111,14 @@ export const UserPage = (): JSX.Element => {
               )}
               <ArtistsList
                 isLine={false}
-                isLoading={isFollowed ? isLoadingFollowedArtists : isLoadingArtists}
-                artists={isFollowed ? followedArtists ?? [] : topUserArtists?.slice(0, 3) ?? []}
+                isLoading={
+                  isFollowed ? isLoadingFollowedArtists : isLoadingArtists
+                }
+                artists={
+                  isFollowed
+                    ? followedArtists ?? []
+                    : topUserArtists?.slice(0, 3) ?? []
+                }
               />
             </div>
           </div>

@@ -33,18 +33,18 @@ export const BASE64_PATTERN = /^data:image\/(png|jpeg|jpg|gif);base64,/;
 export const SIDEBAR_LINKS = [
   {
     route: 'home',
-    imgPath: '/src/images/home-icon.png',
-    imgPathLight: '/src/images/home-icon-light.png',
+    imgPath: '/home-icon.png',
+    imgPathLight: '/home-icon-light.png',
   },
   {
     route: 'playlists',
-    imgPath: '/src/images/disc-icon.png',
-    imgPathLight: '/src/images/disc-icon-light.png',
+    imgPath: '/disc-icon.png',
+    imgPathLight: '/disc-icon-light.png',
   },
   {
     route: 'podcasts',
-    imgPath: '/src/images/micro-icon.png',
-    imgPathLight: '/src/images/micro-icon-light.png',
+    imgPath: '/micro-icon.png',
+    imgPathLight: '/micro-icon-light.png',
   },
 ] as const;
 

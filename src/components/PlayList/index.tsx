@@ -10,16 +10,24 @@ type Props = {
   selectedPlaylistsId?: string[];
 };
 
-export const PlayList = ({ playlist, selectedPlaylistsId, setSelectedPlaylistsId }: Props): JSX.Element => {
+export const PlayList = ({
+  playlist,
+  selectedPlaylistsId,
+  setSelectedPlaylistsId,
+}: Props): JSX.Element => {
   const { shouldShowPlaylists, isMobile } = useContext(GlobalContext);
   const navigate = useNavigate();
 
-  const isSelectedPlaylist = selectedPlaylistsId?.some((id) => playlist.id === id);
+  const isSelectedPlaylist = selectedPlaylistsId?.some(
+    (id) => playlist.id === id
+  );
 
   const handleSelectPlaylist = () => {
     if (setSelectedPlaylistsId) {
       setSelectedPlaylistsId((prev) =>
-        prev.some((id) => id === playlist.id) ? prev.filter((id) => id !== playlist.id) : [...prev, playlist.id]
+        prev.some((id) => id === playlist.id)
+          ? prev.filter((id) => id !== playlist.id)
+          : [...prev, playlist.id]
       );
 
       return;
@@ -34,10 +42,12 @@ export const PlayList = ({ playlist, selectedPlaylistsId, setSelectedPlaylistsId
       onClick={handleSelectPlaylist}
     >
       <Card.Img
-        src={playlist.images ? playlist.images[0].url : '/src/images/not-found.jpg'}
+        src={playlist.images ? playlist.images[0].url : '/not-found.jpg'}
         className='playlist-icon mt-3 object-fit-cover'
       />
-      <span className={`${isMobile ? 'fs-6' : 'fs-5'} mb-2`}>{playlist.name}</span>
+      <span className={`${isMobile ? 'fs-6' : 'fs-5'} mb-2`}>
+        {playlist.name}
+      </span>
     </Card>
   );
 };

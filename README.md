@@ -50,8 +50,8 @@ This project written to sum up my experience in technology and create something 
 - `preview` - locally preview production build
 - `test` - launch test runner
 
-To run this project locally you need tsconfig.json, tsconfig.node.json, .prettierrc and .eslintrc
-
 # Link to try a project
+
+https://music-player-hc8h.vercel.app
 
 </div>

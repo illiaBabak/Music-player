@@ -3,7 +3,10 @@ import { useContext } from 'react';
 import { GlobalContext } from 'src/root';
 import { usePlaylistsItemsQuery } from 'src/api/playlists';
 import { TracksList } from 'src/components/TracksList';
-import { useRecommendationTracksQuery, useSearchTracksQuery } from 'src/api/tracks';
+import {
+  useRecommendationTracksQuery,
+  useSearchTracksQuery,
+} from 'src/api/tracks';
 import { PlaylistInfo } from 'src/pages/PlaylistPage/components/PlaylistInfo';
 import { Header } from 'src/components/Header';
 import { ThemeBtn } from 'src/components/ThemeBtn';
@@ -14,20 +17,27 @@ type Props = {
   showDeleteWindow: () => void;
 };
 
-export const PlayListTracks = ({ playlistId, isOwnPlaylist, showDeleteWindow }: Props): JSX.Element => {
+export const PlayListTracks = ({
+  playlistId,
+  isOwnPlaylist,
+  showDeleteWindow,
+}: Props): JSX.Element => {
   const { setCurrentUriTrack, isMobile } = useContext(GlobalContext);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
   const searchedText = searchParams.get('query') ?? '';
 
-  const { data: playlistItems, isLoading: isLoadingTracks } = usePlaylistsItemsQuery(playlistId);
+  const { data: playlistItems, isLoading: isLoadingTracks } =
+    usePlaylistsItemsQuery(playlistId);
 
-  const { data: recommendedTracks, isLoading: isLoadingRecommendations } = useRecommendationTracksQuery();
+  const { data: recommendedTracks, isLoading: isLoadingRecommendations } =
+    useRecommendationTracksQuery();
 
-  const { data: searchedTracks, isLoading: isLoadingSearch } = useSearchTracksQuery(searchedText, {
-    enabled: !!searchedText,
-  });
+  const { data: searchedTracks, isLoading: isLoadingSearch } =
+    useSearchTracksQuery(searchedText, {
+      enabled: !!searchedText,
+    });
 
   const tracks = playlistItems?.items.map((item) => item.track);
 
@@ -49,12 +59,22 @@ export const PlayListTracks = ({ playlistId, isOwnPlaylist, showDeleteWindow }: 
         {isOwnPlaylist ? <Header /> : <ThemeBtn />}
       </div>
 
-      <PlaylistInfo playlistId={playlistId} showDeleteWindow={showDeleteWindow} isOwnPlaylist={isOwnPlaylist} />
+      <PlaylistInfo
+        playlistId={playlistId}
+        showDeleteWindow={showDeleteWindow}
+        isOwnPlaylist={isOwnPlaylist}
+      />
 
       {!tracks?.length && !isLoadingTracks ? (
         <div className='empty-data d-flex flex-column justify-content-start align-items-center w-100 h-100'>
-          <img className='empty-icon object-fit-contain' src='/src/images/no-data.png' alt='empty' />
-          <p className={`${isMobile ? 'fs-6' : 'fs-3'} m-1 text-center`}>Oops, not found anything</p>
+          <img
+            className='empty-icon object-fit-contain'
+            src='/no-data.png'
+            alt='empty'
+          />
+          <p className={`${isMobile ? 'fs-6' : 'fs-3'} m-1 text-center`}>
+            Oops, not found anything
+          </p>
         </div>
       ) : (
         <TracksList
@@ -67,19 +87,24 @@ export const PlayListTracks = ({ playlistId, isOwnPlaylist, showDeleteWindow }: 
         />
       )}
 
-      {isOwnPlaylist && (!!searchedTracks?.length || !!recommendedTracks?.length) && (
-        <>
-          <h5 className={`${isMobile ? 'm-0 mt-1' : 'mt-4'}`}>{searchedTracks ? 'Searched' : 'Recommended'} tracks</h5>
-          <TracksList
-            tracks={searchedTracks ?? recommendedTracks ?? []}
-            isLine={true}
-            isLoading={searchedText ? isLoadingSearch : isLoadingRecommendations}
-            playlistId={playlistId}
-            isOwnPlaylist={isOwnPlaylist}
-            isInPlaylist={true}
-          />
-        </>
-      )}
+      {isOwnPlaylist &&
+        (!!searchedTracks?.length || !!recommendedTracks?.length) && (
+          <>
+            <h5 className={`${isMobile ? 'm-0 mt-1' : 'mt-4'}`}>
+              {searchedTracks ? 'Searched' : 'Recommended'} tracks
+            </h5>
+            <TracksList
+              tracks={searchedTracks ?? recommendedTracks ?? []}
+              isLine={true}
+              isLoading={
+                searchedText ? isLoadingSearch : isLoadingRecommendations
+              }
+              playlistId={playlistId}
+              isOwnPlaylist={isOwnPlaylist}
+              isInPlaylist={true}
+            />
+          </>
+        )}
     </div>
   );
 };

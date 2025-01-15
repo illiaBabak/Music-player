@@ -1,6 +1,11 @@
 import { useSearchParams } from 'react-router-dom';
 import { ThemeBtn } from 'src/components/ThemeBtn';
-import { useAddPodcast, useDeletePodcast, usePodcastEpisodesQuery, usePodcastQuery } from 'src/api/podcasts';
+import {
+  useAddPodcast,
+  useDeletePodcast,
+  usePodcastEpisodesQuery,
+  usePodcastQuery,
+} from 'src/api/podcasts';
 import { EpisodesList } from '../EpisodesList';
 import { SkeletonLoader } from 'src/components/SkeletonLoader';
 import { Image } from 'react-bootstrap';
@@ -12,13 +17,18 @@ type Props = {
   isSavedPodcast: boolean;
 };
 
-export const PodcastCatalog = ({ podcastId, isSavedPodcast }: Props): JSX.Element => {
+export const PodcastCatalog = ({
+  podcastId,
+  isSavedPodcast,
+}: Props): JSX.Element => {
   const { isLightTheme, isTablet, isMobile } = useContext(GlobalContext);
   const [, setSearchParams] = useSearchParams();
 
-  const { data: podcast, isLoading: isLoadingPodcast } = usePodcastQuery(podcastId);
+  const { data: podcast, isLoading: isLoadingPodcast } =
+    usePodcastQuery(podcastId);
 
-  const { data: episodes, isLoading: isLoadingEpisodes } = usePodcastEpisodesQuery(podcastId);
+  const { data: episodes, isLoading: isLoadingEpisodes } =
+    usePodcastEpisodesQuery(podcastId);
 
   const { mutateAsync: addPodcast } = useAddPodcast();
   const { mutateAsync: deletePodcast } = useDeletePodcast();
@@ -52,7 +62,9 @@ export const PodcastCatalog = ({ podcastId, isSavedPodcast }: Props): JSX.Elemen
             <div
               className={`d-flex flex-column w-100 ${isMobile ? 'm-0 justify-content-center align-items-center' : 'ms-3 h-100'}`}
             >
-              <SkeletonLoader className={`podcast-name w-50 ${isMobile ? 'm-2' : 'mb-2'}`} />
+              <SkeletonLoader
+                className={`podcast-name w-50 ${isMobile ? 'm-2' : 'mb-2'}`}
+              />
               <SkeletonLoader className='podcast-description w-100' />
               <SkeletonLoader className='podcast-author w-25 mt-3' />
             </div>
@@ -63,20 +75,34 @@ export const PodcastCatalog = ({ podcastId, isSavedPodcast }: Props): JSX.Elemen
           >
             <img
               className='podcast-icon object-fit-contain'
-              src={podcast?.images.length ? podcast.images[0].url : '/src/image/not-found.jpg'}
+              src={
+                podcast?.images.length
+                  ? podcast.images[0].url
+                  : '/src/image/not-found.jpg'
+              }
             />
             <div
               className={`podcast-details d-flex flex-column ${isMobile ? 'm-0' : 'ms-3 h-100'} w-100 position-relative`}
             >
-              <span className={`${isMobile ? 'fs-5' : isTablet ? 'fs-4' : 'fs-3'}`}>{podcast?.name}</span>
-              <span className='description scroll-container mt-3'>{podcast?.description}</span>
-              <span className={`${isTablet ? 'fs-6' : 'fs-5'} ${isMobile ? 'mt-2' : 'mt-4'}`}>
+              <span
+                className={`${isMobile ? 'fs-5' : isTablet ? 'fs-4' : 'fs-3'}`}
+              >
+                {podcast?.name}
+              </span>
+              <span className='description scroll-container mt-3'>
+                {podcast?.description}
+              </span>
+              <span
+                className={`${isTablet ? 'fs-6' : 'fs-5'} ${isMobile ? 'mt-2' : 'mt-4'}`}
+              >
                 Publisher: {podcast?.publisher}
               </span>
               {isSavedPodcast ? (
                 <Image
                   className='icon object-fit-contain position-absolute'
-                  src={isLightTheme ? '/src/images/trash-icon-light.png' : '/src/images/trash-icon.png'}
+                  src={
+                    isLightTheme ? '/trash-icon-light.png' : '/trash-icon.png'
+                  }
                   onClick={(e) => {
                     e.stopPropagation();
 
@@ -86,7 +112,7 @@ export const PodcastCatalog = ({ podcastId, isSavedPodcast }: Props): JSX.Elemen
               ) : (
                 <Image
                   className='icon object-fit-contain position-absolute'
-                  src={isLightTheme ? '/src/images/add-light-icon.png' : '/src/images/add-icon.png'}
+                  src={isLightTheme ? '/add-light-icon.png' : '/add-icon.png'}
                   onClick={(e) => {
                     e.stopPropagation();
 

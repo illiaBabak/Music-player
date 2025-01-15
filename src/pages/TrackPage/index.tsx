@@ -1,4 +1,13 @@
-import { CategoryScale, LinearScale, PointElement, LineElement, Title, Legend, Chart, Tooltip } from 'chart.js';
+import {
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Legend,
+  Chart,
+  Tooltip,
+} from 'chart.js';
 import { useContext, useEffect } from 'react';
 import { Col, Container, Row, Image } from 'react-bootstrap';
 import { Line } from 'react-chartjs-2';
@@ -11,11 +20,24 @@ import { ThemeBtn } from 'src/components/ThemeBtn';
 import { GlobalContext } from 'src/root';
 import { msToMinSec } from 'src/utils/msToMinSec';
 
-Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+Chart.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 export const TrackPage = (): JSX.Element => {
-  const { currentUriTrack, isLightTheme, setCurrentUriTrack, setShouldShowPlaylists, isMobile } =
-    useContext(GlobalContext);
+  const {
+    currentUriTrack,
+    isLightTheme,
+    setCurrentUriTrack,
+    setShouldShowPlaylists,
+    isMobile,
+  } = useContext(GlobalContext);
 
   const navigate = useNavigate();
 
@@ -52,7 +74,9 @@ export const TrackPage = (): JSX.Element => {
       <Row className='row-track w-100 flex-nowrap m-0 p-0'>
         <SideBarMenu />
 
-        <Col className={`col-content m-0 p-0 scroll-container ${currentUriTrack ? 'playing' : ''}`}>
+        <Col
+          className={`col-content m-0 p-0 scroll-container ${currentUriTrack ? 'playing' : ''}`}
+        >
           <div
             className={`artist-header d-flex flex-row justify-content-between align-items-center ${isMobile ? 'p-2' : 'p-3'} w-100`}
           >
@@ -66,16 +90,22 @@ export const TrackPage = (): JSX.Element => {
             <ThemeBtn />
           </div>
 
-          <div className={`track-info d-flex flex-row w-100 ${isMobile ? 'p-2' : 'p-3'} m-1 position-relative`}>
+          <div
+            className={`track-info d-flex flex-row w-100 ${isMobile ? 'p-2' : 'p-3'} m-1 position-relative`}
+          >
             <img
               className='track-icon object-fit-cover rounded'
-              src={trackData?.album.images.length ? trackData?.album.images[0].url : '/src/images/not-found.jpg'}
+              src={
+                trackData?.album.images.length
+                  ? trackData?.album.images[0].url
+                  : '/not-found.jpg'
+              }
               alt='track-icon'
             />
 
             <Image
               className={`add-icon object-fit-cover position-absolute p-1 ${isLightTheme ? 'bg' : ''}`}
-              src={isLightTheme ? '/src/images/add-light-icon.png' : '/src/images/add-icon.png'}
+              src={isLightTheme ? '/add-light-icon.png' : '/add-icon.png'}
               onClick={() => {
                 setShouldShowPlaylists(true);
                 navigate(`/home?track-to-add=${trackData?.uri}`);
@@ -84,12 +114,16 @@ export const TrackPage = (): JSX.Element => {
 
             <Image
               className={`btn-img ms-2 p-1 position-absolute object-fit-cover ${isLightTheme ? 'bg' : ''}`}
-              src={isLightTheme ? '/src/images/play-icon-light.svg' : '/src/images/play.svg'}
+              src={isLightTheme ? '/play-icon-light.svg' : '/play.svg'}
               onClick={() => setCurrentUriTrack(trackData?.uri ?? '')}
             />
 
             <div className='d-flex flex-column m-2'>
-              {isMobile ? <h6>{trackData?.name}</h6> : <h4>{trackData?.name}</h4>}
+              {isMobile ? (
+                <h6>{trackData?.name}</h6>
+              ) : (
+                <h4>{trackData?.name}</h4>
+              )}
 
               <div className='d-flex flex-row'>
                 {trackData?.artists.map((artist, index) => (
@@ -103,7 +137,9 @@ export const TrackPage = (): JSX.Element => {
                 ))}
               </div>
 
-              <p className='duration'>Duration: {msToMinSec(trackData?.duration_ms ?? 0)}</p>
+              <p className='duration'>
+                Duration: {msToMinSec(trackData?.duration_ms ?? 0)}
+              </p>
             </div>
           </div>
 
@@ -136,7 +172,9 @@ export const TrackPage = (): JSX.Element => {
                 },
                 title: {
                   display: true,
-                  text: isTempoChart ? 'Changing the tempo over time' : 'Changing the beat over time',
+                  text: isTempoChart
+                    ? 'Changing the tempo over time'
+                    : 'Changing the beat over time',
                   color: isLightTheme ? '#140f0b' : '#ffffff',
                 },
               },
@@ -144,7 +182,9 @@ export const TrackPage = (): JSX.Element => {
                 x: {
                   title: {
                     display: true,
-                    text: isTempoChart ? 'Section start time (sec)' : 'Beat start time (sec)',
+                    text: isTempoChart
+                      ? 'Section start time (sec)'
+                      : 'Beat start time (sec)',
                     color: isLightTheme ? '#140f0b' : '#ffffff',
                   },
                   ticks: {

@@ -20,15 +20,20 @@ export const AlbumPage = (): JSX.Element => {
 
   const { data: selectedAlbum } = useAlbumQuery(selectedAlbumId);
 
-  const { data: albumTracks, isLoading: isLoadingAlbumTracks } = useAlbumTracksQuery(selectedAlbumId);
+  const { data: albumTracks, isLoading: isLoadingAlbumTracks } =
+    useAlbumTracksQuery(selectedAlbumId);
 
-  const { data: artist } = useArtistQuery(selectedAlbum?.artists[0].id ?? '', { enabled: !!selectedAlbum });
+  const { data: artist } = useArtistQuery(selectedAlbum?.artists[0].id ?? '', {
+    enabled: !!selectedAlbum,
+  });
 
   return (
     <Container className='d-flex flex-nowrap album-container p-0 m-0'>
       <Row className='row-album w-100 flex-nowrap p-0 m-0'>
         <SideBarMenu />
-        <Col className={`col-content m-0 p-0 scroll-container ${currentUriTrack ? 'playing' : ''}`}>
+        <Col
+          className={`col-content m-0 p-0 scroll-container ${currentUriTrack ? 'playing' : ''}`}
+        >
           <div
             className={`album-header d-flex flex-row justify-content-between align-items-center ${isMobile ? 'p-2' : 'p-3'} w-100 text-white`}
           >
@@ -44,24 +49,42 @@ export const AlbumPage = (): JSX.Element => {
           <div
             className={`album-info w-100 d-flex  ${isMobile ? 'p-1 m-0 flex-column justify-content-center align-items-center text-center' : 'p-3 flex-row justify-content-start align-items-start m-2'}`}
           >
-            <img src={selectedAlbum?.images[0].url ?? '/src/images/not-found.jpg'} className='album-icon' />
+            <img
+              src={selectedAlbum?.images[0].url ?? '/not-found.jpg'}
+              className='album-icon'
+            />
             <div className='details d-flex flex-column ms-2 w-100'>
-              <div className={`${isMobile ? 'fs-6 mt-2' : isTablet ? 'fs-4' : 'fs-2'} w-100`}>
+              <div
+                className={`${isMobile ? 'fs-6 mt-2' : isTablet ? 'fs-4' : 'fs-2'} w-100`}
+              >
                 {selectedAlbum?.name}
               </div>
-              <span className='fs-6 mt-2'>Tracks: {selectedAlbum?.total_tracks}</span>
-              <span className='fs-6 mt-2'>Release date: {formatDate(selectedAlbum?.release_date ?? '')}</span>
+              <span className='fs-6 mt-2'>
+                Tracks: {selectedAlbum?.total_tracks}
+              </span>
+              <span className='fs-6 mt-2'>
+                Release date: {formatDate(selectedAlbum?.release_date ?? '')}
+              </span>
               <div
                 className={`artist-info d-flex flex-row align-items-center ${isMobile ? 'mt-1 justify-content-center' : 'mt-3 justify-content-start'}`}
                 onClick={() => navigate(`/artist?artist-id=${artist?.id}`)}
               >
-                <img className='artist-icon rounded-circle object-fit-cover' src={artist?.images[0].url} />
-                <span className={`${isMobile ? 'fs-6 m-0 ms-1' : 'fs-5 m-2'}`}>{artist?.name}</span>
+                <img
+                  className='artist-icon rounded-circle object-fit-cover'
+                  src={artist?.images[0].url}
+                />
+                <span className={`${isMobile ? 'fs-6 m-0 ms-1' : 'fs-5 m-2'}`}>
+                  {artist?.name}
+                </span>
               </div>
             </div>
           </div>
 
-          <TracksList tracks={albumTracks ?? []} isLine={false} isLoading={isLoadingAlbumTracks} />
+          <TracksList
+            tracks={albumTracks ?? []}
+            isLine={false}
+            isLoading={isLoadingAlbumTracks}
+          />
         </Col>
 
         {!!currentUriTrack && <Player />}

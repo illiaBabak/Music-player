@@ -5,7 +5,11 @@ import { GlobalContext } from 'src/root';
 import { TrackType } from 'src/types/types';
 import { msToMinSec } from 'src/utils/msToMinSec';
 import { calcDuration } from 'src/utils/calcDuration';
-import { useAddItemsPlaylist, useDeletePlaylistTrack, usePlaylistsItemsQuery } from 'src/api/playlists';
+import {
+  useAddItemsPlaylist,
+  useDeletePlaylistTrack,
+  usePlaylistsItemsQuery,
+} from 'src/api/playlists';
 
 type Props = {
   track: TrackType;
@@ -16,8 +20,21 @@ type Props = {
   isFirst?: boolean;
 };
 
-export const Track = ({ track, isLine, isInPlaylist, playlistId, isOwnPlaylist, isFirst }: Props): JSX.Element => {
-  const { setCurrentUriTrack, isLightTheme, setShouldShowPlaylists, isTablet, isMobile } = useContext(GlobalContext);
+export const Track = ({
+  track,
+  isLine,
+  isInPlaylist,
+  playlistId,
+  isOwnPlaylist,
+  isFirst,
+}: Props): JSX.Element => {
+  const {
+    setCurrentUriTrack,
+    isLightTheme,
+    setShouldShowPlaylists,
+    isTablet,
+    isMobile,
+  } = useContext(GlobalContext);
   const navigate = useNavigate();
 
   const { mutateAsync: addTrack } = useAddItemsPlaylist();
@@ -28,11 +45,14 @@ export const Track = ({ track, isLine, isInPlaylist, playlistId, isOwnPlaylist, 
   });
 
   const artists = track.artists || [];
-  const isTrackInPlaylist = playlistTracks?.items?.some((el) => el.track.id === track.id) ?? false;
+  const isTrackInPlaylist =
+    playlistTracks?.items?.some((el) => el.track.id === track.id) ?? false;
 
-  const handleAddTrack = () => addTrack({ playlistId: playlistId ?? '', uris: [track.uri] });
+  const handleAddTrack = () =>
+    addTrack({ playlistId: playlistId ?? '', uris: [track.uri] });
 
-  const handleDeleteTrack = () => deleteTrack({ playlistId: playlistId ?? '', uri: track.uri });
+  const handleDeleteTrack = () =>
+    deleteTrack({ playlistId: playlistId ?? '', uri: track.uri });
 
   const handleClickAddBtn = () => {
     // check if we are in playlist route
@@ -51,7 +71,7 @@ export const Track = ({ track, isLine, isInPlaylist, playlistId, isOwnPlaylist, 
       <div className='d-flex flex-row justify-content-center align-items-center'>
         <Image
           className={`btn-img ${isMobile ? 'ms-1' : 'ms-2'} object-fit-cover rounded-circle`}
-          src={isLightTheme ? '/src/images/play-icon-light.svg' : '/src/images/play.svg'}
+          src={isLightTheme ? '/play-icon-light.svg' : '/play.svg'}
           onClick={(e) => {
             e.stopPropagation();
 
@@ -63,7 +83,7 @@ export const Track = ({ track, isLine, isInPlaylist, playlistId, isOwnPlaylist, 
           src={
             track.album && track.album.images && !!track.album.images.length
               ? track.album.images[0].url
-              : '/src/images/not-found.jpg'
+              : '/not-found.jpg'
           }
           className={`track-img ${isTablet ? 'ms-2' : 'ms-4'} object-fit-contain`}
         />
@@ -82,7 +102,9 @@ export const Track = ({ track, isLine, isInPlaylist, playlistId, isOwnPlaylist, 
         {!isLine && (
           <>
             {!isMobile && (
-              <span className='fs-6 track-duration text-white position-absolute'>{msToMinSec(track.duration_ms)}</span>
+              <span className='fs-6 track-duration text-white position-absolute'>
+                {msToMinSec(track.duration_ms)}
+              </span>
             )}
 
             <span
@@ -108,7 +130,7 @@ export const Track = ({ track, isLine, isInPlaylist, playlistId, isOwnPlaylist, 
         {(!isOwnPlaylist || (!isTrackInPlaylist && isOwnPlaylist)) && (
           <Image
             className={`icon ${isLine ? 'line' : ''} object-fit-contain position-absolute ms-3`}
-            src={isLightTheme ? '/src/images/add-light-icon.png' : '/src/images/add-icon.png'}
+            src={isLightTheme ? '/add-light-icon.png' : '/add-icon.png'}
             onClick={(e) => {
               e.stopPropagation();
 
@@ -120,7 +142,7 @@ export const Track = ({ track, isLine, isInPlaylist, playlistId, isOwnPlaylist, 
         {isInPlaylist && isOwnPlaylist && isTrackInPlaylist && (
           <Image
             className={`icon ${isLine ? 'line' : ''} object-fit-contain position-absolute ms-3`}
-            src={isLightTheme ? '/src/images/trash-icon-light.png' : '/src/images/trash-icon.png'}
+            src={isLightTheme ? '/trash-icon-light.png' : '/trash-icon.png'}
             onClick={handleDeleteTrack}
           />
         )}
